@@ -17,7 +17,6 @@ import org.n27.stonks.presentation.common.composables.shimmerLoading
 @Composable
 fun SearchLoading() {
     Column(modifier = Modifier.fillMaxSize()) {
-
         ShimmerBone(
             height = 56.dp,
             shape = RoundedCornerShape(8.dp),
