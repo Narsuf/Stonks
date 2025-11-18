@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.net.URL
 import javax.imageio.ImageIO
 
@@ -29,12 +31,14 @@ fun RoundIcon(url: String) {
     ) {
         val bitmap: ImageBitmap? by produceState(initialValue = null, url) {
             if (url.isNotBlank()) {
-                try {
-                    val img = ImageIO.read(URL(url))
-                    value = img?.toComposeImageBitmap()
-                } catch (_: Exception) {
-                    value = null
-                }
+                runCatching {
+                    withContext(Dispatchers.IO) {
+                        val img = ImageIO.read(URL(url))
+                        img?.toComposeImageBitmap()
+                    }
+                }.onSuccess {
+                    value = it
+                }.onFailure { value = null }
             }
         }
 

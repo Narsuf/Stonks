@@ -19,7 +19,8 @@ fun SearchScreen(
     val state by viewModel.viewState.collectAsState()
 
     when (val s = state) {
-        is Idle, Loading, Error -> Unit
+        is Idle, Error -> Unit
+        is Loading -> SearchLoading()
         is Content -> SearchContent(s)
     }
 }
