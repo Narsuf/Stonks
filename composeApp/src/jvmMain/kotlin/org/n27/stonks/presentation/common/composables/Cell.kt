@@ -32,7 +32,7 @@ fun Cell(
             verticalAlignment = Alignment.CenterVertically
         ) {
             start()
-            Spacer(modifier = Modifier.width(Spacing.small))
+            Spacer(modifier = Modifier.Companion.width(Spacing.small))
             center()
             Spacer(modifier = Modifier.weight(1f))
             end()
