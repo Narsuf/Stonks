@@ -5,9 +5,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import org.koin.compose.koinInject
-import org.n27.stonks.presentation.search.entities.SearchState
-import org.n27.stonks.presentation.search.entities.SearchState.Idle
-import org.n27.stonks.presentation.search.entities.SearchState.Loading
+import org.n27.stonks.presentation.search.entities.SearchState.*
 
 @Composable
 fun SearchScreen(
@@ -21,7 +19,7 @@ fun SearchScreen(
     val state by viewModel.viewState.collectAsState()
 
     when (val s = state) {
-        is Idle, Loading -> Unit
-        is SearchState.Content -> SearchContent(s)
+        is Idle, Loading, Error -> Unit
+        is Content -> SearchContent(s)
     }
 }

@@ -8,6 +8,7 @@ sealed class SearchState {
 
     data object Idle: SearchState()
     data object Loading: SearchState()
+    data object Error: SearchState()
     data class Content(
         val search: String,
         val items: ImmutableList<Item>,

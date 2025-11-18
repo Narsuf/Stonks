@@ -1,8 +1,41 @@
 package org.n27.stonks
 
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import org.koin.dsl.module
+import org.n27.stonks.data.Api
+import org.n27.stonks.data.RepositoryImpl
+import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.search.SearchViewModel
 
+const val BASE_URL = "http://127.0.0.1:8000"
+
 val appModule = module {
-    factory { SearchViewModel() }
+
+    single {
+        HttpClient {
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        prettyPrint = true
+                        isLenient = true
+                    }
+                )
+            }
+        }
+    }
+
+    single {
+        Api(
+            httpClient = get(),
+            baseUrl = BASE_URL
+        )
+    }
+
+    single<Repository> { RepositoryImpl(get()) }
+
+    factory { SearchViewModel(get()) }
 }
