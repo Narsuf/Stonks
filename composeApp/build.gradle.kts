@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -23,6 +24,9 @@ kotlin {
             implementation(libs.kotlinx.collections.immutable)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.serialization.kotlinxJson)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
