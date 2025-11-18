@@ -54,9 +54,7 @@ fun SearchCell(stock: Content.Item) {
             }
         },
         end = {
-            val format = NumberFormat.getCurrencyInstance().apply { this.currency = stock.currency }
-            val priceFormatted = format.format(stock.price)
-            Text(text = priceFormatted, style = MaterialTheme.typography.bodyMedium)
+            stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
         }
     )
 }

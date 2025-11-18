@@ -18,8 +18,7 @@ sealed class SearchState {
             val iconUrl: String,
             val name: String,
             val symbol: String,
-            val price: BigDecimal,
-            val currency: Currency,
+            val price: String?,
         )
     }
 }

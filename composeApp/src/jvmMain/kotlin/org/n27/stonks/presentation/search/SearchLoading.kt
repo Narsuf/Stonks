@@ -31,7 +31,7 @@ fun SearchLoading() {
                 .fillMaxSize()
                 .padding(horizontal = Spacing.default)
         ) {
-            items(7) {
+            items(12) {
                 SearchCellShimmer()
                 Spacer(modifier = Modifier.height(10.dp))
             }

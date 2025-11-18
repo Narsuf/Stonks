@@ -26,11 +26,10 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch {
             state.emit(Loading)
 
-            val newState = repository.getStocks(listOf("MSFT", "AAPL"))
-                .fold(
-                    onSuccess = { it.toContent() },
-                    onFailure = { Error }
-                )
+            val newState = repository.getStocks().fold(
+                onSuccess = { it.toContent() },
+                onFailure = { Error }
+            )
 
             state.emit(newState)
         }

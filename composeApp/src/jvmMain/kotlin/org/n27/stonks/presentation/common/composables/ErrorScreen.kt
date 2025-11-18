@@ -49,10 +49,12 @@ fun ErrorScreen(onRetry: () -> Unit) {
 
             Button(
                 onClick = onRetry,
-                modifier = Modifier.fillMaxWidth(0.6f),
                 contentPadding = PaddingValues(vertical = Spacing.small)
             ) {
-                Text(text = "Retry")
+                Text(
+                    modifier = Modifier.padding(horizontal = Spacing.bigger),
+                    text = "Retry"
+                )
             }
         }
     }
