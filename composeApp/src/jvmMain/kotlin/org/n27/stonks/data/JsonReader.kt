@@ -7,14 +7,22 @@ import java.io.InputStream
 
 object JsonReader {
 
-    suspend fun getSymbols(): List<String>? {
+    private var symbols: List<String>? = null
+
+    suspend fun getSymbolsPage(from: Int, size: Int): List<String>? {
+        val all = getSymbols()
+        return all?.drop(from)?.take(size)
+    }
+
+    private suspend fun getSymbols(): List<String>? {
+        symbols?.let { return it }
+
         val sp = readSymbols("/sp.json") ?: emptyList()
         val stoxx = readSymbols("/stoxx.json") ?: emptyList()
         val nikkei = readSymbols("/nikkei.json") ?: emptyList()
 
-        return (sp + stoxx + nikkei)
-            .ifEmpty { null }
-            ?.take(11)
+        symbols = (sp + stoxx + nikkei).ifEmpty { null }
+        return symbols
     }
 
     private suspend fun readSymbols(fileName: String): List<String>? = runCatching {

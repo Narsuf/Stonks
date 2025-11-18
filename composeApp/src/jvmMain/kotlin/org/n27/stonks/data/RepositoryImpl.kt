@@ -6,5 +6,8 @@ import org.n27.stonks.domain.domain.Stocks
 
 class RepositoryImpl(private val api: Api) : Repository {
 
-    override suspend fun getStocks(): Result<Stocks> = runCatching { api.getStocks().toDomainEntity() }
+    override suspend fun getStocks(
+        from: Int,
+        size: Int,
+    ): Result<Stocks> = runCatching { api.getStocks(from, size).toDomainEntity() }
 }

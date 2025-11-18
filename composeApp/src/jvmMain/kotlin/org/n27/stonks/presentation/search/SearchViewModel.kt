@@ -16,6 +16,9 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
     private val state = MutableStateFlow<SearchState>(Idle)
     val viewState = state.asStateFlow()
 
+    private var currentPage = 0
+    private val pageSize = 11
+
     init { requestStocks() }
 
     internal fun handleInteraction(action: SearchInteraction) = when(action) {
@@ -26,8 +29,11 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch {
             state.emit(Loading)
 
-            val newState = repository.getStocks().fold(
-                onSuccess = { it.toContent() },
+            val newState = repository.getStocks(currentPage, pageSize).fold(
+                onSuccess = {
+                    currentPage += pageSize
+                    it.toContent()
+                },
                 onFailure = { Error }
             )
 
