@@ -8,4 +8,6 @@ object Spacing {
     val smaller = 8.dp
     val small = 12.dp
     val default = 16.dp
+    val big = 24.dp
+    val bigger = 32.dp
 }
