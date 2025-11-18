@@ -9,10 +9,7 @@ object JsonReader {
 
     private var symbols: List<String>? = null
 
-    suspend fun getSymbolsPage(from: Int, size: Int): List<String>? {
-        val all = getSymbols()
-        return all?.drop(from)?.take(size)
-    }
+    suspend fun getSymbolsPage(from: Int, size: Int): List<String>? = getSymbols()?.drop(from)?.take(size)
 
     private suspend fun getSymbols(): List<String>? {
         symbols?.let { return it }
