@@ -12,6 +12,7 @@ sealed class SearchState {
     data class Content(
         val search: String,
         val items: ImmutableList<Item>,
+        val isPageLoading: Boolean,
     ) : SearchState() {
 
         data class Item(
