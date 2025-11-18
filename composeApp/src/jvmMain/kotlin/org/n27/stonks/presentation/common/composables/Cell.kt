@@ -15,11 +15,11 @@ fun Cell(
     start: @Composable () -> Unit,
     center: @Composable () -> Unit,
     end: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = Spacing.smallest)
             .border(
                 width = 1.dp,
                 color = Color.LightGray,
@@ -29,12 +29,12 @@ fun Cell(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             start()
-            Spacer(modifier = Modifier.Companion.width(Spacing.small))
+            Spacer(Modifier.width(Spacing.small))
             center()
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(Modifier.weight(1f))
             end()
         }
     }

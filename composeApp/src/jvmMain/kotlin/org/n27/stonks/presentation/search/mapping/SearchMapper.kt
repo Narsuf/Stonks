@@ -1,20 +1,25 @@
 package org.n27.stonks.presentation.search.mapping
 
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import org.n27.stonks.domain.domain.Stock
 import org.n27.stonks.domain.domain.Stocks
-import org.n27.stonks.presentation.search.entities.SearchState
+import org.n27.stonks.presentation.search.entities.SearchState.Content
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.NumberFormat
-import java.util.Currency
+import java.util.*
 
-internal fun Stocks.toContent() = SearchState.Content(
+internal fun Stocks.toContent() = Content(
     search = "Search ticker...",
-    items = items.map { it.toPresentationEntity() }.toPersistentList(),
+    items = items.toPresentationEntity(),
+    isPageLoading = false,
 )
 
-private fun Stock.toPresentationEntity() = SearchState.Content.Item(
+internal fun List<Stock>.toPresentationEntity(): ImmutableList<Content.Item> = map { it.toPresentationEntity() }
+    .toPersistentList()
+
+private fun Stock.toPresentationEntity() = Content.Item(
     iconUrl = logoUrl ?: "",
     name = companyName.truncateAfterDoubleSpace(),
     symbol = symbol,
