@@ -27,6 +27,7 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.ktor.client.contentNegotiation)
             implementation(libs.ktor.serialization.kotlinxJson)
+            implementation(libs.compose.material.iconsExtended)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

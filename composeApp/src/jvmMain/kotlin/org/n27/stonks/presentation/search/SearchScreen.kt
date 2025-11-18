@@ -5,13 +5,14 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import org.koin.compose.koinInject
+import org.n27.stonks.presentation.common.composables.ErrorScreen
+import org.n27.stonks.presentation.search.entities.SearchInteraction.Retry
 import org.n27.stonks.presentation.search.entities.SearchState.*
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = koinInject(),
 ) {
-
     DisposableEffect(viewModel) {
         onDispose { viewModel.clear() }
     }
@@ -19,8 +20,9 @@ fun SearchScreen(
     val state by viewModel.viewState.collectAsState()
 
     when (val s = state) {
-        is Idle, Error -> Unit
-        is Loading -> SearchLoading()
+        Idle -> Unit
+        Loading -> SearchLoading()
         is Content -> SearchContent(s)
+        Error -> ErrorScreen { viewModel.handleInteraction(Retry) }
     }
 }
