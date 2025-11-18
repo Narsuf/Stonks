@@ -1,4 +1,4 @@
-package org.n27.stonks.presentation.common
+package org.n27.stonks.presentation.common.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
