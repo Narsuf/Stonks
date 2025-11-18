@@ -12,8 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import org.n27.stonks.presentation.common.Cell
-import org.n27.stonks.presentation.common.RoundIcon
+import org.n27.stonks.presentation.common.composables.Cell
+import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.search.entities.SearchState.Content
 import java.text.NumberFormat
