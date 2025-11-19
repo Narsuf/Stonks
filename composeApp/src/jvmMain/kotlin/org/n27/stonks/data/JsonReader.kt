@@ -7,29 +7,28 @@ import java.io.InputStream
 
 object JsonReader {
 
-    private var symbols: List<String>? = null
+    private lateinit var symbols: List<String>
 
-    suspend fun getSymbolsPage(from: Int, size: Int): List<String>? = getSymbols()?.drop(from)?.take(size)
+    suspend fun getSymbols(): List<String> {
+        if (!this::symbols.isInitialized) {
+            val sp = readSymbols("/sp.json")
+            val stoxx = readSymbols("/stoxx.json")
+            val nikkei = readSymbols("/nikkei.json")
 
-    private suspend fun getSymbols(): List<String>? {
-        symbols?.let { return it }
+            symbols = sp + stoxx + nikkei
+        }
 
-        val sp = readSymbols("/sp.json") ?: emptyList()
-        val stoxx = readSymbols("/stoxx.json") ?: emptyList()
-        val nikkei = readSymbols("/nikkei.json") ?: emptyList()
-
-        symbols = (sp + stoxx + nikkei).ifEmpty { null }
         return symbols
     }
 
-    private suspend fun readSymbols(fileName: String): List<String>? = runCatching {
+    private suspend fun readSymbols(fileName: String): List<String> {
         val symbols: List<String> = readJson(fileName)
         return symbols
-    }.getOrNull()
+    }
 
     private suspend inline fun <reified T> readJson(fileName: String): T = withContext(Dispatchers.IO) {
         val inputStream: InputStream = object {}.javaClass.getResourceAsStream(fileName)
-            ?: throw IllegalStateException()
+            ?: throw IllegalStateException("Could not find resource file '$fileName'.")
         val jsonString = inputStream.bufferedReader().use { it.readText() }
         Json.decodeFromString(jsonString)
     }

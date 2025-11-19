@@ -10,10 +10,12 @@ import java.math.RoundingMode
 import java.text.NumberFormat
 import java.util.*
 
-internal fun Stocks.toContent() = Content(
-    search = "Search ticker...",
+internal fun Stocks.toContent(isEndReached: Boolean) = Content(
+    search = "",
+    isSearchLoading = false,
     items = items.toPresentationEntity(),
     isPageLoading = false,
+    isEndReached = isEndReached,
 )
 
 internal fun List<Stock>.toPresentationEntity(): ImmutableList<Content.Item> = map { it.toPresentationEntity() }
@@ -34,8 +36,13 @@ private fun String.truncateAfterDoubleSpace(): String {
         this
 }
 
-private fun BigDecimal.toPrice(currency: String?): String? = currency?.let {
+private fun BigDecimal.toPrice(currency: String?): String? {
+    val safeCurrency = runCatching {
+        currency?.uppercase()?.let { Currency.getInstance(it) }
+    }.getOrNull()
+
     val format = NumberFormat.getCurrencyInstance()
-        .apply { this.currency = Currency.getInstance(currency) }
+    safeCurrency?.let { format.currency = it }
+
     return format.format(this)
 }

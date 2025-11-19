@@ -18,6 +18,7 @@ import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.search.entities.SearchInteraction
 import org.n27.stonks.presentation.search.entities.SearchInteraction.LoadNextPage
+import org.n27.stonks.presentation.search.entities.SearchInteraction.SearchValueChanged
 import org.n27.stonks.presentation.search.entities.SearchState.Content
 
 @Composable
@@ -25,20 +26,23 @@ fun SearchContent(
     content: Content,
     onAction: (action: SearchInteraction) -> Unit,
 ) {
-    var search by remember { mutableStateOf("") }
+    var search by remember(content.search) { mutableStateOf(content.search) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         OutlinedTextField(
             value = search,
-            onValueChange = {},
+            onValueChange = { onAction(SearchValueChanged(it)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(Spacing.default),
-            placeholder = { Text(content.search) },
+            placeholder = { Text("Search ticker...") },
             singleLine = true,
         )
 
-        StockList(content, onAction)
+        if (content.isSearchLoading)
+            SearchCellListShimmer()
+        else
+            StockList(content, onAction)
     }
 }
 
@@ -54,7 +58,7 @@ private fun StockList(
 
     LaunchedEffect(lastVisibleItemIndex, content.items.size) {
         val buffer = 2
-        if (lastVisibleItemIndex >= content.items.lastIndex - buffer && !content.isPageLoading) {
+        if (lastVisibleItemIndex >= content.items.lastIndex - buffer && !content.isPageLoading && !content.isEndReached) {
             onAction(LoadNextPage)
         }
     }

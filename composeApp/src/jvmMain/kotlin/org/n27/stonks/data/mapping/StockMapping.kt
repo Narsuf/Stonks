@@ -4,7 +4,8 @@ import org.n27.stonks.data.model.StockRaw
 import org.n27.stonks.domain.domain.Stock
 import org.n27.stonks.domain.domain.Stocks
 
-internal fun List<StockRaw>.toDomainEntity() = Stocks(
+internal fun List<StockRaw>.toDomainEntity(pages: Int) = Stocks(
+    pages = pages,
     items = map { it.toDomainEntity() }
 )
 

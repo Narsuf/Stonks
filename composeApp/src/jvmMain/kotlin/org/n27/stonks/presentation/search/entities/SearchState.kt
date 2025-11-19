@@ -1,8 +1,6 @@
 package org.n27.stonks.presentation.search.entities
 
 import kotlinx.collections.immutable.ImmutableList
-import java.math.BigDecimal
-import java.util.Currency
 
 sealed class SearchState {
 
@@ -11,8 +9,10 @@ sealed class SearchState {
     data object Error: SearchState()
     data class Content(
         val search: String,
+        val isSearchLoading: Boolean,
         val items: ImmutableList<Item>,
         val isPageLoading: Boolean,
+        val isEndReached: Boolean,
     ) : SearchState() {
 
         data class Item(
