@@ -130,6 +130,7 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
         repository.getStocks(currentPage, pageSize, text.uppercase()).fold(
             onSuccess = {
                 currentPage += pageSize
+                maxPages = it.pages
                 state.updateIfType { c: Content ->
                     c.copy(
                         isSearchLoading = false,
