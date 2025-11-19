@@ -25,15 +25,20 @@ fun SearchLoading() {
                 .padding(Spacing.default)
         )
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = Spacing.default)
-        ) {
-            items(12) {
-                SearchCellShimmer()
-                Spacer(modifier = Modifier.height(10.dp))
-            }
+        SearchCellListShimmer()
+    }
+}
+
+@Composable
+fun SearchCellListShimmer() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = Spacing.default)
+    ) {
+        items(12) {
+            SearchCellShimmer()
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }
@@ -64,7 +69,7 @@ fun SearchCellShimmer() {
 }
 
 @Composable
-fun ShimmerBone(
+private fun ShimmerBone(
     width: Dp = Dp.Unspecified,
     height: Dp,
     shape: Shape = RoundedCornerShape(4.dp),

@@ -1,28 +1,52 @@
 package org.n27.stonks.presentation.search
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.n27.stonks.presentation.common.composables.ErrorScreen
 import org.n27.stonks.presentation.search.entities.SearchInteraction.Retry
+import org.n27.stonks.presentation.search.entities.SearchSideEffect.ShowErrorNotification
 import org.n27.stonks.presentation.search.entities.SearchState.*
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = koinInject(),
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
     DisposableEffect(viewModel) {
         onDispose { viewModel.clear() }
     }
 
     val state by viewModel.viewState.collectAsState()
 
-    when (val s = state) {
-        Idle -> Unit
-        Loading -> SearchLoading()
-        is Content -> SearchContent(content = s, onAction = viewModel::handleInteraction)
-        Error -> ErrorScreen { viewModel.handleInteraction(Retry) }
+    LaunchedEffect(Unit) {
+        viewModel.viewSideEffect.collect { event ->
+            when (event) {
+                is ShowErrorNotification -> {
+                    scope.launch { snackbarHostState.showSnackbar(event.title) }
+                }
+            }
+        }
+    }
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { padding ->
+        Column(Modifier.padding(padding)) {
+            when (val s = state) {
+                Idle -> Unit
+                Loading -> SearchLoading()
+                is Content -> SearchContent(content = s, onAction = viewModel::handleInteraction)
+                Error -> ErrorScreen { viewModel.handleInteraction(Retry) }
+            }
+        }
     }
 }

@@ -10,12 +10,12 @@ class Api(
     private val baseUrl: String
 ) {
 
-    suspend fun getStocks(from: Int, size: Int): List<StockRaw> {
-        val symbolsParam = JsonReader.getSymbolsPage(from, size)?.joinToString(separator = ",")
+    suspend fun getStocks(symbols: String): List<StockRaw> {
         val url = "$baseUrl/stocks"
         val response: List<StockRaw> = httpClient.get(url) {
-            parameter("symbols", symbolsParam)
+            parameter("symbols", symbols)
         }.body()
+
         return response
     }
 
