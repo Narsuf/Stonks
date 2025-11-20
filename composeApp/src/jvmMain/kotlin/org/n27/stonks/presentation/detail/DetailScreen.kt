@@ -5,28 +5,29 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
-import org.n27.stonks.presentation.app.entities.AppInteraction
-import org.n27.stonks.presentation.app.entities.AppInteraction.GoBack
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.TopBar
+import org.n27.stonks.presentation.detail.entities.DetailInteraction.GoBack
 
 @Composable
-internal fun DetailScreen(
-    symbol: String,
-    onAction: (action: AppInteraction) -> Unit,
-) {
+internal fun DetailScreen(symbol: String) {
 
     val viewModel: DetailViewModel = koinInject { parametersOf(symbol) }
+
+    DisposableEffect(viewModel) {
+        onDispose { viewModel.clear() }
+    }
 
     val state by viewModel.viewState.collectAsState()
 
     Column {
-        TopBar { onAction(GoBack) }
+        TopBar { viewModel.handleInteraction(GoBack) }
 
         Spacer(Modifier.height(Spacing.default))
 
