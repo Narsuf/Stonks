@@ -12,8 +12,8 @@ import org.koin.compose.koinInject
 import org.n27.stonks.presentation.app.entities.AppInteraction
 import org.n27.stonks.presentation.common.composables.ErrorScreen
 import org.n27.stonks.presentation.search.entities.SearchInteraction.Retry
-import org.n27.stonks.presentation.search.entities.SearchSideEffect.NavigateToDetail
-import org.n27.stonks.presentation.search.entities.SearchSideEffect.ShowErrorNotification
+import org.n27.stonks.presentation.search.entities.SearchEvent.NavigateToDetail
+import org.n27.stonks.presentation.search.entities.SearchEvent.ShowErrorNotification
 import org.n27.stonks.presentation.search.entities.SearchState.*
 
 @Composable
@@ -31,7 +31,7 @@ internal fun SearchScreen(
     val state by viewModel.viewState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.viewSideEffect.collect { event ->
+        viewModel.viewEvent.collect { event ->
             when (event) {
                 is NavigateToDetail -> onAction(AppInteraction.NavigateToDetail(event.symbol))
                 is ShowErrorNotification -> {

@@ -19,7 +19,7 @@ class AppViewModel() : ViewModel() {
 
     internal fun handleInteraction(action: AppInteraction) {
         state.value = when (action) {
-            is NavigateToDetail -> Detail
+            is NavigateToDetail -> Detail(action.symbol)
             GoBack -> Home
         }
     }

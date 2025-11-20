@@ -11,9 +11,9 @@ import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.extensions.updateIfType
 import org.n27.stonks.presentation.search.entities.SearchInteraction
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
-import org.n27.stonks.presentation.search.entities.SearchSideEffect
-import org.n27.stonks.presentation.search.entities.SearchSideEffect.NavigateToDetail
-import org.n27.stonks.presentation.search.entities.SearchSideEffect.ShowErrorNotification
+import org.n27.stonks.presentation.search.entities.SearchEvent
+import org.n27.stonks.presentation.search.entities.SearchEvent.NavigateToDetail
+import org.n27.stonks.presentation.search.entities.SearchEvent.ShowErrorNotification
 import org.n27.stonks.presentation.search.entities.SearchState
 import org.n27.stonks.presentation.search.entities.SearchState.*
 import org.n27.stonks.presentation.search.mapping.toContent
@@ -25,8 +25,8 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
     private val state = MutableStateFlow<SearchState>(Idle)
     internal val viewState = state.asStateFlow()
 
-    private val sideEffect = Channel<SearchSideEffect>(capacity = 1, BufferOverflow.DROP_OLDEST)
-    internal val viewSideEffect = sideEffect.receiveAsFlow()
+    private val event = Channel<SearchEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
+    internal val viewEvent = event.receiveAsFlow()
 
     private lateinit var currentSearch: Search
     private var currentPage = 0
@@ -139,11 +139,12 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
 
     private suspend fun Throwable.showErrorNotification() {
         if (this !is CancellationException)
-            sideEffect.send(ShowErrorNotification("Something went wrong."))
+            event.send(ShowErrorNotification("Something went wrong."))
     }
 
     private fun onItemClicked(index: Int) {
         val symbol = currentSearch.items[index].symbol
-        sideEffect.trySend(NavigateToDetail(symbol))
+        job?.cancel()
+        event.trySend(NavigateToDetail(symbol))
     }
 }

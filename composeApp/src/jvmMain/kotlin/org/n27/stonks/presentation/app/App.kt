@@ -18,9 +18,9 @@ fun App(viewModel: AppViewModel = koinInject()) {
     val state by viewModel.viewState.collectAsState()
 
     MaterialTheme {
-        when (state) {
+        when (val s = state) {
             Home -> SearchScreen(onAction = viewModel::handleInteraction)
-            Detail -> DetailScreen()
+            is Detail -> DetailScreen(s.symbol, viewModel::handleInteraction)
         }
     }
 }
