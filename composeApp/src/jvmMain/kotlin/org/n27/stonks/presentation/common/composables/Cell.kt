@@ -14,15 +14,16 @@ import org.n27.stonks.presentation.common.Spacing
 
 @Composable
 fun Cell(
-    start: @Composable () -> Unit,
     center: @Composable () -> Unit,
     end: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    start: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
-    Box(
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .border(
                 width = 1.dp,
@@ -30,17 +31,16 @@ fun Cell(
                 shape = RoundedCornerShape(8.dp)
             )
             .then(onClick?.let { Modifier.clickable(onClick = it) } ?: Modifier)
-            .padding(Spacing.small)
+            .padding(Spacing.small),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            start()
-            Spacer(Modifier.width(Spacing.small))
+        Row {
+            start?.let {
+                it()
+                Spacer(Modifier.width(Spacing.small))
+            }
             center()
-            Spacer(Modifier.weight(1f))
-            end()
+            Spacer(Modifier.width(Spacing.small))
         }
+        end()
     }
 }
