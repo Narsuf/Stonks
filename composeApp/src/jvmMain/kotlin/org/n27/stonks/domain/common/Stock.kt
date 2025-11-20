@@ -1,4 +1,4 @@
-package org.n27.stonks.domain.domain
+package org.n27.stonks.domain.common
 
 data class Stock(
     val symbol: String,

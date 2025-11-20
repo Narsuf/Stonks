@@ -1,12 +1,12 @@
 package org.n27.stonks.data
 
-import org.n27.stonks.data.mapping.toDomainEntity
+import org.n27.stonks.data.search.mapping.toDomainEntity
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.domain.Stocks
+import org.n27.stonks.domain.search.Search
 
 class RepositoryImpl(private val api: Api) : Repository {
 
-    override suspend fun getStocks(from: Int, size: Int, symbol: String?): Result<Stocks> = runCatching {
+    override suspend fun getStocks(from: Int, size: Int, symbol: String?): Result<Search> = runCatching {
         val params = symbol?.takeIf { it.isNotEmpty() }
             ?.let { getFilteredSymbols(it) }
             ?: JsonReader.getSymbols()

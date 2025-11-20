@@ -3,16 +3,17 @@ package org.n27.stonks.data
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import org.n27.stonks.data.model.StockRaw
+import org.n27.stonks.data.common.model.StockRaw
+import org.n27.stonks.data.search.model.SearchStockRaw
 
 class Api(
     private val httpClient: HttpClient,
     private val baseUrl: String
 ) {
 
-    suspend fun getStocks(symbols: String): List<StockRaw> {
+    suspend fun getStocks(symbols: String): List<SearchStockRaw> {
         val url = "$baseUrl/stocks"
-        val response: List<StockRaw> = httpClient.get(url) {
+        val response: List<SearchStockRaw> = httpClient.get(url) {
             parameter("symbols", symbols)
         }.body()
 

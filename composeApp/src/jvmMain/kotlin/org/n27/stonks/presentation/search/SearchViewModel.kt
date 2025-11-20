@@ -6,7 +6,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.domain.Stocks
+import org.n27.stonks.domain.search.Search
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.extensions.updateIfType
 import org.n27.stonks.presentation.search.entities.SearchInteraction
@@ -28,20 +28,12 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
     private val sideEffect = Channel<SearchSideEffect>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewSideEffect = sideEffect.receiveAsFlow()
 
-    private lateinit var currentStocks: Stocks
+    private lateinit var currentSearch: Search
     private var currentPage = 0
     private val pageSize = 11
 
     private val searchText = MutableStateFlow<String?>(null)
     private var job: Job? = null
-
-    private val onFailure: (Throwable) -> Unit = {
-        viewModelScope.launch {
-            if (it !is CancellationException)
-                sideEffect.send(ShowErrorNotification("Something went wrong."))
-            state.updateIfType { c: Content -> c.copy(isPageLoading = false) }
-        }
-    }
 
     init {
         requestInitialStocks()
@@ -67,7 +59,7 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
             val newState = repository.getStocks(currentPage, pageSize).fold(
                 onSuccess = {
                     currentPage += pageSize
-                    currentStocks = it
+                    currentSearch = it
                     it.toContent(isEndReached())
                 },
                 onFailure = { Error }
@@ -85,16 +77,19 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
             repository.getStocks(currentPage, pageSize, searchText.value?.uppercase()).fold(
                 onSuccess = {
                     currentPage += pageSize
-                    currentStocks = currentStocks.copy(items = currentStocks.items.plus(it.items))
+                    currentSearch = currentSearch.copy(items = currentSearch.items.plus(it.items))
                     state.updateIfType { c: Content ->
                         c.copy(
-                            items = currentStocks.items.toPresentationEntity(),
+                            items = currentSearch.items.toPresentationEntity(),
                             isPageLoading = false,
                             isEndReached = isEndReached(),
                         )
                     }
                 },
-                onFailure = onFailure,
+                onFailure = {
+                    it.showErrorNotification()
+                    state.updateIfType { c: Content -> c.copy(isPageLoading = false) }
+                },
             )
         }
     }
@@ -118,24 +113,37 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
             repository.getStocks(currentPage, pageSize, text.uppercase()).fold(
                 onSuccess = {
                     currentPage += pageSize
-                    currentStocks = it
+                    currentSearch = it
                     state.updateIfType { c: Content ->
                         c.copy(
                             isSearchLoading = false,
-                            items = currentStocks.items.toPresentationEntity(),
+                            items = currentSearch.items.toPresentationEntity(),
                             isEndReached = isEndReached(),
                         )
                     }
                 },
-                onFailure = onFailure,
+                onFailure = {
+                    it.showErrorNotification()
+                    state.updateIfType { c: Content ->
+                        c.copy(
+                            isSearchLoading = false,
+                            isPageLoading = false,
+                        )
+                    }
+                },
             )
         }
     }
 
-    private fun isEndReached() = currentPage >= currentStocks.pages
+    private fun isEndReached() = currentPage >= currentSearch.pages
+
+    private suspend fun Throwable.showErrorNotification() {
+        if (this !is CancellationException)
+            sideEffect.send(ShowErrorNotification("Something went wrong."))
+    }
 
     private fun onItemClicked(index: Int) {
-        val symbol = currentStocks.items[index].symbol
+        val symbol = currentSearch.items[index].symbol
         sideEffect.trySend(NavigateToDetail(symbol))
     }
 }
