@@ -7,3 +7,5 @@ internal fun Double.toFormattedBigDecimal() = toString()
     .setScale(2, RoundingMode.HALF_UP)
 
 internal fun Double.toFormattedString() = toFormattedBigDecimal().toPlainString()
+
+internal fun Double.toFormattedPercentage() = "${toFormattedString()} %"

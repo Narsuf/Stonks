@@ -13,6 +13,7 @@ internal sealed class DetailState {
         val price: String?,
         val eps: String?,
         val trailingPe: String?,
+        val forwardPe: String?,
         val dividendYield: String?,
         val earningsQuarterlyGrowth: String?,
         val intrinsicValue: String?,

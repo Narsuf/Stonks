@@ -2,6 +2,7 @@ package org.n27.stonks.presentation.detail.mapping
 
 import org.n27.stonks.domain.common.Stock
 import org.n27.stonks.presentation.common.extensions.toFormattedBigDecimal
+import org.n27.stonks.presentation.common.extensions.toFormattedPercentage
 import org.n27.stonks.presentation.common.extensions.toFormattedString
 import org.n27.stonks.presentation.common.extensions.toPrice
 import org.n27.stonks.presentation.common.extensions.truncateAfterDoubleSpace
@@ -12,9 +13,10 @@ internal fun Stock.toDetailContent() = Content(
     logoUrl = logoUrl ?: "",
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toFormattedBigDecimal()?.toPrice(currency),
-    eps = eps?.toFormattedString(),
+    eps = eps?.toFormattedBigDecimal()?.toPrice(currency),
     trailingPe = trailingPe?.toFormattedString(),
-    dividendYield = dividendYield?.toFormattedString(),
-    earningsQuarterlyGrowth = earningsQuarterlyGrowth?.toFormattedString(),
-    intrinsicValue = intrinsicValue?.toFormattedString(),
+    forwardPe = forwardPe?.toFormattedString(),
+    dividendYield = dividendYield?.toFormattedPercentage(),
+    earningsQuarterlyGrowth = earningsQuarterlyGrowth?.toFormattedPercentage(),
+    intrinsicValue = intrinsicValue?.toFormattedBigDecimal()?.toPrice(currency),
 )

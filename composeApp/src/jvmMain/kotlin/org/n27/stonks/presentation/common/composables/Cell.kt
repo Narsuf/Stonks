@@ -15,9 +15,9 @@ import org.n27.stonks.presentation.common.Spacing
 @Composable
 fun Cell(
     center: @Composable () -> Unit,
-    end: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     start: @Composable (() -> Unit)? = null,
+    end: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
     Row(
@@ -33,14 +33,17 @@ fun Cell(
             .then(onClick?.let { Modifier.clickable(onClick = it) } ?: Modifier)
             .padding(Spacing.small),
     ) {
-        Row {
-            start?.let {
-                it()
-                Spacer(Modifier.width(Spacing.small))
-            }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(Spacing.small),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            start?.let { it() }
             center()
-            Spacer(Modifier.width(Spacing.small))
         }
-        end()
+
+        end?.let {
+            Spacer(Modifier.width(Spacing.small))
+            it()
+        }
     }
 }
