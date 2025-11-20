@@ -7,7 +7,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import org.koin.core.context.GlobalContext
 import org.koin.core.parameter.parametersOf
-import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState
 import org.n27.stonks.presentation.app.entities.AppState.Idle
@@ -17,14 +16,9 @@ import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.EventBus
-import org.n27.stonks.presentation.detail.DetailViewModel
-import org.n27.stonks.presentation.search.SearchViewModel
 
 @OptIn(FlowPreview::class)
-class AppViewModel(
-    private val eventBus: EventBus,
-    private val repository: Repository,
-) : ViewModel() {
+class AppViewModel(eventBus: EventBus) : ViewModel() {
 
     private val stack = mutableStateListOf<AppState>()
     private val state = MutableStateFlow<AppState>(Idle)
