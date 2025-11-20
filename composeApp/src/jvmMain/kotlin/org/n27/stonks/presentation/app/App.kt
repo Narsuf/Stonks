@@ -11,8 +11,9 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.n27.stonks.presentation.app.entities.AppEvent.ShowErrorNotification
-import org.n27.stonks.presentation.app.entities.AppState.Detail
-import org.n27.stonks.presentation.app.entities.AppState.Home
+import org.n27.stonks.presentation.app.entities.AppState.Idle
+import org.n27.stonks.presentation.app.entities.AppState.Screen.Detail
+import org.n27.stonks.presentation.app.entities.AppState.Screen.Search
 import org.n27.stonks.presentation.detail.DetailScreen
 import org.n27.stonks.presentation.search.SearchScreen
 
@@ -37,8 +38,9 @@ fun App(viewModel: AppViewModel = koinInject()) {
         ) { padding ->
             Column(Modifier.padding(padding)) {
                 when (val s = state) {
-                    Home -> SearchScreen()
-                    is Detail -> DetailScreen(s.symbol)
+                    Idle -> Unit
+                    is Search -> SearchScreen(s.viewModel)
+                    is Detail -> DetailScreen(s.viewModel)
                 }
             }
         }

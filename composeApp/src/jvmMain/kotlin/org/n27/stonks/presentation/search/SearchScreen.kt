@@ -1,16 +1,14 @@
 package org.n27.stonks.presentation.search
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import org.koin.compose.koinInject
 import org.n27.stonks.presentation.common.composables.ErrorScreen
 import org.n27.stonks.presentation.search.entities.SearchInteraction.Retry
 import org.n27.stonks.presentation.search.entities.SearchState.*
 
 @Composable
-internal fun SearchScreen(viewModel: SearchViewModel = koinInject()) {
+internal fun SearchScreen(viewModel: SearchViewModel) {
 
     val state by viewModel.viewState.collectAsState()
 

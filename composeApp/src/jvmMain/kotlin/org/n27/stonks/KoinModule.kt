@@ -41,7 +41,5 @@ val appModule = module {
     single { EventBus() }
     single<Repository> { RepositoryImpl(get()) }
 
-    factory { AppViewModel(get()) }
-    factory { SearchViewModel(get(), get()) }
-    factory { (symbol: String) -> DetailViewModel(symbol, get(), get()) }
+    factory { AppViewModel(get(), get()) }
 }
