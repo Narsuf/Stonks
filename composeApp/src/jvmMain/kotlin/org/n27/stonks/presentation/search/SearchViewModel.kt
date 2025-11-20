@@ -2,31 +2,29 @@ package org.n27.stonks.presentation.search
 
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.search.Search
 import org.n27.stonks.presentation.common.ViewModel
+import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
+import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
+import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
 import org.n27.stonks.presentation.search.entities.SearchInteraction
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
-import org.n27.stonks.presentation.search.entities.SearchSideEffect
-import org.n27.stonks.presentation.search.entities.SearchSideEffect.NavigateToDetail
-import org.n27.stonks.presentation.search.entities.SearchSideEffect.ShowErrorNotification
 import org.n27.stonks.presentation.search.entities.SearchState
 import org.n27.stonks.presentation.search.entities.SearchState.*
 import org.n27.stonks.presentation.search.mapping.toContent
 import org.n27.stonks.presentation.search.mapping.toPresentationEntity
 
 @OptIn(FlowPreview::class)
-class SearchViewModel(private val repository: Repository) : ViewModel() {
+class SearchViewModel(
+    private val eventBus: EventBus,
+    private val repository: Repository,
+) : ViewModel() {
 
     private val state = MutableStateFlow<SearchState>(Idle)
     internal val viewState = state.asStateFlow()
-
-    private val sideEffect = Channel<SearchSideEffect>(capacity = 1, BufferOverflow.DROP_OLDEST)
-    internal val viewSideEffect = sideEffect.receiveAsFlow()
 
     private lateinit var currentSearch: Search
     private var currentPage = 0
@@ -41,7 +39,7 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
             .debounce(500)
             .distinctUntilChanged()
             .filterNotNull()
-            .onEach { performSearch(it) }
+            .onEach(::performSearch)
             .launchIn(viewModelScope)
     }
 
@@ -139,11 +137,14 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
 
     private suspend fun Throwable.showErrorNotification() {
         if (this !is CancellationException)
-            sideEffect.send(ShowErrorNotification("Something went wrong."))
+            eventBus.emit(ShowErrorNotification("Something went wrong."))
     }
 
     private fun onItemClicked(index: Int) {
-        val symbol = currentSearch.items[index].symbol
-        sideEffect.trySend(NavigateToDetail(symbol))
+        viewModelScope.launch {
+            val symbol = currentSearch.items[index].symbol
+            job?.cancel()
+            eventBus.emit(NavigateToDetail(symbol))
+        }
     }
 }

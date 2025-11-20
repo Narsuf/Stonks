@@ -1,26 +1,36 @@
 package org.n27.stonks.presentation.app
 
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import org.n27.stonks.presentation.app.entities.AppInteraction
-import org.n27.stonks.presentation.app.entities.AppInteraction.GoBack
-import org.n27.stonks.presentation.app.entities.AppInteraction.NavigateToDetail
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
+import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState
 import org.n27.stonks.presentation.app.entities.AppState.Detail
 import org.n27.stonks.presentation.app.entities.AppState.Home
 import org.n27.stonks.presentation.common.ViewModel
+import org.n27.stonks.presentation.common.broadcast.Event
+import org.n27.stonks.presentation.common.broadcast.Event.*
+import org.n27.stonks.presentation.common.broadcast.EventBus
 
 @OptIn(FlowPreview::class)
-class AppViewModel() : ViewModel() {
+class AppViewModel(eventBus: EventBus) : ViewModel() {
 
     private val state = MutableStateFlow<AppState>(Home)
     internal val viewState = state.asStateFlow()
 
-    internal fun handleInteraction(action: AppInteraction) {
-        state.value = when (action) {
-            is NavigateToDetail -> Detail
-            GoBack -> Home
-        }
+    private val event = Channel<AppEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
+    internal val viewEvent = event.receiveAsFlow()
+
+    init {
+        eventBus.events
+            .onEach(::handleEvent)
+            .launchIn(viewModelScope)
+    }
+
+    private fun handleEvent(e: Event) = when (e) {
+        GoBack -> state.value = Home
+        is NavigateToDetail -> state.value = Detail(e.symbol)
+        is ShowErrorNotification -> event.trySend(AppEvent.ShowErrorNotification(e.title))
     }
 }
