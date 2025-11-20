@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.n27.stonks.presentation.app.entities.AppState.Detail
-import org.n27.stonks.presentation.app.entities.AppState.Search
+import org.n27.stonks.presentation.app.entities.AppState.Home
 import org.n27.stonks.presentation.detail.DetailScreen
 import org.n27.stonks.presentation.search.SearchScreen
 
@@ -19,7 +19,7 @@ fun App(viewModel: AppViewModel = koinInject()) {
 
     MaterialTheme {
         when (state) {
-            Search -> SearchScreen(onAction = viewModel::handleInteraction)
+            Home -> SearchScreen(onAction = viewModel::handleInteraction)
             Detail -> DetailScreen()
         }
     }

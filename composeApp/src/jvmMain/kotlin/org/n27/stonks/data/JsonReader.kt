@@ -11,11 +11,11 @@ object JsonReader {
 
     suspend fun getSymbols(): List<String> {
         if (!this::symbols.isInitialized) {
-            val sp = readSymbols("/sp.json")
+            //val sp = readSymbols("/sp.json")
             val stoxx = readSymbols("/stoxx.json")
             val nikkei = readSymbols("/nikkei.json")
 
-            symbols = sp + stoxx + nikkei
+            symbols = stoxx + nikkei
         }
 
         return symbols

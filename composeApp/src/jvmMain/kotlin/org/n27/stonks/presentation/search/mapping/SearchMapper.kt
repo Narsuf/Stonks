@@ -2,15 +2,14 @@ package org.n27.stonks.presentation.search.mapping
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import org.n27.stonks.domain.domain.Stock
-import org.n27.stonks.domain.domain.Stocks
+import org.n27.stonks.domain.search.Search
 import org.n27.stonks.presentation.search.entities.SearchState.Content
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.NumberFormat
 import java.util.*
 
-internal fun Stocks.toContent(isEndReached: Boolean) = Content(
+internal fun Search.toContent(isEndReached: Boolean) = Content(
     search = "",
     isSearchLoading = false,
     items = items.toPresentationEntity(),
@@ -18,10 +17,10 @@ internal fun Stocks.toContent(isEndReached: Boolean) = Content(
     isEndReached = isEndReached,
 )
 
-internal fun List<Stock>.toPresentationEntity(): ImmutableList<Content.Item> = map { it.toPresentationEntity() }
+internal fun List<Search.Stock>.toPresentationEntity(): ImmutableList<Content.Item> = map { it.toPresentationEntity() }
     .toPersistentList()
 
-private fun Stock.toPresentationEntity() = Content.Item(
+private fun Search.Stock.toPresentationEntity() = Content.Item(
     iconUrl = logoUrl ?: "",
     name = companyName.truncateAfterDoubleSpace(),
     symbol = symbol,

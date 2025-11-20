@@ -8,19 +8,19 @@ import org.n27.stonks.presentation.app.entities.AppInteraction.GoBack
 import org.n27.stonks.presentation.app.entities.AppInteraction.NavigateToDetail
 import org.n27.stonks.presentation.app.entities.AppState
 import org.n27.stonks.presentation.app.entities.AppState.Detail
-import org.n27.stonks.presentation.app.entities.AppState.Search
+import org.n27.stonks.presentation.app.entities.AppState.Home
 import org.n27.stonks.presentation.common.ViewModel
 
 @OptIn(FlowPreview::class)
 class AppViewModel() : ViewModel() {
 
-    private val state = MutableStateFlow<AppState>(Search)
+    private val state = MutableStateFlow<AppState>(Home)
     internal val viewState = state.asStateFlow()
 
     internal fun handleInteraction(action: AppInteraction) {
         state.value = when (action) {
             is NavigateToDetail -> Detail
-            GoBack -> Search
+            GoBack -> Home
         }
     }
 }
