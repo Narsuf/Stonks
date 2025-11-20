@@ -12,10 +12,6 @@ import org.n27.stonks.presentation.search.entities.SearchState.*
 @Composable
 internal fun SearchScreen(viewModel: SearchViewModel = koinInject()) {
 
-    DisposableEffect(viewModel) {
-        onDispose { viewModel.clear() }
-    }
-
     val state by viewModel.viewState.collectAsState()
 
     when (val s = state) {

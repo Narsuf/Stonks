@@ -23,10 +23,6 @@ fun App(viewModel: AppViewModel = koinInject()) {
     val snackbarHostState = remember { SnackbarHostState() }
     val state by viewModel.viewState.collectAsState()
 
-    DisposableEffect(viewModel) {
-        onDispose { viewModel.clear() }
-    }
-
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {

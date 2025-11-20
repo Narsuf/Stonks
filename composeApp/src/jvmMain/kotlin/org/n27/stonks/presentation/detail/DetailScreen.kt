@@ -20,10 +20,6 @@ internal fun DetailScreen(symbol: String) {
 
     val viewModel: DetailViewModel = koinInject { parametersOf(symbol) }
 
-    DisposableEffect(viewModel) {
-        onDispose { viewModel.clear() }
-    }
-
     val state by viewModel.viewState.collectAsState()
 
     Column {

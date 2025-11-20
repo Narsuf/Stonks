@@ -8,6 +8,4 @@ import kotlinx.coroutines.cancel
 abstract class ViewModel {
 
     protected val viewModelScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
-
-    fun clear() { viewModelScope.cancel() }
 }
