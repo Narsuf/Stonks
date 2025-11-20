@@ -8,8 +8,8 @@ internal sealed class DetailState {
 
     data class Content(
         val symbol: String,
-        val logoUrl: String?,
-        val companyName: String,
+        val logoUrl: String,
+        val name: String,
         val price: String?,
         val eps: String?,
         val trailingPe: String?,

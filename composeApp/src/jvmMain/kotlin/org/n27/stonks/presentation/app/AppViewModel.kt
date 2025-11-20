@@ -31,6 +31,7 @@ class AppViewModel(eventBus: EventBus) : ViewModel() {
 
     init {
         push(Search(koin.get()))
+        //push(Detail(koin.get { parametersOf("AAPL") }))
         eventBus.events
             .onEach(::handleEvent)
             .launchIn(viewModelScope)

@@ -1,4 +1,4 @@
-package org.n27.stonks.presentation.search
+package org.n27.stonks.presentation.search.composables
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -96,7 +96,9 @@ private fun SearchCell(
         end = {
             stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
         },
-        modifier = Modifier.padding(bottom = Spacing.smaller),
+        modifier = Modifier
+            .padding(bottom = Spacing.smaller)
+            .fillMaxWidth(),
     ) { onAction(ItemClicked(index)) }
 }
 
