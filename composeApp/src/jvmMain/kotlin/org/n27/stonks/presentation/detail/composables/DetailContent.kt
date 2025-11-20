@@ -38,7 +38,6 @@ internal fun DetailContent(content: Content) {
                     Text(
                         text = "Dividend",
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = Spacing.default)
                     )
                 },
                 end = { Text(text = it, style = MaterialTheme.typography.titleMedium) }
