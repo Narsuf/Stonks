@@ -42,4 +42,6 @@ val appModule = module {
     single<Repository> { RepositoryImpl(get()) }
 
     factory { AppViewModel(get(), get()) }
+    factory { SearchViewModel(get(), get()) }
+    factory { (symbol: String) -> DetailViewModel(symbol, get(), get()) }
 }

@@ -5,6 +5,8 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import org.koin.core.context.GlobalContext
+import org.koin.core.parameter.parametersOf
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState
@@ -31,8 +33,10 @@ class AppViewModel(
     private val event = Channel<AppEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewEvent = event.receiveAsFlow()
 
+    private val koin = GlobalContext.get()
+
     init {
-        push(Search(SearchViewModel(eventBus, repository)))
+        push(Search(koin.get()))
         eventBus.events
             .onEach(::handleEvent)
             .launchIn(viewModelScope)
@@ -40,7 +44,7 @@ class AppViewModel(
 
     private fun handleEvent(e: Event) = when (e) {
         GoBack -> pop()
-        is NavigateToDetail -> push(Detail(DetailViewModel(e.symbol, eventBus, repository)))
+        is NavigateToDetail -> push(Detail(koin.get { parametersOf(e.symbol) }))
         is ShowErrorNotification -> event.trySend(AppEvent.ShowErrorNotification(e.title))
     }
 
