@@ -8,6 +8,7 @@ import org.koin.dsl.module
 import org.n27.stonks.data.Api
 import org.n27.stonks.data.RepositoryImpl
 import org.n27.stonks.domain.Repository
+import org.n27.stonks.presentation.app.AppViewModel
 import org.n27.stonks.presentation.search.SearchViewModel
 
 const val BASE_URL = "http://127.0.0.1:8000"
@@ -37,5 +38,6 @@ val appModule = module {
 
     single<Repository> { RepositoryImpl(get()) }
 
+    factory { AppViewModel() }
     factory { SearchViewModel(get()) }
 }

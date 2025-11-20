@@ -9,14 +9,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.n27.stonks.presentation.app.entities.AppInteraction
 import org.n27.stonks.presentation.common.composables.ErrorScreen
 import org.n27.stonks.presentation.search.entities.SearchInteraction.Retry
+import org.n27.stonks.presentation.search.entities.SearchSideEffect.NavigateToDetail
 import org.n27.stonks.presentation.search.entities.SearchSideEffect.ShowErrorNotification
 import org.n27.stonks.presentation.search.entities.SearchState.*
 
 @Composable
-fun SearchScreen(
+internal fun SearchScreen(
     viewModel: SearchViewModel = koinInject(),
+    onAction: (action: AppInteraction) -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -30,6 +33,7 @@ fun SearchScreen(
     LaunchedEffect(Unit) {
         viewModel.viewSideEffect.collect { event ->
             when (event) {
+                is NavigateToDetail -> onAction(AppInteraction.NavigateToDetail(event.symbol))
                 is ShowErrorNotification -> {
                     scope.launch { snackbarHostState.showSnackbar(event.title) }
                 }

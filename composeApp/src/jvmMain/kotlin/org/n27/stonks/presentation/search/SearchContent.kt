@@ -3,7 +3,7 @@ package org.n27.stonks.presentation.search
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -17,12 +17,11 @@ import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.search.entities.SearchInteraction
-import org.n27.stonks.presentation.search.entities.SearchInteraction.LoadNextPage
-import org.n27.stonks.presentation.search.entities.SearchInteraction.SearchValueChanged
+import org.n27.stonks.presentation.search.entities.SearchInteraction.*
 import org.n27.stonks.presentation.search.entities.SearchState.Content
 
 @Composable
-fun SearchContent(
+internal fun SearchContent(
     content: Content,
     onAction: (action: SearchInteraction) -> Unit,
 ) {
@@ -69,14 +68,23 @@ private fun StockList(
             .fillMaxSize()
             .padding(horizontal = Spacing.default),
     ) {
-        items(content.items) { SearchCell(it) }
+        itemsIndexed(
+            items = content.items,
+            key = { _, item -> item.symbol },
+        ) { index, item ->
+           SearchCell(index, item, onAction)
+        }
 
         if (content.isPageLoading) item { EmptyCell() }
     }
 }
 
 @Composable
-private fun SearchCell(stock: Content.Item) {
+private fun SearchCell(
+    index: Int,
+    stock: Content.Item,
+    onAction: (action: SearchInteraction) -> Unit,
+) {
     Cell(
         start = { RoundIcon(stock.iconUrl) },
         center = {
@@ -89,7 +97,7 @@ private fun SearchCell(stock: Content.Item) {
             stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
         },
         modifier = Modifier.padding(bottom = Spacing.smaller),
-    )
+    ) { onAction(ItemClicked(index)) }
 }
 
 @Composable

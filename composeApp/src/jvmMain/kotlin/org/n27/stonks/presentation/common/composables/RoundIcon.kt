@@ -24,7 +24,6 @@ import javax.imageio.ImageIO
 fun RoundIcon(url: String) {
     Box(
         modifier = Modifier
-            .size(48.dp)
             .clip(CircleShape)
             .background(Color.LightGray),
         contentAlignment = Alignment.Center
@@ -46,7 +45,7 @@ fun RoundIcon(url: String) {
             Image(
                 bitmap = it,
                 contentDescription = "",
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(40.dp)
             )
         }
     }
