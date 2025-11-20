@@ -2,7 +2,7 @@ package org.n27.stonks.presentation.search.entities
 
 import kotlinx.collections.immutable.ImmutableList
 
-sealed class SearchState {
+internal sealed class SearchState {
 
     data object Idle: SearchState()
     data object Loading: SearchState()

@@ -15,7 +15,7 @@ import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.shimmerLoading
 
 @Composable
-fun SearchLoading() {
+internal fun SearchLoading() {
     Column(modifier = Modifier.fillMaxSize()) {
         ShimmerBone(
             height = 56.dp,
@@ -30,7 +30,7 @@ fun SearchLoading() {
 }
 
 @Composable
-fun SearchCellListShimmer() {
+internal fun SearchCellListShimmer() {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -44,7 +44,7 @@ fun SearchCellListShimmer() {
 }
 
 @Composable
-fun SearchCellShimmer() {
+internal fun SearchCellShimmer() {
     Row(
         modifier = Modifier.fillMaxWidth().height(60.dp),
         verticalAlignment = Alignment.CenterVertically,
