@@ -30,6 +30,6 @@ object JsonReader {
         val inputStream: InputStream = object {}.javaClass.getResourceAsStream(fileName)
             ?: throw IllegalStateException("Could not find resource file '$fileName'.")
         val jsonString = inputStream.bufferedReader().use { it.readText() }
-        Json.Default.decodeFromString(jsonString)
+        Json.decodeFromString(jsonString)
     }
 }

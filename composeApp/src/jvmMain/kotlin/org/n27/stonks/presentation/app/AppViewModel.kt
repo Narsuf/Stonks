@@ -52,8 +52,9 @@ class AppViewModel(eventBus: EventBus) : ViewModel() {
     private fun pop(result: String?) {
         if (stack.size > 1) {
             stack.removeLast()
-            state.value = stack.last()
-                .apply { viewModel.onResult(result) }
+            state.value = stack.last().apply {
+                result?.let { viewModel.onResult(it) }
+            }
         }
     }
 }

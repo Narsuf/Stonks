@@ -8,8 +8,6 @@ import org.n27.stonks.domain.search.Search
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin.HOME
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin.WATCHLIST
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
 import org.n27.stonks.presentation.search.entities.SearchInteraction
@@ -31,6 +29,7 @@ class SearchViewModel(
     private lateinit var currentSearch: Search
     private var currentPage = 0
     private val pageSize = 11
+    private val filterWatchlist = origin == Origin.WATCHLIST
 
     private val searchText = MutableStateFlow<String?>(null)
     private var job: Job? = null
@@ -57,7 +56,11 @@ class SearchViewModel(
         viewModelScope.launch {
             state.emit(Loading)
 
-            val newState = repository.getStocks(currentPage, pageSize).fold(
+            val newState = repository.getStocks(
+                from = currentPage,
+                size = pageSize,
+                filterWatchlist = filterWatchlist,
+            ).fold(
                 onSuccess = {
                     currentPage += pageSize
                     currentSearch = it
@@ -75,7 +78,12 @@ class SearchViewModel(
         job = viewModelScope.launch {
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
 
-            repository.getStocks(currentPage, pageSize, searchText.value?.uppercase()).fold(
+            repository.getStocks(
+                from = currentPage,
+                size = pageSize,
+                symbol = searchText.value?.uppercase(),
+                filterWatchlist = filterWatchlist
+            ).fold(
                 onSuccess = {
                     currentPage += pageSize
                     currentSearch = currentSearch.copy(items = currentSearch.items.plus(it.items))
@@ -111,7 +119,12 @@ class SearchViewModel(
                 )
             }
             currentPage = 0
-            repository.getStocks(currentPage, pageSize, text.uppercase()).fold(
+            repository.getStocks(
+                from = currentPage,
+                size = pageSize,
+                symbol = text.uppercase(),
+                filterWatchlist = filterWatchlist,
+            ).fold(
                 onSuccess = {
                     currentPage += pageSize
                     currentSearch = it
@@ -152,8 +165,8 @@ class SearchViewModel(
             job?.cancel()
             eventBus.emit(
                 when (origin) {
-                    HOME -> NavigateToDetail(symbol)
-                    WATCHLIST -> GoBack(symbol)
+                    Origin.HOME -> NavigateToDetail(symbol)
+                    Origin.WATCHLIST -> GoBack(symbol)
                 }
             )
         }

@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class StockInfo(
     val symbol: String,
-    val expectedEpsGrowth: Double?,
+    val expectedEpsGrowth: Double? = null,
 )
