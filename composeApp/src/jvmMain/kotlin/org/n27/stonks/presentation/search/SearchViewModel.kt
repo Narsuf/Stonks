@@ -6,8 +6,10 @@ import kotlinx.coroutines.flow.*
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.search.Search
 import org.n27.stonks.presentation.common.ViewModel
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
-import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
+import org.n27.stonks.presentation.common.broadcast.Event.*
+import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
+import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin.HOME
+import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin.WATCHLIST
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
 import org.n27.stonks.presentation.search.entities.SearchInteraction
@@ -19,6 +21,7 @@ import org.n27.stonks.presentation.search.mapping.toPresentationEntity
 
 @OptIn(FlowPreview::class)
 class SearchViewModel(
+    private val origin: Origin,
     private val eventBus: EventBus,
     private val repository: Repository,
 ) : ViewModel() {
@@ -46,6 +49,7 @@ class SearchViewModel(
     internal fun handleInteraction(action: SearchInteraction) = when(action) {
         Retry -> requestInitialStocks()
         LoadNextPage -> requestMoreStocks()
+        BackClicked -> viewModelScope.launch { eventBus.emit(GoBack()) }
         is SearchValueChanged -> onSearchChanged(action.text)
         is ItemClicked -> onItemClicked(action.index)
     }
@@ -147,7 +151,12 @@ class SearchViewModel(
         viewModelScope.launch {
             val symbol = currentSearch.items[index].symbol
             job?.cancel()
-            eventBus.emit(NavigateToDetail(symbol))
+            eventBus.emit(
+                when (origin) {
+                    HOME -> NavigateToDetail(symbol)
+                    WATCHLIST -> GoBack(symbol)
+                }
+            )
         }
     }
 }

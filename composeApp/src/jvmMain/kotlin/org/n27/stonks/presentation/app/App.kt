@@ -11,10 +11,10 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.n27.stonks.presentation.app.entities.AppEvent.ShowErrorNotification
-import org.n27.stonks.presentation.app.entities.AppState.Idle
-import org.n27.stonks.presentation.app.entities.AppState.Screen.Detail
-import org.n27.stonks.presentation.app.entities.AppState.Screen.Search
+import org.n27.stonks.presentation.app.entities.AppState.*
+import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.detail.DetailScreen
+import org.n27.stonks.presentation.home.HomeScreen
 import org.n27.stonks.presentation.search.SearchScreen
 
 @Composable
@@ -32,13 +32,13 @@ fun App(viewModel: AppViewModel = koinInject()) {
         }
     }
 
-    MaterialTheme {
+    MaterialTheme(AppColors.customColorScheme) {
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) }
         ) { padding ->
             Column(Modifier.padding(padding)) {
                 when (val s = state) {
-                    Idle -> Unit
+                    is Home -> HomeScreen(s.viewModel)
                     is Search -> SearchScreen(s.viewModel)
                     is Detail -> DetailScreen(s.viewModel)
                 }

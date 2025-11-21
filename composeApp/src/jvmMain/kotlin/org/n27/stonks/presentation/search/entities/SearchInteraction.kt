@@ -4,6 +4,7 @@ internal sealed class SearchInteraction {
 
     data object Retry : SearchInteraction()
     data object LoadNextPage : SearchInteraction()
+    data object BackClicked : SearchInteraction()
     data class SearchValueChanged(val text: String) : SearchInteraction()
     data class ItemClicked(val index: Int) : SearchInteraction()
 }

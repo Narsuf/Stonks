@@ -1,8 +1,10 @@
 package org.n27.stonks.presentation.common.broadcast
 
 sealed class Event {
-
-    data object GoBack : Event()
+    data class GoBack(val result: String? = null) : Event()
+    data class NavigateToSearch(val symbol: String, val from: Origin) : Event() {
+        enum class Origin { HOME, WATCHLIST }
+    }
     data class NavigateToDetail(val symbol: String) : Event()
     data class ShowErrorNotification(val title: String) : Event()
 }
