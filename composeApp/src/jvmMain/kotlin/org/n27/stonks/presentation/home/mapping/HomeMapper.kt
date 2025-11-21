@@ -9,8 +9,10 @@ import org.n27.stonks.presentation.common.extensions.truncateAfterDoubleSpace
 import org.n27.stonks.presentation.home.entities.HomeState.Content
 
 internal fun Home.toContent() = Content(
-    watchlist = items.map { it.toPresentationEntity() }.toPersistentList()
+    watchlist = items.toPresentationEntity()
 )
+
+internal fun List<Stock>.toPresentationEntity() = map { it.toPresentationEntity() }.toPersistentList()
 
 private fun Stock.toPresentationEntity() = Content.Item(
     iconUrl = logoUrl ?: "",

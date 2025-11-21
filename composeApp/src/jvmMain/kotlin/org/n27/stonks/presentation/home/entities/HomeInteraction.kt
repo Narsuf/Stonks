@@ -5,4 +5,6 @@ internal sealed class HomeInteraction {
     data object Retry : HomeInteraction()
     data object SearchClicked : HomeInteraction()
     data object AddClicked : HomeInteraction()
+    data class ItemClicked(val index: Int) : HomeInteraction()
+    data class RemoveItemClicked(val index: Int) : HomeInteraction()
 }

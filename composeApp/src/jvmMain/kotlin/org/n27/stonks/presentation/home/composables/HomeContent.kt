@@ -27,46 +27,64 @@ internal fun HomeContent(
             .padding(Spacing.default),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Button(
-            onClick = { onAction(SearchClicked) },
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Spacing.smaller),
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search",
-                    modifier = Modifier.size(20.dp)
-                )
-                Text(
-                    text = "Search",
-                    modifier = Modifier.padding(end = Spacing.smallest)
-                )
-            }
-        }
+        SearchButton(onAction)
+        WatchlistSectionHeader(onAction)
 
+        if (content.watchlist.isEmpty())
+            EmptyWatchlist()
+        else
+           HomeWatchlistContent(content, onAction)
+    }
+}
+
+@Composable
+private fun SearchButton(onAction: (action: HomeInteraction) -> Unit) {
+    Button(
+        onClick = { onAction(SearchClicked) },
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(vertical = Spacing.default),
-        ) { WatchlistSectionHeader(onAction) }
-
-        EmptyWatchlist()
+            horizontalArrangement = Arrangement.spacedBy(Spacing.smaller),
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search",
+                modifier = Modifier.size(20.dp)
+            )
+            Text(
+                text = "Search",
+                modifier = Modifier.padding(end = Spacing.smallest)
+            )
+        }
     }
 }
 
 @Composable
 private fun WatchlistSectionHeader(onAction: (action: HomeInteraction) -> Unit) {
-    Text(
-        text = "Watchlist",
-        style = MaterialTheme.typography.titleLarge,
-        modifier = Modifier.padding(end = Spacing.smaller),
-    )
-    TextButton(
-        onClick = { onAction(AddClicked) }
-    ) { Text("Add") }
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = Spacing.default),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Watchlist",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(end = Spacing.smaller),
+            )
+            TextButton(
+                onClick = { onAction(AddClicked) }
+            ) { Text("Add") }
+        }
+
+        Text(
+            text = "Expected EPS Growth",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(start = Spacing.smallest)
+        )
+    }
 }
 
 @Composable
