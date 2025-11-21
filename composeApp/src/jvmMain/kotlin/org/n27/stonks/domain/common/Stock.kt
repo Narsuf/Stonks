@@ -7,6 +7,7 @@ data class Stock(
     val price: Double?,
     val eps: Double?,
     val trailingPe: Double?,
+    val forwardPe: Double?,
     val dividendYield: Double?,
     val earningsQuarterlyGrowth: Double?,
     val currency: String?,

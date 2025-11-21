@@ -10,6 +10,7 @@ internal fun StockRaw.toDomainEntity() = Stock(
     price = price,
     eps = eps,
     trailingPe = trailingPe,
+    forwardPe = forwardPe,
     dividendYield = dividendYield,
     earningsQuarterlyGrowth = earningsQuarterlyGrowth,
     currency = currency,

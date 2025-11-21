@@ -1,5 +1,7 @@
 package org.n27.stonks.presentation.detail.entities
 
+import kotlinx.collections.immutable.ImmutableList
+
 internal sealed class DetailState {
 
     data object Idle : DetailState()
@@ -11,10 +13,13 @@ internal sealed class DetailState {
         val logoUrl: String,
         val name: String,
         val price: String?,
-        val eps: String?,
-        val trailingPe: String?,
-        val dividendYield: String?,
-        val earningsQuarterlyGrowth: String?,
-        val intrinsicValue: String?,
-    ) : DetailState()
+        val cells: ImmutableList<Cell>,
+    ) : DetailState() {
+
+        data class Cell(
+            val title: String,
+            val value: String,
+            val description: String,
+        )
+    }
 }

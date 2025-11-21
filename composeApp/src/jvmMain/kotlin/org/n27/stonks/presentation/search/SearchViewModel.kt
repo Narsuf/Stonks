@@ -119,6 +119,9 @@ class SearchViewModel(
                             isEndReached = isEndReached(),
                         )
                     }
+
+                    if (currentSearch.items.isEmpty())
+                        eventBus.emit(ShowErrorNotification("No assets found."))
                 },
                 onFailure = {
                     it.showErrorNotification()

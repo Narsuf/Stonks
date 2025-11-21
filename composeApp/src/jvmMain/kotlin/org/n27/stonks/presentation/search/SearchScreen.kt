@@ -17,7 +17,7 @@ internal fun SearchScreen(viewModel: SearchViewModel) {
     when (val s = state) {
         Idle -> Unit
         Loading -> SearchLoading()
-        is Content -> SearchContent(content = s, onAction = viewModel::handleInteraction)
         Error -> ErrorScreen { viewModel.handleInteraction(Retry) }
+        is Content -> SearchContent(content = s, onAction = viewModel::handleInteraction)
     }
 }

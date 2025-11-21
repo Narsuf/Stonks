@@ -9,6 +9,7 @@ import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.detail.entities.DetailInteraction
 import org.n27.stonks.presentation.detail.entities.DetailInteraction.GoBack
+import org.n27.stonks.presentation.detail.entities.DetailInteraction.Retry
 import org.n27.stonks.presentation.detail.entities.DetailState
 import org.n27.stonks.presentation.detail.entities.DetailState.*
 import org.n27.stonks.presentation.detail.mapping.toDetailContent
@@ -26,6 +27,7 @@ class DetailViewModel(
 
     internal fun handleInteraction(action: DetailInteraction) = when(action) {
         GoBack -> viewModelScope.launch { eventBus.emit(Event.GoBack) }
+        Retry -> requestStock()
     }
 
     private fun requestStock() {
