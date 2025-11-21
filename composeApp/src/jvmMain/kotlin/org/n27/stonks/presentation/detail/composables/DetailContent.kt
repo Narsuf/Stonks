@@ -1,6 +1,8 @@
 package org.n27.stonks.presentation.detail.composables
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,59 +30,75 @@ internal fun DetailContent(content: Content) {
         }
     }
 
-    Column(Modifier.padding(Spacing.default)) {
-        content.price?.let { Text(text = it, style = MaterialTheme.typography.titleLarge) }
-        Spacer(Modifier.height(Spacing.default))
+    content.price?.let {
+        Text(
+            text = it,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier
+                .padding(horizontal = Spacing.default)
+                .padding(top = Spacing.default),
+        )
+    }
 
-        content.dividendYield?.let { InfoCell("Dividend", it) }
-        Spacer(Modifier.height(Spacing.default))
-        content.trailingPe?.let { InfoCell("Trailing P/E", it) }
-        Spacer(Modifier.height(Spacing.smallest))
-        content.forwardPe?.let { InfoCell("Forward P/E", it) }
-        Spacer(Modifier.height(Spacing.default))
-        content.eps?.let { InfoCell("EPS", it) }
-        Spacer(Modifier.height(Spacing.default))
-        content.earningsQuarterlyGrowth?.let { InfoCell("Growth", it) }
-        Spacer(Modifier.height(Spacing.default))
-        content.intrinsicValue?.let { InfoCell("Intrinsic value", it) }
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(Spacing.default),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Spacing.default),
+    ) {
+        items(content.cells.chunked(2)) { rowItems ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(Spacing.default),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                rowItems.forEach { cell ->
+                    InfoCell(
+                        cell = cell,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-private fun InfoCell(title: String, value: String, description: String? = null) {
+private fun InfoCell(
+    cell: Content.Cell,
+    modifier: Modifier = Modifier
+) {
     Cell(
         center = {
             Column {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth(0.4f)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = title,
+                        text = cell.title,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(horizontal = Spacing.smaller)
                     )
                     Text(
-                        text = value,
+                        text = cell.value,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .padding(horizontal = Spacing.smaller)
                             .padding(start = Spacing.big)
                     )
                 }
-                description?.let {
-                    Text(
-                        text = it,
-                        color = Color.Gray,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(
-                            top = Spacing.smaller,
-                            start = Spacing.smaller,
-                        ),
-                    )
-                }
+                Text(
+                    text = cell.description,
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = Spacing.smaller)
+                        .padding(horizontal = Spacing.smaller),
+                )
             }
         },
+        modifier = modifier,
     )
 }

@@ -15,7 +15,7 @@ object JsonReader {
             val stoxx = readSymbols("/stoxx.json")
             val nikkei = readSymbols("/nikkei.json")
 
-            symbols = sp + stoxx + nikkei
+            symbols = (sp + stoxx + nikkei).distinct()
         }
 
         return symbols

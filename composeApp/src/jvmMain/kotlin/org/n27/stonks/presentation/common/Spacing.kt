@@ -10,4 +10,5 @@ object Spacing {
     val default = 16.dp
     val big = 24.dp
     val bigger = 32.dp
+    val biggest = 48.dp
 }
