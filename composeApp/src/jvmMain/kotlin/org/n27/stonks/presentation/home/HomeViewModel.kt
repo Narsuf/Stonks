@@ -1,7 +1,10 @@
 package org.n27.stonks.presentation.home
 
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.home.Home
@@ -13,6 +16,8 @@ import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origi
 import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
+import org.n27.stonks.presentation.home.entities.HomeEvent
+import org.n27.stonks.presentation.home.entities.HomeEvent.ShowBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeInteraction
 import org.n27.stonks.presentation.home.entities.HomeInteraction.*
 import org.n27.stonks.presentation.home.entities.HomeState
@@ -27,6 +32,9 @@ class HomeViewModel(
     private val state = MutableStateFlow<HomeState>(Idle)
     internal val viewState = state.asStateFlow()
 
+    private val event = Channel<HomeEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
+    internal val viewEvent = event.receiveAsFlow()
+
     private lateinit var currentHome: Home
 
     init { requestWatchlist() }
@@ -37,12 +45,12 @@ class HomeViewModel(
         AddClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch(Origin.WATCHLIST)) }
         is ItemClicked -> onItemClicked(action.index)
         is RemoveItemClicked -> onRemoveItemClicked(action.index)
+        is EditItemClicked -> onEditItemClicked(action.index)
     }
 
     private fun requestWatchlist() {
         viewModelScope.launch {
             state.emit(Loading)
-
             repository.getWatchlist()
                 .onSuccess { requestStocks(it.items) }
                 .onFailure {
@@ -90,5 +98,9 @@ class HomeViewModel(
                 }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
+    }
+
+    private fun onEditItemClicked(index: Int) {
+        event.trySend(ShowBottomSheet(index))
     }
 }
