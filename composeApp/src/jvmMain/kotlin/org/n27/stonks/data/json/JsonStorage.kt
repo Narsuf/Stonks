@@ -13,10 +13,12 @@ object JsonStorage {
     private val file = File(System.getProperty("user.home"), "stonks.json")
 
     suspend fun load(): List<StockInfo> = withContext(Dispatchers.IO) {
-        if (file.exists())
+        if (file.exists()) {
             json.decodeFromString(ListSerializer(StockInfo.serializer()), file.readText())
-        else
-            throw IllegalStateException("Could not find stonks.json file")
+        } else {
+            file.writeText(json.encodeToString(ListSerializer(StockInfo.serializer()), emptyList()))
+            emptyList()
+        }
     }
 
     suspend fun save(stocks: List<StockInfo>) = withContext(Dispatchers.IO) {

@@ -1,11 +1,13 @@
 package org.n27.stonks.data
 
 import org.n27.stonks.data.common.mapping.toDomainEntity
+import org.n27.stonks.data.home.toDomainEntity
 import org.n27.stonks.data.json.JsonReader
 import org.n27.stonks.data.json.JsonStorage
 import org.n27.stonks.data.search.mapping.toDomainEntity
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.common.Stock
+import org.n27.stonks.domain.home.Home
 import org.n27.stonks.domain.home.StockInfo
 import org.n27.stonks.domain.home.Watchlist
 import org.n27.stonks.domain.search.Search
@@ -16,12 +18,29 @@ class RepositoryImpl(private val api: Api) : Repository {
         api.getStock(symbol).toDomainEntity()
     }
 
-    override suspend fun getStocks(from: Int, size: Int, symbol: String?): Result<Search> = runCatching {
+    override suspend fun getStocks(symbols: List<String>): Result<Home> = runCatching {
+        val formattedSymbols = symbols.joinToString(separator = ",")
+        api.getStocks(formattedSymbols).toDomainEntity()
+    }
+
+    override suspend fun getStocks(
+        from: Int,
+        size: Int,
+        symbol: String?,
+        filterWatchlist: Boolean,
+    ): Result<Search> = runCatching {
         val params = symbol?.takeIf { it.isNotEmpty() }
             ?.let { getFilteredSymbols(it) }
             ?: JsonReader.getSymbols()
 
-        val paginatedParams = params
+        val filteredParams = if (filterWatchlist) {
+            val watchlist = JsonStorage.load().map { it.symbol }
+            params.filter { it !in watchlist }
+        } else {
+            params
+        }
+
+        val paginatedParams = filteredParams
             .drop(from)
             .take(size)
             .joinToString(separator = ",")
@@ -33,9 +52,11 @@ class RepositoryImpl(private val api: Api) : Repository {
         Watchlist(JsonStorage.load())
     }
 
-    override suspend fun addToWatchlist(stock: StockInfo): Result<Unit> = runCatching {
+    override suspend fun addToWatchlist(symbol: String): Result<Unit> = runCatching {
         val current = JsonStorage.load()
-        JsonStorage.save(current + stock)
+        if (current.any { it.symbol == symbol })
+            throw IllegalStateException("Already existing object $symbol in stonks.json")
+        JsonStorage.save(current + StockInfo(symbol))
     }
 
     override suspend fun removeFromWatchlist(symbol: String): Result<Unit> = runCatching {
