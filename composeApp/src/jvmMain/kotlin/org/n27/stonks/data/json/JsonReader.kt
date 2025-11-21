@@ -1,4 +1,4 @@
-package org.n27.stonks.data
+package org.n27.stonks.data.json
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,6 +30,6 @@ object JsonReader {
         val inputStream: InputStream = object {}.javaClass.getResourceAsStream(fileName)
             ?: throw IllegalStateException("Could not find resource file '$fileName'.")
         val jsonString = inputStream.bufferedReader().use { it.readText() }
-        Json.decodeFromString(jsonString)
+        Json.Default.decodeFromString(jsonString)
     }
 }
