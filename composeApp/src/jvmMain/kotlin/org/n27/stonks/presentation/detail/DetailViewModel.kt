@@ -19,7 +19,6 @@ class DetailViewModel(
     private val eventBus: EventBus,
     private val repository: Repository,
 ) : ViewModel() {
-
     private val state = MutableStateFlow<DetailState>(Idle)
     internal val viewState = state.asStateFlow()
 

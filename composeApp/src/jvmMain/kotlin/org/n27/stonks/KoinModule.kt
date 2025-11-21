@@ -44,7 +44,7 @@ val appModule = module {
     single<Repository> { RepositoryImpl(get()) }
 
     factory { AppViewModel(get()) }
-    factory { HomeViewModel() }
+    factory { HomeViewModel(get(), get()) }
     factory { (origin: NavigateToSearch.Origin) -> SearchViewModel(origin, get(), get()) }
     factory { (symbol: String) -> DetailViewModel(symbol, get(), get()) }
 }

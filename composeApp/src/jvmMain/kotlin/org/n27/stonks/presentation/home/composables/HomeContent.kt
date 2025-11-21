@@ -1,28 +1,26 @@
 package org.n27.stonks.presentation.home.composables
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.n27.stonks.presentation.common.Spacing
+import org.n27.stonks.presentation.home.entities.HomeInteraction
+import org.n27.stonks.presentation.home.entities.HomeInteraction.AddClicked
+import org.n27.stonks.presentation.home.entities.HomeInteraction.SearchClicked
+import org.n27.stonks.presentation.home.entities.HomeState.Content
 
 @Composable
-internal fun HomeContent() {
+internal fun HomeContent(
+    content: Content,
+    onAction: (action: HomeInteraction) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -30,7 +28,7 @@ internal fun HomeContent() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = { },
+            onClick = { onAction(SearchClicked) },
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -53,21 +51,21 @@ internal fun HomeContent() {
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(vertical = Spacing.default),
-        ) { WatchlistSectionHeader() }
+        ) { WatchlistSectionHeader(onAction) }
 
         EmptyWatchlist()
     }
 }
 
 @Composable
-private fun WatchlistSectionHeader() {
+private fun WatchlistSectionHeader(onAction: (action: HomeInteraction) -> Unit) {
     Text(
         text = "Watchlist",
         style = MaterialTheme.typography.titleLarge,
         modifier = Modifier.padding(end = Spacing.smaller),
     )
     TextButton(
-        onClick = { }
+        onClick = { onAction(AddClicked) }
     ) { Text("Add") }
 }
 
