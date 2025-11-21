@@ -1,0 +1,98 @@
+package org.n27.stonks.presentation.home.composables
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import org.n27.stonks.presentation.common.Spacing
+import org.n27.stonks.presentation.common.composables.Cell
+import org.n27.stonks.presentation.common.composables.RoundIcon
+import org.n27.stonks.presentation.home.entities.HomeInteraction
+import org.n27.stonks.presentation.home.entities.HomeInteraction.ItemClicked
+import org.n27.stonks.presentation.home.entities.HomeInteraction.RemoveItemClicked
+import org.n27.stonks.presentation.home.entities.HomeState.Content
+
+@Composable
+internal fun HomeWatchlistContent(
+    content: Content,
+    onAction: (action: HomeInteraction) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(Spacing.smaller),
+    ) {
+        itemsIndexed(
+            items = content.watchlist,
+            key = { _, item -> item.symbol },
+        ) { index, item -> ListItem(index, item, onAction) }
+    }
+}
+
+@Composable
+private fun ListItem(
+    index: Int,
+    item: Content.Item,
+    onAction: (action: HomeInteraction) -> Unit,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        WatchlistCell(index, item, onAction)
+        IconButton(
+            onClick = { onAction(RemoveItemClicked(index)) }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "Delete",
+                tint = Color.Gray,
+            )
+        }
+
+        IconButton(
+            onClick = { }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Edit",
+                tint = Color.Gray,
+            )
+        }
+
+        Spacer(Modifier.weight(1f))
+
+        Text(
+            text = "5 %",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(start = Spacing.smallest)
+        )
+    }
+}
+
+@Composable
+private fun WatchlistCell(
+    index: Int,
+    stock: Content.Item,
+    onAction: (action: HomeInteraction) -> Unit,
+) {
+    Cell(
+        start = { RoundIcon(stock.iconUrl) },
+        center = {
+            Column {
+                Text(text = stock.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = stock.symbol, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+            }
+        },
+        end = {
+            stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
+        },
+        modifier = Modifier.fillMaxWidth(0.5f),
+    ) { onAction(ItemClicked(index)) }
+}

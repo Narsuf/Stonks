@@ -47,7 +47,7 @@ class SearchViewModel(
     internal fun handleInteraction(action: SearchInteraction) = when(action) {
         Retry -> requestInitialStocks()
         LoadNextPage -> requestMoreStocks()
-        BackClicked -> viewModelScope.launch { eventBus.emit(GoBack()) }
+        BackClicked -> onBackClicked()
         is SearchValueChanged -> onSearchChanged(action.text)
         is ItemClicked -> onItemClicked(action.index)
     }
@@ -71,41 +71,6 @@ class SearchViewModel(
 
             state.emit(newState)
         }
-    }
-
-    private fun requestMoreStocks() {
-        job?.cancel()
-        job = viewModelScope.launch {
-            state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
-
-            repository.getStocks(
-                from = currentPage,
-                size = pageSize,
-                symbol = searchText.value?.uppercase(),
-                filterWatchlist = filterWatchlist
-            ).fold(
-                onSuccess = {
-                    currentPage += pageSize
-                    currentSearch = currentSearch.copy(items = currentSearch.items.plus(it.items))
-                    state.updateIfType { c: Content ->
-                        c.copy(
-                            items = currentSearch.items.toPresentationEntity(),
-                            isPageLoading = false,
-                            isEndReached = isEndReached(),
-                        )
-                    }
-                },
-                onFailure = {
-                    it.showErrorNotification()
-                    state.updateIfType { c: Content -> c.copy(isPageLoading = false) }
-                },
-            )
-        }
-    }
-
-    private fun onSearchChanged(text: String) {
-        state.updateIfType { c: Content -> c.copy(search = text) }
-        searchText.value = text
     }
 
     private suspend fun performSearch(text: String) {
@@ -152,11 +117,46 @@ class SearchViewModel(
         }
     }
 
-    private fun isEndReached() = currentPage >= currentSearch.pages
+    private fun requestMoreStocks() {
+        job?.cancel()
+        job = viewModelScope.launch {
+            state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
 
-    private suspend fun Throwable.showErrorNotification() {
-        if (this !is CancellationException)
-            eventBus.emit(ShowErrorNotification("Something went wrong."))
+            repository.getStocks(
+                from = currentPage,
+                size = pageSize,
+                symbol = searchText.value?.uppercase(),
+                filterWatchlist = filterWatchlist
+            ).fold(
+                onSuccess = {
+                    currentPage += pageSize
+                    currentSearch = currentSearch.copy(items = currentSearch.items.plus(it.items))
+                    state.updateIfType { c: Content ->
+                        c.copy(
+                            items = currentSearch.items.toPresentationEntity(),
+                            isPageLoading = false,
+                            isEndReached = isEndReached(),
+                        )
+                    }
+                },
+                onFailure = {
+                    it.showErrorNotification()
+                    state.updateIfType { c: Content -> c.copy(isPageLoading = false) }
+                },
+            )
+        }
+    }
+
+    private fun onBackClicked() {
+        viewModelScope.launch {
+            job?.cancel()
+            eventBus.emit(GoBack())
+        }
+    }
+
+    private fun onSearchChanged(text: String) {
+        state.updateIfType { c: Content -> c.copy(search = text) }
+        searchText.value = text
     }
 
     private fun onItemClicked(index: Int) {
@@ -170,5 +170,12 @@ class SearchViewModel(
                 }
             )
         }
+    }
+
+    private fun isEndReached() = currentPage >= currentSearch.pages
+
+    private suspend fun Throwable.showErrorNotification() {
+        if (this !is CancellationException)
+            eventBus.emit(ShowErrorNotification("Something went wrong."))
     }
 }
