@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.n27.stonks.presentation.common.Spacing
+import org.n27.stonks.presentation.common.composables.PrimaryButton
 import org.n27.stonks.presentation.home.entities.HomeInteraction
 import org.n27.stonks.presentation.home.entities.HomeInteraction.AddClicked
 import org.n27.stonks.presentation.home.entities.HomeInteraction.SearchClicked
@@ -27,35 +28,16 @@ internal fun HomeContent(
             .padding(Spacing.default),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SearchButton(onAction)
+        PrimaryButton(
+            title = "Search",
+            icon = Icons.Default.Search,
+        ) { onAction(SearchClicked) }
         WatchlistSectionHeader(onAction)
 
         if (content.watchlist.isEmpty())
             EmptyWatchlist()
         else
-           HomeWatchlistContent(content, onAction)
-    }
-}
-
-@Composable
-private fun SearchButton(onAction: (action: HomeInteraction) -> Unit) {
-    Button(
-        onClick = { onAction(SearchClicked) },
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.smaller),
-        ) {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search",
-                modifier = Modifier.size(20.dp)
-            )
-            Text(
-                text = "Search",
-                modifier = Modifier.padding(end = Spacing.smallest)
-            )
-        }
+            HomeWatchlistContent(content, onAction)
     }
 }
 

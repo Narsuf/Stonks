@@ -9,21 +9,24 @@ import kotlinx.coroutines.launch
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.home.Home
 import org.n27.stonks.domain.home.StockInfo
+import org.n27.stonks.domain.home.Watchlist
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
 import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
 import org.n27.stonks.presentation.common.broadcast.EventBus
+import org.n27.stonks.presentation.common.extensions.toFormattedBigDecimal
 import org.n27.stonks.presentation.common.extensions.updateIfType
 import org.n27.stonks.presentation.home.entities.HomeEvent
+import org.n27.stonks.presentation.home.entities.HomeEvent.CloseBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeEvent.ShowBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeInteraction
 import org.n27.stonks.presentation.home.entities.HomeInteraction.*
 import org.n27.stonks.presentation.home.entities.HomeState
 import org.n27.stonks.presentation.home.entities.HomeState.*
 import org.n27.stonks.presentation.home.mapping.toContent
-import org.n27.stonks.presentation.home.mapping.toPresentationEntity
+import java.math.BigDecimal
 
 class HomeViewModel(
     private val eventBus: EventBus,
@@ -35,6 +38,7 @@ class HomeViewModel(
     private val event = Channel<HomeEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewEvent = event.receiveAsFlow()
 
+    private lateinit var currentWatchlist: Watchlist
     private lateinit var currentHome: Home
 
     init { requestWatchlist() }
@@ -46,13 +50,18 @@ class HomeViewModel(
         is ItemClicked -> onItemClicked(action.index)
         is RemoveItemClicked -> onRemoveItemClicked(action.index)
         is EditItemClicked -> onEditItemClicked(action.index)
+        is ValueChanged -> onValueChanged(action.value)
+        is ValueUpdated -> onValueUpdated(action.index, action.value)
     }
 
     private fun requestWatchlist() {
         viewModelScope.launch {
             state.emit(Loading)
             repository.getWatchlist()
-                .onSuccess { requestStocks(it.items) }
+                .onSuccess {
+                    currentWatchlist = it
+                    requestStocks(it.items)
+                }
                 .onFailure {
                     eventBus.emit(
                         ShowErrorNotification(
@@ -64,12 +73,16 @@ class HomeViewModel(
     }
 
     private suspend fun requestStocks(stocks: List<StockInfo>) {
-        repository.getStocks(stocks.map { it.symbol })
-            .onSuccess {
-                currentHome = it
-                state.emit(it.toContent())
-            }
-            .onFailure { state.emit(Error) }
+        val newState = repository.getStocks(stocks.map { it.symbol })
+            .fold(
+                onSuccess = {
+                    currentHome = it
+                    it.toContent(currentWatchlist)
+                },
+                onFailure = { Error }
+            )
+
+        state.emit(newState)
     }
 
     override fun onResult(result: String) {
@@ -91,16 +104,30 @@ class HomeViewModel(
         viewModelScope.launch {
             val symbol = currentHome.items[index].symbol
             repository.removeFromWatchlist(symbol)
-                .onSuccess {
-                    val newItems = currentHome.items.toMutableList().apply { removeAt(index) }
-                    currentHome = currentHome.copy(items = newItems)
-                    state.updateIfType { c: Content -> c.copy(watchlist = currentHome.items.toPresentationEntity()) }
-                }
+                .onSuccess { requestWatchlist() }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
 
     private fun onEditItemClicked(index: Int) {
+        val item = currentWatchlist.items[index]
+        state.updateIfType { c: Content ->
+            c.copy(input = item.expectedEpsGrowth?.toFormattedBigDecimal() ?: BigDecimal.ZERO)
+        }
         event.trySend(ShowBottomSheet(index))
+    }
+
+    private fun onValueChanged(value: BigDecimal) {
+        state.updateIfType { c: Content -> c.copy(input = value) }
+    }
+
+    private fun onValueUpdated(index: Int, value: BigDecimal) {
+        viewModelScope.launch {
+            val item = currentWatchlist.items[index]
+            event.send(CloseBottomSheet)
+            repository.editWatchlistItem(item.symbol, value.toDouble())
+                .onSuccess { requestWatchlist() }
+                .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
+        }
     }
 }

@@ -7,6 +7,8 @@ import androidx.compose.runtime.*
 import org.n27.stonks.presentation.common.composables.ErrorScreen
 import org.n27.stonks.presentation.home.composables.HomeContent
 import org.n27.stonks.presentation.home.composables.HomeEditGrowthBottomSheet
+import org.n27.stonks.presentation.home.composables.HomeLoading
+import org.n27.stonks.presentation.home.entities.HomeEvent.CloseBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeEvent.ShowBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeInteraction.Retry
 import org.n27.stonks.presentation.home.entities.HomeState.*
@@ -23,6 +25,10 @@ internal fun HomeScreen(viewModel: HomeViewModel) {
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
+                CloseBottomSheet -> {
+                    selectedIndex = null
+                    showBottomSheet = false
+                }
                 is ShowBottomSheet -> {
                     selectedIndex = event.index
                     showBottomSheet = true
@@ -32,7 +38,8 @@ internal fun HomeScreen(viewModel: HomeViewModel) {
     }
 
     when (val s = state) {
-        Idle, Loading -> Unit
+        Idle -> Unit
+        Loading -> HomeLoading()
         Error -> ErrorScreen { viewModel.handleInteraction(Retry) }
         is Content -> HomeContent(s, viewModel::handleInteraction)
     }
@@ -41,6 +48,6 @@ internal fun HomeScreen(viewModel: HomeViewModel) {
         ModalBottomSheet(
             sheetState = modalSheetState,
             onDismissRequest = { showBottomSheet = false }
-        ) { HomeEditGrowthBottomSheet(selectedIndex, viewModel::handleInteraction) }
+        ) { HomeEditGrowthBottomSheet(selectedIndex, state, viewModel::handleInteraction) }
     }
 }
