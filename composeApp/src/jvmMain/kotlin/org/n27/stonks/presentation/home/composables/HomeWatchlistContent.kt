@@ -18,6 +18,7 @@ import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.home.entities.HomeInteraction
+import org.n27.stonks.presentation.home.entities.HomeInteraction.EditItemClicked
 import org.n27.stonks.presentation.home.entities.HomeInteraction.ItemClicked
 import org.n27.stonks.presentation.home.entities.HomeInteraction.RemoveItemClicked
 import org.n27.stonks.presentation.home.entities.HomeState.Content
@@ -57,7 +58,7 @@ private fun ListItem(
         }
 
         IconButton(
-            onClick = { }
+            onClick = { onAction(EditItemClicked(index)) }
         ) {
             Icon(
                 imageVector = Icons.Default.Edit,
@@ -66,13 +67,14 @@ private fun ListItem(
             )
         }
 
-        Spacer(Modifier.weight(1f))
-
-        Text(
-            text = "5 %",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(start = Spacing.smallest)
-        )
+        item.estimatedEpsGrowth?.let {
+            Spacer(Modifier.weight(1f))
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(start = Spacing.smallest)
+            )
+        }
     }
 }
 
