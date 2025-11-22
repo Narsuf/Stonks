@@ -6,4 +6,4 @@ For the Back-End I did a Python script using ´FastApi´ and [yfinance](https://
 
 | Search |
 |:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/b6ef31f3-a7d0-4740-986b-608681c5ad99"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/843e18fb-7116-4e06-b23a-cc037a2ce9c7"> |
