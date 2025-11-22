@@ -43,6 +43,14 @@ class HomeViewModel(
 
     init { requestWatchlist() }
 
+    override fun onResult(result: String) {
+        viewModelScope.launch {
+            repository.addToWatchlist(result)
+                .onSuccess { requestWatchlist() }
+                .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
+        }
+    }
+
     internal fun handleInteraction(action: HomeInteraction) = when(action) {
         Retry -> Unit
         SearchClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch()) }
@@ -83,14 +91,6 @@ class HomeViewModel(
             )
 
         state.emit(newState)
-    }
-
-    override fun onResult(result: String) {
-        viewModelScope.launch {
-            repository.addToWatchlist(result)
-                .onSuccess { requestWatchlist() }
-                .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
-        }
     }
 
     private fun onItemClicked(index: Int) {
