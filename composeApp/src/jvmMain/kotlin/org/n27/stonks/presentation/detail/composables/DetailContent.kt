@@ -47,9 +47,7 @@ internal fun DetailContent(content: Content) {
             verticalArrangement = Arrangement.spacedBy(Spacing.default),
         ) {
             items(content.cells.chunked(2)) { rowItems ->
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.default),
-                ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(Spacing.default)) {
                     rowItems.forEach { cell ->
                         InfoCell(
                             cell = cell,
