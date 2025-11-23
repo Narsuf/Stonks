@@ -41,7 +41,7 @@ class HomeViewModel(
     private lateinit var currentWatchlist: Watchlist
     private lateinit var currentHome: Home
     private var currentPage = 0
-    private val pageSize = 11
+    private val pageSize = 6
 
     init { requestWatchlist(isInitialRequest = true) }
 
@@ -57,7 +57,7 @@ class HomeViewModel(
         Retry -> requestWatchlist(isInitialRequest = true)
         SearchClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch()) }
         AddClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch(Origin.WATCHLIST)) }
-        LoadNextPage -> Unit
+        LoadNextPage -> requestMoreStocks()
         is ItemClicked -> onItemClicked(action.index)
         is RemoveItemClicked -> onRemoveItemClicked(action.index)
         is EditItemClicked -> onEditItemClicked(action.index)
@@ -74,8 +74,10 @@ class HomeViewModel(
 
             repository.getWatchlist()
                 .onSuccess {
+                    val symbols = it.items.drop(currentPage).take(pageSize)
+                    currentPage += pageSize
                     currentWatchlist = it
-                    requestStocks(it.items, isInitialRequest)
+                    requestStocks(symbols, isInitialRequest)
                 }
                 .onFailure {
                     eventBus.emit(
@@ -87,11 +89,24 @@ class HomeViewModel(
         }
     }
 
-    private suspend fun requestStocks(stocks: List<StockInfo>, isInitialRequest: Boolean) {
+    private fun requestMoreStocks() {
+        viewModelScope.launch {
+            state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
+            val symbols = currentWatchlist.items.drop(currentPage).take(pageSize)
+            currentPage += pageSize
+            requestStocks(symbols)
+        }
+    }
+
+    private suspend fun requestStocks(stocks: List<StockInfo>, isInitialRequest: Boolean = false) {
         repository.getStocks(stocks.map { it.symbol })
             .onSuccess {
-                currentHome = it
-                state.emit(it.toContent(currentWatchlist, currentHome))
+                currentHome = if (isInitialRequest)
+                    it
+                else
+                    currentHome.copy(items = currentHome.items + it.items)
+
+                state.emit(currentHome.toContent(currentWatchlist))
             }
             .onFailure {
                 if (isInitialRequest)
@@ -138,6 +153,4 @@ class HomeViewModel(
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
-
-    private fun isEndReached() = currentPage >= currentWatchlist.items.size
 }

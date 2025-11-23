@@ -15,12 +15,11 @@ import java.math.BigDecimal
 
 internal fun Home.toContent(
     watchlist: Watchlist,
-    home: Home,
 ) = Content(
     input = BigDecimal.ZERO,
     isWatchlistLoading = false,
     watchlist = items.toPresentationEntity(watchlist.items),
-    isEndReached = watchlist.items.size == home.items.size,
+    isEndReached = items.size == watchlist.items.size,
     isPageLoading = false,
 )
 

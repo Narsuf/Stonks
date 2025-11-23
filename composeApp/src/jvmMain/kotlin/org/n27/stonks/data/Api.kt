@@ -13,6 +13,7 @@ class Api(
 
     suspend fun getStocks(symbols: String): List<SearchStockRaw> {
         val url = "$baseUrl/stocks"
+        println("getStocks request triggered")
         val response: List<SearchStockRaw> = httpClient.get(url) {
             parameter("symbols", symbols)
         }.body()
@@ -22,6 +23,7 @@ class Api(
 
     suspend fun getStock(symbol: String): StockRaw {
         val url = "$baseUrl/stock/$symbol"
+        println("getStock request triggered")
         val response: StockRaw = httpClient.get(url).body()
         return response
     }
