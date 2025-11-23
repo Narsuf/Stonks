@@ -6,7 +6,7 @@ For the Back-End I did a Python script using ´FastApi´ and [yfinance](https://
 
 | Home | Edit |
 |:-:|:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/a9cb94f0-f9c4-4fc5-bba6-ef1b4cd143de"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/8b631647-afb6-41ed-9056-024d885367b8"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/24edfa0b-b416-44b1-a784-b7fa409df74b"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/722056d5-fcd4-47b0-b384-1de5174b5486"> |
 
 | Search |
 |:-:|
