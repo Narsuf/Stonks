@@ -18,10 +18,10 @@ import androidx.compose.ui.graphics.Color
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.RoundIcon
+import org.n27.stonks.presentation.common.composables.shimmer.ShimmerOutlinedCell
 import org.n27.stonks.presentation.home.entities.HomeInteraction
 import org.n27.stonks.presentation.home.entities.HomeInteraction.*
 import org.n27.stonks.presentation.home.entities.HomeState.Content
-import org.n27.stonks.presentation.search.composables.EmptyCell
 
 @Composable
 internal fun HomeWatchlistContent(
@@ -50,7 +50,7 @@ internal fun HomeWatchlistContent(
             key = { _, item -> item.symbol },
         ) { index, item -> ListItem(index, item, onAction) }
 
-        if (content.isPageLoading) item { EmptyCell() }
+        if (content.isPageLoading) item { ShimmerOutlinedCell(Modifier.fillMaxWidth(0.5f)) }
     }
 }
 
