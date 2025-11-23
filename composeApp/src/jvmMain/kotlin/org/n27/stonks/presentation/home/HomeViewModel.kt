@@ -48,7 +48,10 @@ class HomeViewModel(
     override fun onResult(result: String) {
         viewModelScope.launch {
             repository.addToWatchlist(result)
-                .onSuccess { requestWatchlist() }
+                .onSuccess {
+                    currentPage = 0
+                    requestWatchlist(isInitialRequest = true)
+                }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
@@ -127,7 +130,12 @@ class HomeViewModel(
         viewModelScope.launch {
             val symbol = currentHome.items[index].symbol
             repository.removeFromWatchlist(symbol)
-                .onSuccess { requestWatchlist() }
+                .onSuccess {
+                    currentHome = currentHome.copy(
+                        items = currentHome.items.filterIndexed { i, _ -> i != index }
+                    )
+                    requestWatchlist()
+                }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
