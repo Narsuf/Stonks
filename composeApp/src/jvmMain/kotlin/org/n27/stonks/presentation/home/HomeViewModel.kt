@@ -42,7 +42,7 @@ class HomeViewModel(
     private lateinit var currentWatchlist: Watchlist
     private lateinit var currentHome: Home
     private var currentPage = 0
-    private val pageSize = 6
+    private val pageSize = 11
 
     init { requestWatchlist(isInitialRequest = true) }
 

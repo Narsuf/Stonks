@@ -109,6 +109,7 @@ class SearchViewModel(
                         c.copy(
                             isSearchLoading = false,
                             isPageLoading = false,
+                            isEndReached = true,
                         )
                     },
                 )

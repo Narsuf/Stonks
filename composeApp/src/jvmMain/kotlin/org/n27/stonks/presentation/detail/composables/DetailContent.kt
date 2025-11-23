@@ -54,6 +54,8 @@ internal fun DetailContent(content: Content) {
                             modifier = Modifier.weight(1f)
                         )
                     }
+
+                    if (rowItems.size == 1) Spacer(modifier = Modifier.weight(1f))
                 }
             }
         }

@@ -45,6 +45,7 @@ internal fun HomeWatchlistContent(
         modifier = Modifier.fillMaxSize(),
         state = listState,
         verticalArrangement = Arrangement.spacedBy(Spacing.smaller),
+        contentPadding = PaddingValues(bottom = Spacing.smaller),
     ) {
         itemsIndexed(
             items = content.watchlist,

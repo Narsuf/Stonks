@@ -36,6 +36,6 @@ private fun Stock.toPresentationEntity(stockInfo: StockInfo? = null) = Content.I
     name = companyName.substringBefore(" "),
     symbol = symbol,
     price = price?.toFormattedBigDecimal()?.toPrice(currency),
-    targetPrice = price?.getTargetPrice(eps, stockInfo?.expectedEpsGrowth),
+    targetPrice = price?.getTargetPrice(eps, stockInfo?.expectedEpsGrowth, currency),
     estimatedEpsGrowth = stockInfo?.expectedEpsGrowth?.toFormattedPercentage(),
 )

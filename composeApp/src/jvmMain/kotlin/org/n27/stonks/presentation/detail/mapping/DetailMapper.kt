@@ -10,7 +10,7 @@ internal fun Stock.toDetailContent(expectedEpsGrowth: Double?) = Content(
     logoUrl = logoUrl ?: "",
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toFormattedBigDecimal()?.toPrice(currency),
-    targetPrice = price?.getTargetPrice(eps, expectedEpsGrowth),
+    targetPrice = price?.getTargetPrice(eps, expectedEpsGrowth, currency),
     cells = buildList {
         dividendYield?.toDividendCell()?.let(::add)
         eps?.toEpsCell(currency)?.let(::add)
