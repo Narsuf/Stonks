@@ -9,9 +9,7 @@ import org.koin.core.context.GlobalContext
 import org.koin.core.parameter.parametersOf
 import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState
-import org.n27.stonks.presentation.app.entities.AppState.Detail
-import org.n27.stonks.presentation.app.entities.AppState.Home
-import org.n27.stonks.presentation.app.entities.AppState.Search
+import org.n27.stonks.presentation.app.entities.AppState.*
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.*
@@ -40,7 +38,7 @@ class AppViewModel(eventBus: EventBus) : ViewModel() {
     private fun handleEvent(e: Event) = when (e) {
         is GoBack -> pop(e.result)
         is NavigateToSearch -> push(Search(koin.get { parametersOf(e.from) }))
-        is NavigateToDetail -> push(Detail(koin.get { parametersOf(e.symbol) }))
+        is NavigateToDetail -> push(Detail(koin.get { parametersOf(e.params) }))
         is ShowErrorNotification -> event.trySend(AppEvent.ShowErrorNotification(e.title))
     }
 

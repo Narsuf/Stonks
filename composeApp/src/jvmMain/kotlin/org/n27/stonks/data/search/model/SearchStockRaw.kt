@@ -11,4 +11,5 @@ data class SearchStockRaw(
     val companyName: String,
     val price: Double?,
     val currency: String?,
+    val eps: Double?,
 )

@@ -16,7 +16,8 @@ internal fun HomeLoading() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Spacing.default),
+            .padding(horizontal = Spacing.default)
+            .padding(top = Spacing.small),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ShimmerBone(
@@ -32,7 +33,10 @@ internal fun HomeLoading() {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = Spacing.default)
+                .padding(
+                    top = Spacing.small,
+                    bottom = Spacing.smallest,
+                )
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 ShimmerBone(width = 120.dp, height = Spacing.big)
@@ -49,7 +53,7 @@ internal fun HomeLoading() {
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(Spacing.smaller)
         ) {
-            items(5) { ShimmerCell() }
+            items(11) { ShimmerCell() }
         }
     }
 }

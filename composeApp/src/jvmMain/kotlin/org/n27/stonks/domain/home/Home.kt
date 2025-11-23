@@ -9,5 +9,6 @@ data class Home(
         val companyName: String,
         val price: Double?,
         val currency: String?,
+        val eps: Double?,
     )
 }

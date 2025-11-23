@@ -11,6 +11,7 @@ import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.app.AppViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch
 import org.n27.stonks.presentation.common.broadcast.EventBus
+import org.n27.stonks.presentation.detail.DetailParams
 import org.n27.stonks.presentation.detail.DetailViewModel
 import org.n27.stonks.presentation.home.HomeViewModel
 import org.n27.stonks.presentation.search.SearchViewModel
@@ -46,5 +47,5 @@ val appModule = module {
     factory { AppViewModel(get()) }
     factory { HomeViewModel(get(), get()) }
     factory { (origin: NavigateToSearch.Origin) -> SearchViewModel(origin, get(), get()) }
-    factory { (symbol: String) -> DetailViewModel(symbol, get(), get()) }
+    factory { (params: DetailParams) -> DetailViewModel(params, get(), get()) }
 }

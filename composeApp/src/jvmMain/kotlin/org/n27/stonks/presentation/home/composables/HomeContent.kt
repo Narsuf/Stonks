@@ -24,10 +24,10 @@ internal fun HomeContent(
     onAction: (action: HomeInteraction) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Spacing.default),
         horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(horizontal = Spacing.default)
+            .padding(top = Spacing.small),
     ) {
         PrimaryButton(
             title = "Search",
@@ -50,7 +50,10 @@ private fun WatchlistSectionHeader(onAction: (action: HomeInteraction) -> Unit) 
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = Spacing.default),
+            .padding(
+                top = Spacing.small,
+                bottom = Spacing.smallest,
+            ),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(

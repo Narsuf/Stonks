@@ -10,6 +10,7 @@ import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
+import org.n27.stonks.presentation.detail.DetailParams
 import org.n27.stonks.presentation.search.entities.SearchInteraction
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
 import org.n27.stonks.presentation.search.entities.SearchState
@@ -108,6 +109,7 @@ class SearchViewModel(
                         c.copy(
                             isSearchLoading = false,
                             isPageLoading = false,
+                            isEndReached = true,
                         )
                     },
                 )
@@ -160,7 +162,7 @@ class SearchViewModel(
             val symbol = currentSearch.items[index].symbol
             eventBus.emit(
                 when (origin) {
-                    Origin.HOME -> NavigateToDetail(symbol)
+                    Origin.HOME -> NavigateToDetail(DetailParams(symbol))
                     Origin.WATCHLIST -> GoBack(symbol)
                 }
             )

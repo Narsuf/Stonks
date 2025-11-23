@@ -13,4 +13,5 @@ private fun SearchStockRaw.toDomainEntity() = Home.Stock(
     companyName = companyName,
     price = price,
     currency = currency,
+    eps = eps,
 )
