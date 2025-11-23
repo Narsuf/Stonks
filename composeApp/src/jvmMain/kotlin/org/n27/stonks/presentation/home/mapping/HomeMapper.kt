@@ -13,9 +13,14 @@ import org.n27.stonks.presentation.common.extensions.truncateAfterDoubleSpace
 import org.n27.stonks.presentation.home.entities.HomeState.Content
 import java.math.BigDecimal
 
-internal fun Home.toContent(watchlist: Watchlist) = Content(
+internal fun Home.toContent(
+    watchlist: Watchlist,
+) = Content(
     input = BigDecimal.ZERO,
+    isWatchlistLoading = false,
     watchlist = items.toPresentationEntity(watchlist.items),
+    isEndReached = items.size == watchlist.items.size,
+    isPageLoading = false,
 )
 
 internal fun List<Stock>.toPresentationEntity(

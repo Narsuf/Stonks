@@ -11,7 +11,10 @@ internal sealed class HomeState {
 
     data class Content(
         val input: BigDecimal,
+        val isWatchlistLoading: Boolean,
         val watchlist: ImmutableList<Item>,
+        val isEndReached: Boolean,
+        val isPageLoading: Boolean,
     ) : HomeState() {
         data class Item(
             val iconUrl: String,

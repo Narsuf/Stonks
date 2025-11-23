@@ -10,5 +10,6 @@ object AppColors {
 
     val customColorScheme: ColorScheme = baseColors.copy(
         primary = Color(0xFF4EA6AA),
+        background = Color.White
     )
 }

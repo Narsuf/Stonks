@@ -40,21 +40,27 @@ class HomeViewModel(
 
     private lateinit var currentWatchlist: Watchlist
     private lateinit var currentHome: Home
+    private var currentPage = 0
+    private val pageSize = 6
 
-    init { requestWatchlist() }
+    init { requestWatchlist(isInitialRequest = true) }
 
     override fun onResult(result: String) {
         viewModelScope.launch {
             repository.addToWatchlist(result)
-                .onSuccess { requestWatchlist() }
+                .onSuccess {
+                    currentPage = 0
+                    requestWatchlist(isInitialRequest = true)
+                }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
 
     internal fun handleInteraction(action: HomeInteraction) = when(action) {
-        Retry -> Unit
+        Retry -> requestWatchlist(isInitialRequest = true)
         SearchClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch()) }
         AddClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch(Origin.WATCHLIST)) }
+        LoadNextPage -> requestMoreStocks()
         is ItemClicked -> onItemClicked(action.index)
         is RemoveItemClicked -> onRemoveItemClicked(action.index)
         is EditItemClicked -> onEditItemClicked(action.index)
@@ -62,13 +68,19 @@ class HomeViewModel(
         is ValueUpdated -> onValueUpdated(action.index, action.value)
     }
 
-    private fun requestWatchlist() {
+    private fun requestWatchlist(isInitialRequest: Boolean = false) {
         viewModelScope.launch {
-            state.emit(Loading)
+            if (isInitialRequest)
+                state.emit(Loading)
+            else
+                state.updateIfType { c: Content -> c.copy(isWatchlistLoading = true) }
+
             repository.getWatchlist()
                 .onSuccess {
+                    val symbols = it.items.drop(currentPage).take(pageSize)
+                    currentPage += pageSize
                     currentWatchlist = it
-                    requestStocks(it.items)
+                    requestStocks(symbols, isInitialRequest)
                 }
                 .onFailure {
                     eventBus.emit(
@@ -80,17 +92,31 @@ class HomeViewModel(
         }
     }
 
-    private suspend fun requestStocks(stocks: List<StockInfo>) {
-        val newState = repository.getStocks(stocks.map { it.symbol })
-            .fold(
-                onSuccess = {
-                    currentHome = it
-                    it.toContent(currentWatchlist)
-                },
-                onFailure = { Error }
-            )
+    private fun requestMoreStocks() {
+        viewModelScope.launch {
+            state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
+            val symbols = currentWatchlist.items.drop(currentPage).take(pageSize)
+            currentPage += pageSize
+            requestStocks(symbols)
+        }
+    }
 
-        state.emit(newState)
+    private suspend fun requestStocks(stocks: List<StockInfo>, isInitialRequest: Boolean = false) {
+        repository.getStocks(stocks.map { it.symbol })
+            .onSuccess {
+                currentHome = if (isInitialRequest)
+                    it
+                else
+                    currentHome.copy(items = currentHome.items + it.items)
+
+                state.emit(currentHome.toContent(currentWatchlist))
+            }
+            .onFailure {
+                if (isInitialRequest)
+                    state.emit(Error)
+                else
+                    eventBus.emit(ShowErrorNotification("Something went wrong."))
+            }
     }
 
     private fun onItemClicked(index: Int) {
@@ -104,7 +130,12 @@ class HomeViewModel(
         viewModelScope.launch {
             val symbol = currentHome.items[index].symbol
             repository.removeFromWatchlist(symbol)
-                .onSuccess { requestWatchlist() }
+                .onSuccess {
+                    currentHome = currentHome.copy(
+                        items = currentHome.items.filterIndexed { i, _ -> i != index }
+                    )
+                    requestWatchlist()
+                }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }

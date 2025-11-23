@@ -60,13 +60,12 @@ class SearchViewModel(
                 from = currentPage,
                 size = pageSize,
                 filterWatchlist = filterWatchlist,
-            ).fold(
-                onSuccess = {
-                    currentPage += pageSize
-                    currentSearch = it
-                    it.toContent(isEndReached())
-                },
-                onFailure = { Error }
+            ).onSuccess {
+                currentPage += pageSize
+                currentSearch = it
+            }.fold(
+                onSuccess = { it.toContent(isEndReached()) },
+                onFailure = { Error },
             )
 
             state.emit(newState)
@@ -84,66 +83,63 @@ class SearchViewModel(
                 )
             }
             currentPage = 0
-            repository.getStocks(
-                from = currentPage,
-                size = pageSize,
-                symbol = text.uppercase(),
-                filterWatchlist = filterWatchlist,
-            ).fold(
-                onSuccess = {
+            state.updateIfType { c: Content ->
+                repository.getStocks(
+                    from = currentPage,
+                    size = pageSize,
+                    symbol = text.uppercase(),
+                    filterWatchlist = filterWatchlist,
+                ).onSuccess {
                     currentPage += pageSize
                     currentSearch = it
-                    state.updateIfType { c: Content ->
+                    if (currentSearch.items.isEmpty())
+                        eventBus.emit(ShowErrorNotification("No assets found."))
+                }.onFailure {
+                    it.showErrorNotification()
+                }.fold(
+                    onSuccess = {
                         c.copy(
                             isSearchLoading = false,
                             items = currentSearch.items.toPresentationEntity(),
                             isEndReached = isEndReached(),
                         )
-                    }
-
-                    if (currentSearch.items.isEmpty())
-                        eventBus.emit(ShowErrorNotification("No assets found."))
-                },
-                onFailure = {
-                    it.showErrorNotification()
-                    state.updateIfType { c: Content ->
+                    },
+                    onFailure = {
                         c.copy(
                             isSearchLoading = false,
                             isPageLoading = false,
                         )
-                    }
-                },
-            )
+                    },
+                )
+            }
         }
     }
 
     private fun requestMoreStocks() {
-        job?.cancel()
         job = viewModelScope.launch {
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
-
-            repository.getStocks(
-                from = currentPage,
-                size = pageSize,
-                symbol = searchText.value?.uppercase(),
-                filterWatchlist = filterWatchlist
-            ).fold(
-                onSuccess = {
+            state.updateIfType { c: Content ->
+                repository.getStocks(
+                    from = currentPage,
+                    size = pageSize,
+                    symbol = searchText.value?.uppercase(),
+                    filterWatchlist = filterWatchlist
+                ).onSuccess {
                     currentPage += pageSize
                     currentSearch = currentSearch.copy(items = currentSearch.items.plus(it.items))
-                    state.updateIfType { c: Content ->
+                }.onFailure {
+                    it.showErrorNotification()
+                }.fold(
+                    onSuccess = {
                         c.copy(
                             items = currentSearch.items.toPresentationEntity(),
                             isPageLoading = false,
                             isEndReached = isEndReached(),
                         )
-                    }
-                },
-                onFailure = {
-                    it.showErrorNotification()
-                    state.updateIfType { c: Content -> c.copy(isPageLoading = false) }
-                },
-            )
+                    },
+                    onFailure = { c.copy(isPageLoading = false) },
+                )
+            }
         }
     }
 
@@ -162,7 +158,6 @@ class SearchViewModel(
     private fun onItemClicked(index: Int) {
         viewModelScope.launch {
             val symbol = currentSearch.items[index].symbol
-            job?.cancel()
             eventBus.emit(
                 when (origin) {
                     Origin.HOME -> NavigateToDetail(symbol)

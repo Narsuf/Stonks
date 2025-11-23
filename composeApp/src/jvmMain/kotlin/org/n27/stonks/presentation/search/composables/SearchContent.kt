@@ -1,21 +1,23 @@
 package org.n27.stonks.presentation.search.composables
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.RoundIcon
+import org.n27.stonks.presentation.common.composables.shimmer.ShimmerCellList
+import org.n27.stonks.presentation.common.composables.shimmer.ShimmerOutlinedCell
 import org.n27.stonks.presentation.search.entities.SearchInteraction
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
 import org.n27.stonks.presentation.search.entities.SearchState.Content
@@ -39,7 +41,7 @@ internal fun SearchContent(
         )
 
         if (content.isSearchLoading)
-            SearchCellListShimmer()
+            ShimmerCellList()
         else
             StockList(content, onAction)
     }
@@ -75,7 +77,7 @@ private fun StockList(
            SearchCell(index, item, onAction)
         }
 
-        if (content.isPageLoading) item { EmptyCell() }
+        if (content.isPageLoading) item { ShimmerOutlinedCell(Modifier.fillMaxWidth()) }
     }
 }
 
@@ -100,22 +102,4 @@ private fun SearchCell(
             .padding(bottom = Spacing.smaller)
             .fillMaxWidth(),
     ) { onAction(ItemClicked(index)) }
-}
-
-@Composable
-private fun EmptyCell() {
-    Box(
-        modifier = Modifier
-            .padding(bottom = Spacing.smaller)
-            .fillMaxWidth()
-            .border(
-                width = 1.dp,
-                color = Color.LightGray,
-                shape = RoundedCornerShape(8.dp)
-            )
-            .padding(
-                horizontal = Spacing.small,
-                vertical = Spacing.smallest,
-            ),
-    ) { SearchCellShimmer() }
 }

@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.n27.stonks.presentation.common.Spacing
-import org.n27.stonks.presentation.common.composables.ShimmerBone
+import org.n27.stonks.presentation.common.composables.shimmer.ShimmerBone
 
 @Composable
 internal fun DetailLoading() {
