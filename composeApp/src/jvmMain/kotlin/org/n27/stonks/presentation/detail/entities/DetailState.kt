@@ -1,6 +1,7 @@
 package org.n27.stonks.presentation.detail.entities
 
 import kotlinx.collections.immutable.ImmutableList
+import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 
 internal sealed class DetailState {
 
@@ -13,6 +14,7 @@ internal sealed class DetailState {
         val logoUrl: String,
         val name: String,
         val price: String?,
+        val targetPrice: DeltaTextEntity?,
         val cells: ImmutableList<Cell>,
     ) : DetailState() {
 

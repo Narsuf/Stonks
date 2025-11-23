@@ -15,7 +15,7 @@ import org.n27.stonks.presentation.detail.entities.DetailState.*
 import org.n27.stonks.presentation.detail.mapping.toDetailContent
 
 class DetailViewModel(
-    private val symbol: String,
+    private val params: DetailParams,
     private val eventBus: EventBus,
     private val repository: Repository,
 ) : ViewModel() {
@@ -33,12 +33,18 @@ class DetailViewModel(
         viewModelScope.launch {
             state.emit(Loading)
 
-            val newState = repository.getStock(symbol).fold(
-                onSuccess = { it.toDetailContent() },
-                onFailure = { Error }
-            )
+            val newState = repository.getStock(params.symbol)
+                .fold(
+                    onSuccess = { it.toDetailContent(params.expectedEpsGrowth) },
+                    onFailure = { Error }
+                )
 
             state.emit(newState)
         }
     }
 }
+
+data class DetailParams(
+    val symbol: String,
+    val expectedEpsGrowth: Double? = null
+)

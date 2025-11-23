@@ -11,51 +11,51 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
+import org.n27.stonks.presentation.common.composables.DeltaText
 import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
 
 @Composable
 internal fun DetailContent(content: Content) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = Spacing.default),
-        verticalAlignment = Alignment.CenterVertically,
+    Column(
+        modifier = Modifier.padding(horizontal = Spacing.default)
     ) {
-        RoundIcon(content.logoUrl)
-        Spacer(Modifier.width(Spacing.small))
-        Column {
-            Text(text = content.name, style = MaterialTheme.typography.headlineSmall)
-            Text(text = content.symbol, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            RoundIcon(content.logoUrl)
+            Spacer(Modifier.width(Spacing.small))
+            Column {
+                Text(text = content.name, style = MaterialTheme.typography.headlineSmall)
+                Text(text = content.symbol, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+            }
         }
-    }
 
-    content.price?.let {
-        Text(
-            text = it,
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier
-                .padding(horizontal = Spacing.default)
-                .padding(top = Spacing.default),
-        )
-    }
+        content.price?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(
+                    top = Spacing.default,
+                    bottom = Spacing.smallest,
+                ),
+            )
+        }
+        content.targetPrice?.let { DeltaText(it) }
 
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(Spacing.default),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Spacing.default),
-    ) {
-        items(content.cells.chunked(2)) { rowItems ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(Spacing.default),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                rowItems.forEach { cell ->
-                    InfoCell(
-                        cell = cell,
-                        modifier = Modifier.weight(1f)
-                    )
+        LazyColumn(
+            modifier = Modifier.padding(top = Spacing.default),
+            contentPadding = PaddingValues(bottom = Spacing.smaller),
+            verticalArrangement = Arrangement.spacedBy(Spacing.default),
+        ) {
+            items(content.cells.chunked(2)) { rowItems ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.default),
+                ) {
+                    rowItems.forEach { cell ->
+                        InfoCell(
+                            cell = cell,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
         }
@@ -93,7 +93,6 @@ private fun InfoCell(
                     color = Color.Gray,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(top = Spacing.smaller)
                         .padding(horizontal = Spacing.smaller),
                 )

@@ -5,11 +5,12 @@ import org.n27.stonks.domain.common.Stock
 import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
 
-internal fun Stock.toDetailContent() = Content(
+internal fun Stock.toDetailContent(expectedEpsGrowth: Double?) = Content(
     symbol = symbol,
     logoUrl = logoUrl ?: "",
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toFormattedBigDecimal()?.toPrice(currency),
+    targetPrice = price?.getTargetPrice(eps, expectedEpsGrowth),
     cells = buildList {
         dividendYield?.toDividendCell()?.let(::add)
         eps?.toEpsCell(currency)?.let(::add)

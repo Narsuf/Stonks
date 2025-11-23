@@ -1,6 +1,7 @@
 package org.n27.stonks.presentation.home.entities
 
 import kotlinx.collections.immutable.ImmutableList
+import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import java.math.BigDecimal
 
 internal sealed class HomeState {
@@ -21,6 +22,7 @@ internal sealed class HomeState {
             val name: String,
             val symbol: String,
             val price: String?,
+            val targetPrice: DeltaTextEntity?,
             val estimatedEpsGrowth: String?,
         )
     }

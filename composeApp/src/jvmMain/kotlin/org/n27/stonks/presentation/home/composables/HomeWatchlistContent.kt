@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
+import org.n27.stonks.presentation.common.composables.DeltaText
 import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.common.composables.shimmer.ShimmerOutlinedCell
 import org.n27.stonks.presentation.home.entities.HomeInteraction
@@ -108,7 +109,10 @@ private fun WatchlistCell(
             }
         },
         end = {
-            stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
+            Column(horizontalAlignment = Alignment.End) {
+                stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
+                stock.targetPrice?.let { DeltaText(it) }
+            }
         },
         modifier = Modifier.fillMaxWidth(0.5f),
     ) { onAction(ItemClicked(index)) }

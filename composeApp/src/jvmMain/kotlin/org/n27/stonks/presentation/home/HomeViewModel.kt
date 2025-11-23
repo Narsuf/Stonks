@@ -18,6 +18,7 @@ import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.toFormattedBigDecimal
 import org.n27.stonks.presentation.common.extensions.updateIfType
+import org.n27.stonks.presentation.detail.DetailParams
 import org.n27.stonks.presentation.home.entities.HomeEvent
 import org.n27.stonks.presentation.home.entities.HomeEvent.CloseBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeEvent.ShowBottomSheet
@@ -121,8 +122,12 @@ class HomeViewModel(
 
     private fun onItemClicked(index: Int) {
         viewModelScope.launch {
-            val symbol = currentHome.items[index].symbol
-            eventBus.emit(NavigateToDetail(symbol))
+            val item = currentWatchlist.items[index]
+            eventBus.emit(
+                NavigateToDetail(
+                    DetailParams(item.symbol, item.expectedEpsGrowth)
+                )
+            )
         }
     }
 
