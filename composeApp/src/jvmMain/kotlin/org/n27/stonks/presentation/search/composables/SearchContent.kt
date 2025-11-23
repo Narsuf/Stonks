@@ -103,7 +103,7 @@ private fun SearchCell(
 }
 
 @Composable
-private fun EmptyCell() {
+internal fun EmptyCell() {
     Box(
         modifier = Modifier
             .padding(bottom = Spacing.smaller)

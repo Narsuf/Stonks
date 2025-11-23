@@ -16,6 +16,7 @@ import org.n27.stonks.presentation.home.entities.HomeInteraction
 import org.n27.stonks.presentation.home.entities.HomeInteraction.AddClicked
 import org.n27.stonks.presentation.home.entities.HomeInteraction.SearchClicked
 import org.n27.stonks.presentation.home.entities.HomeState.Content
+import org.n27.stonks.presentation.search.composables.SearchCellListShimmer
 
 @Composable
 internal fun HomeContent(
@@ -34,10 +35,11 @@ internal fun HomeContent(
         ) { onAction(SearchClicked) }
         WatchlistSectionHeader(onAction)
 
-        if (content.watchlist.isEmpty())
-            EmptyWatchlist()
-        else
-            HomeWatchlistContent(content, onAction)
+        when {
+            content.isWatchlistLoading -> SearchCellListShimmer()
+            content.watchlist.isEmpty() -> EmptyWatchlist()
+            else -> HomeWatchlistContent(content, onAction)
+        }
     }
 }
 

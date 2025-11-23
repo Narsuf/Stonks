@@ -3,6 +3,7 @@ package org.n27.stonks.presentation.home.composables
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
@@ -10,7 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,24 +19,38 @@ import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.home.entities.HomeInteraction
-import org.n27.stonks.presentation.home.entities.HomeInteraction.EditItemClicked
-import org.n27.stonks.presentation.home.entities.HomeInteraction.ItemClicked
-import org.n27.stonks.presentation.home.entities.HomeInteraction.RemoveItemClicked
+import org.n27.stonks.presentation.home.entities.HomeInteraction.*
 import org.n27.stonks.presentation.home.entities.HomeState.Content
+import org.n27.stonks.presentation.search.composables.EmptyCell
 
 @Composable
 internal fun HomeWatchlistContent(
     content: Content,
     onAction: (action: HomeInteraction) -> Unit,
 ) {
+    val listState = rememberLazyListState()
+    val lastVisibleItemIndex by remember {
+        derivedStateOf { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0 }
+    }
+
+    LaunchedEffect(lastVisibleItemIndex, content.watchlist.size) {
+        val buffer = 2
+        if (lastVisibleItemIndex >= content.watchlist.lastIndex - buffer && !content.isPageLoading && !content.isEndReached) {
+            onAction(LoadNextPage)
+        }
+    }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
+        state = listState,
         verticalArrangement = Arrangement.spacedBy(Spacing.smaller),
     ) {
         itemsIndexed(
             items = content.watchlist,
             key = { _, item -> item.symbol },
         ) { index, item -> ListItem(index, item, onAction) }
+
+        if (content.isPageLoading) item { EmptyCell() }
     }
 }
 
