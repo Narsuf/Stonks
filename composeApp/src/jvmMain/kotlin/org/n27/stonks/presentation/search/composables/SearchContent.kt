@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.RoundIcon
+import org.n27.stonks.presentation.common.composables.shimmer.ShimmerCell
+import org.n27.stonks.presentation.common.composables.shimmer.ShimmerCellList
 import org.n27.stonks.presentation.search.entities.SearchInteraction
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
 import org.n27.stonks.presentation.search.entities.SearchState.Content
@@ -39,7 +41,7 @@ internal fun SearchContent(
         )
 
         if (content.isSearchLoading)
-            SearchCellListShimmer()
+            ShimmerCellList()
         else
             StockList(content, onAction)
     }
@@ -117,5 +119,5 @@ internal fun EmptyCell() {
                 horizontal = Spacing.small,
                 vertical = Spacing.smallest,
             ),
-    ) { SearchCellShimmer() }
+    ) { ShimmerCell() }
 }

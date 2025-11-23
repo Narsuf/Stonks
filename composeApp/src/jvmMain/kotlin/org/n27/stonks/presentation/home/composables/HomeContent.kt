@@ -12,11 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.PrimaryButton
+import org.n27.stonks.presentation.common.composables.shimmer.ShimmerCellList
 import org.n27.stonks.presentation.home.entities.HomeInteraction
 import org.n27.stonks.presentation.home.entities.HomeInteraction.AddClicked
 import org.n27.stonks.presentation.home.entities.HomeInteraction.SearchClicked
 import org.n27.stonks.presentation.home.entities.HomeState.Content
-import org.n27.stonks.presentation.search.composables.SearchCellListShimmer
 
 @Composable
 internal fun HomeContent(
@@ -36,7 +36,7 @@ internal fun HomeContent(
         WatchlistSectionHeader(onAction)
 
         when {
-            content.isWatchlistLoading -> SearchCellListShimmer()
+            content.isWatchlistLoading -> ShimmerCellList()
             content.watchlist.isEmpty() -> EmptyWatchlist()
             else -> HomeWatchlistContent(content, onAction)
         }
