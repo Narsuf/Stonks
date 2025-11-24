@@ -16,6 +16,11 @@ internal fun Stock.toDetailContent(expectedEpsGrowth: Double?) = Content(
         eps?.toEpsCell(currency)?.let(::add)
         trailingPe?.toTrailingPe()?.let(::add)
         forwardPe?.toForwardPe()?.let(::add)
+        trailingPe?.let {
+            add((it / 12.5).toTrailingPeg())
+            if (expectedEpsGrowth != null)
+                add((it / (expectedEpsGrowth.toMultiplier() * 12.5)).toForwardPeg())
+        }
         earningsQuarterlyGrowth?.toGrowth()?.let(::add)
         intrinsicValue?.toIntrinsicValue(currency)?.let(::add)
     }.toPersistentList(),
@@ -34,13 +39,13 @@ private fun Double.toEpsCell(currency: String?) = toFormattedBigDecimal().toPric
 private fun Double.toTrailingPe() = toFormattedString().toCell(
     title = "Trailing P/E",
     description = "The price of a stock divided by its earnings per share over the past 12 months.\n\n" +
-            "A P/E around 15 is usually seen as a reasonable value.",
+            "A P/E around 12.5 is usually seen as a reasonable value.",
 )
 
 private fun Double.toForwardPe() = toFormattedString().toCell(
     title = "Forward P/E",
     description = "The price of a stock divided by the expected earnings per share for the next 12 months.\n\n" +
-            "A P/E around 15 is usually seen as a reasonable value.",
+            "A P/E around 12.5 is usually seen as a reasonable value.",
 )
 
 private fun Double.toGrowth() = toFormattedPercentage().toCell(
@@ -52,6 +57,24 @@ private fun Double.toIntrinsicValue(currency: String?) = toFormattedBigDecimal()
     title = "Intrinsic Value",
     description = "(Experimental) Estimated intrinsic value calculated with the Quarterly Earnings Growth.\n\n" +
             "Guessing that the growth of the following year, will be similar to the growth of the previous year.",
+)
+
+private fun Double.toTrailingPeg() = toZeroIfNegative().toFormattedString().toCell(
+    title = "Trailing PEG",
+    description = "The PEG ratio calculated using historical earnings. " +
+            "It reflects how the stock’s current price relates to its past growth.\n\n" +
+            "A PEG around 1 is usually considered reasonable.\n" +
+            "Higher than 1 could indicate the price is high relative to expected growth.\n" +
+            "Lower than 1 could indicate the price is low.",
+)
+
+private fun Double.toForwardPeg() = toZeroIfNegative().toFormattedString().toCell(
+    title = "Forward PEG",
+    description = "The PEG ratio calculated using expected future earnings. " +
+            "It reflects how the stock’s current price relates to anticipated growth.\n\n" +
+            "A PEG around 1 is usually considered reasonable.\n" +
+            "Higher than 1 could indicate the price is high relative to expected growth.\n" +
+            "Lower than 1 could indicate the price is low.",
 )
 
 private fun String.toCell(title: String, description: String) = Content.Cell(

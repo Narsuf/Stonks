@@ -16,7 +16,6 @@ fun ShimmerOutlinedCell(
 ) {
     Box(
         modifier = modifier
-            .padding(bottom = Spacing.smaller)
             .border(
                 width = 1.dp,
                 color = Color.LightGray,

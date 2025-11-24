@@ -79,7 +79,6 @@ class HomeViewModel(
             repository.getWatchlist()
                 .onSuccess {
                     val symbols = it.items.drop(currentPage).take(pageSize)
-                    currentPage += pageSize
                     currentWatchlist = it
                     requestStocks(symbols, isInitialRequest)
                 }
@@ -97,7 +96,6 @@ class HomeViewModel(
         viewModelScope.launch {
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
             val symbols = currentWatchlist.items.drop(currentPage).take(pageSize)
-            currentPage += pageSize
             requestStocks(symbols)
         }
     }
@@ -105,6 +103,7 @@ class HomeViewModel(
     private suspend fun requestStocks(stocks: List<StockInfo>, isInitialRequest: Boolean = false) {
         repository.getStocks(stocks.map { it.symbol })
             .onSuccess {
+                currentPage += pageSize
                 currentHome = if (isInitialRequest)
                     it
                 else
