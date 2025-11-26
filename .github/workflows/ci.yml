@@ -25,9 +25,3 @@ jobs:
 
       - name: Run tests
         run: ./gradlew jvmTest
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          file: ./app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
