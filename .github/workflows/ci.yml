@@ -30,4 +30,4 @@ jobs:
         uses: codecov/codecov-action@v4
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          file: ./app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          file: ./composeApp/build/reports/jacoco/jacocoJvmTestReport/jacocoJvmTestReport.xml
