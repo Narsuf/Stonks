@@ -1,4 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.gradle.api.tasks.testing.Test
+import org.gradle.testing.jacoco.tasks.JacocoReport
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -6,6 +8,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.kotlin.serialization)
+    id("jacoco")
 }
 
 kotlin {
@@ -41,7 +44,6 @@ kotlin {
     }
 }
 
-
 compose.desktop {
     application {
         mainClass = "org.n27.stonks.MainKt"
@@ -52,4 +54,29 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+tasks.withType<Test> {
+    jacoco { isEnabled = true }
+}
+
+tasks.register("jacocoJvmTestReport", JacocoReport::class) {
+    dependsOn("jvmTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    sourceDirectories.setFrom(files(
+        "src/commonMain/kotlin",
+        "src/jvmMain/kotlin"
+    ))
+
+    classDirectories.setFrom(files("$buildDir/classes/kotlin/jvm/main"))
+    executionData.setFrom(files("$buildDir/jacoco/jvmTest.exec"))
+}
+
+tasks.named("jvmTest") {
+    finalizedBy("jacocoJvmTestReport")
 }
