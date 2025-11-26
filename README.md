@@ -1,3 +1,5 @@
+[![CI](https://github.com/Narsuf/Stonks/actions/workflows/ci.yml/badge.svg)](https://github.com/Narsuf/Stonks/actions/workflows/ci.yml)
+
 Desktop app (Compose Multiplatform) to check information about stocks.
 
 For the Back-End I created a Python script using `FastApi` and [yfinance](https://github.com/ranaroussi/yfinance).
