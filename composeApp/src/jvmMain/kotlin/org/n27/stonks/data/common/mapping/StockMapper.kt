@@ -1,8 +1,8 @@
 package org.n27.stonks.data.common.mapping
 
 import org.n27.stonks.data.common.model.StockRaw
-import org.n27.stonks.domain.models.common.Stock
-import org.n27.stonks.domain.models.common.Stocks
+import org.n27.stonks.domain.common.Stock
+import org.n27.stonks.domain.common.Stocks
 
 internal fun List<StockRaw>.toDomainEntity(nextPage: Int? = null) = Stocks(
     nextPage = nextPage,

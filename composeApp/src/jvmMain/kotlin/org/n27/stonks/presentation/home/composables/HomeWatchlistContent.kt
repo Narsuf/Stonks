@@ -84,7 +84,7 @@ private fun ListItem(
             )
         }
 
-        item.estimatedEpsGrowth?.let {
+        item.expectedEpsGrowth?.let {
             Spacer(Modifier.weight(1f))
             Text(
                 text = it,

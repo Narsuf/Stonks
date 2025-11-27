@@ -1,4 +1,4 @@
-package org.n27.stonks.domain.models.watchlist
+package org.n27.stonks.domain.watchlist.models
 
 import kotlinx.serialization.Serializable
 

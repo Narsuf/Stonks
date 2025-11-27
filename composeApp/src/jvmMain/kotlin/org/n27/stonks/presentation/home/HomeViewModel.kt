@@ -6,10 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.models.common.Stocks
-import org.n27.stonks.domain.models.watchlist.StockInfo
-import org.n27.stonks.domain.models.watchlist.Watchlist
+import org.n27.stonks.domain.common.Stocks
+import org.n27.stonks.domain.watchlist.WatchlistUseCase
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
@@ -27,11 +25,12 @@ import org.n27.stonks.presentation.home.entities.HomeInteraction.*
 import org.n27.stonks.presentation.home.entities.HomeState
 import org.n27.stonks.presentation.home.entities.HomeState.*
 import org.n27.stonks.presentation.home.mapping.toContent
+import org.n27.stonks.presentation.home.mapping.toPresentationEntity
 import java.math.BigDecimal
 
 class HomeViewModel(
     private val eventBus: EventBus,
-    private val repository: Repository,
+    private val useCase: WatchlistUseCase,
 ) : ViewModel() {
     private val state = MutableStateFlow<HomeState>(Idle)
     internal val viewState = state.asStateFlow()
@@ -39,20 +38,14 @@ class HomeViewModel(
     private val event = Channel<HomeEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewEvent = event.receiveAsFlow()
 
-    private lateinit var currentWatchlist: Watchlist
     private lateinit var currentStocks: Stocks
-    private var currentPage = 0
-    private val pageSize = 11
 
     init { requestWatchlist(isInitialRequest = true) }
 
     override fun onResult(result: String) {
         viewModelScope.launch {
-            repository.addToWatchlist(result)
-                .onSuccess {
-                    currentPage = 0
-                    requestWatchlist(isInitialRequest = true)
-                }
+            useCase.addToWatchlist(result)
+                .onSuccess { requestWatchlist(isInitialRequest = true) }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
@@ -71,23 +64,30 @@ class HomeViewModel(
 
     private fun requestWatchlist(isInitialRequest: Boolean = false) {
         viewModelScope.launch {
+            var from: Int? = 0
+
             if (isInitialRequest)
                 state.emit(Loading)
             else
-                state.updateIfType { c: Content -> c.copy(isWatchlistLoading = true) }
+                from = currentStocks.nextPage
 
-            repository.getWatchlist()
+            useCase.getWatchlist(from)
                 .onSuccess {
-                    val symbols = it.items.drop(currentPage).take(pageSize)
-                    currentWatchlist = it
-                    requestStocks(symbols, isInitialRequest)
+                    currentStocks = if (isInitialRequest)
+                        it
+                    else
+                        currentStocks.copy(
+                            nextPage = it.nextPage,
+                            items = currentStocks.items + it.items
+                        )
+
+                    state.emit(currentStocks.toContent())
                 }
                 .onFailure {
-                    eventBus.emit(
-                        ShowErrorNotification(
-                            title = "Something went wrong when trying to read stonks.json"
-                        )
-                    )
+                    if (isInitialRequest)
+                        state.emit(Error)
+                    else
+                        eventBus.emit(ShowErrorNotification("Something went wrong."))
                 }
         }
     }
@@ -95,33 +95,13 @@ class HomeViewModel(
     private fun requestMoreStocks() {
         viewModelScope.launch {
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
-            val symbols = currentWatchlist.items.drop(currentPage).take(pageSize)
-            requestStocks(symbols)
+            requestWatchlist()
         }
-    }
-
-    private suspend fun requestStocks(stocks: List<StockInfo>, isInitialRequest: Boolean = false) {
-        repository.getStocks(stocks.map { it.symbol })
-            .onSuccess {
-                currentPage += pageSize
-                currentStocks = if (isInitialRequest)
-                    it
-                else
-                    currentStocks.copy(items = currentStocks.items + it.items)
-
-                state.emit(currentStocks.toContent(currentWatchlist))
-            }
-            .onFailure {
-                if (isInitialRequest)
-                    state.emit(Error)
-                else
-                    eventBus.emit(ShowErrorNotification("Something went wrong."))
-            }
     }
 
     private fun onItemClicked(index: Int) {
         viewModelScope.launch {
-            val item = currentWatchlist.items[index]
+            val item = currentStocks.items[index]
             eventBus.emit(
                 NavigateToDetail(
                     DetailParams(item.symbol, item.expectedEpsGrowth)
@@ -133,19 +113,22 @@ class HomeViewModel(
     private fun onRemoveItemClicked(index: Int) {
         viewModelScope.launch {
             val symbol = currentStocks.items[index].symbol
-            repository.removeFromWatchlist(symbol)
+            useCase.removeFromWatchlist(symbol)
                 .onSuccess {
                     currentStocks = currentStocks.copy(
                         items = currentStocks.items.filterIndexed { i, _ -> i != index }
                     )
-                    requestWatchlist()
+
+                    state.updateIfType { c: Content ->
+                        c.copy(watchlist = currentStocks.items.toPresentationEntity())
+                    }
                 }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
 
     private fun onEditItemClicked(index: Int) {
-        val item = currentWatchlist.items[index]
+        val item = currentStocks.items[index]
         state.updateIfType { c: Content ->
             c.copy(input = item.expectedEpsGrowth?.toFormattedBigDecimal() ?: BigDecimal.ZERO)
         }
@@ -158,10 +141,18 @@ class HomeViewModel(
 
     private fun onValueUpdated(index: Int, value: BigDecimal) {
         viewModelScope.launch {
-            val item = currentWatchlist.items[index]
+            val item = currentStocks.items[index]
             event.send(CloseBottomSheet)
-            repository.editWatchlistItem(item.symbol, value.toDouble())
-                .onSuccess { requestWatchlist() }
+            useCase.editWatchlistItem(item.symbol, value.toDouble())
+                .onSuccess {
+                    val newItems = currentStocks.items.toMutableList()
+                    newItems[index] = newItems[index].copy(expectedEpsGrowth = value.toDouble())
+                    currentStocks = currentStocks.copy(items = newItems)
+
+                    state.updateIfType { c: Content ->
+                        c.copy(watchlist = currentStocks.items.toPresentationEntity())
+                    }
+                }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }

@@ -1,4 +1,4 @@
-package org.n27.stonks.domain.models.common
+package org.n27.stonks.domain.common
 
 data class Stocks(
     val items: List<Stock>,

@@ -1,8 +1,8 @@
 package org.n27.stonks.domain
 
-import org.n27.stonks.domain.models.common.Stock
-import org.n27.stonks.domain.models.common.Stocks
-import org.n27.stonks.domain.models.watchlist.Watchlist
+import org.n27.stonks.domain.common.Stock
+import org.n27.stonks.domain.common.Stocks
+import org.n27.stonks.domain.watchlist.models.Watchlist
 
 interface Repository {
 
