@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
-import org.n27.stonks.domain.home.StockInfo
+import org.n27.stonks.domain.models.watchlist.StockInfo
 import java.io.File
 
 object JsonStorage {

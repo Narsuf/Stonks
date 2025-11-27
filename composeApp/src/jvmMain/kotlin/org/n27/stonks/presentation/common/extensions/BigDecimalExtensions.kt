@@ -11,6 +11,5 @@ internal fun BigDecimal.toPrice(currency: String?): String? {
 
     val format = NumberFormat.getCurrencyInstance()
     safeCurrency?.let { format.currency = it }
-
     return format.format(this)
 }

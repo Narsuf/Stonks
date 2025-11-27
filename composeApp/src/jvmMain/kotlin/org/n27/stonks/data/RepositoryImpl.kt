@@ -1,16 +1,13 @@
 package org.n27.stonks.data
 
 import org.n27.stonks.data.common.mapping.toDomainEntity
-import org.n27.stonks.data.home.toDomainEntity
 import org.n27.stonks.data.json.JsonReader
 import org.n27.stonks.data.json.JsonStorage
-import org.n27.stonks.data.search.mapping.toDomainEntity
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.common.Stock
-import org.n27.stonks.domain.home.Home
-import org.n27.stonks.domain.home.StockInfo
-import org.n27.stonks.domain.home.Watchlist
-import org.n27.stonks.domain.search.Search
+import org.n27.stonks.domain.models.common.Stock
+import org.n27.stonks.domain.models.common.Stocks
+import org.n27.stonks.domain.models.watchlist.StockInfo
+import org.n27.stonks.domain.models.watchlist.Watchlist
 
 class RepositoryImpl(private val api: Api) : Repository {
 
@@ -18,7 +15,7 @@ class RepositoryImpl(private val api: Api) : Repository {
         api.getStock(symbol).toDomainEntity()
     }
 
-    override suspend fun getStocks(symbols: List<String>): Result<Home> = runCatching {
+    override suspend fun getStocks(symbols: List<String>): Result<Stocks> = runCatching {
         val formattedSymbols = symbols.joinToString(separator = ",")
         api.getStocks(formattedSymbols).toDomainEntity()
     }
@@ -28,7 +25,7 @@ class RepositoryImpl(private val api: Api) : Repository {
         size: Int,
         symbol: String?,
         filterWatchlist: Boolean,
-    ): Result<Search> = runCatching {
+    ): Result<Stocks> = runCatching {
         val params = symbol?.takeIf { it.isNotEmpty() }
             ?.let { getFilteredSymbols(it) }
             ?: JsonReader.getSymbols()
@@ -45,7 +42,9 @@ class RepositoryImpl(private val api: Api) : Repository {
             .take(size)
             .joinToString(separator = ",")
 
-        api.getStocks(paginatedParams).toDomainEntity(params.size)
+        api.getStocks(paginatedParams).toDomainEntity(
+            nextPage = from + size + 1,
+        )
     }
 
     override suspend fun getWatchlist(): Result<Watchlist> = runCatching {

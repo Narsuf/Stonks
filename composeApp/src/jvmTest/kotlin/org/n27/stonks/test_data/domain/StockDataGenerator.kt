@@ -1,6 +1,6 @@
 package org.n27.stonks.test_data.domain
 
-import org.n27.stonks.domain.common.Stock
+import org.n27.stonks.domain.models.common.Stock
 
 fun getStock(
     symbol: String = "AAPL",

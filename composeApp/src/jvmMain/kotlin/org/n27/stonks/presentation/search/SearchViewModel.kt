@@ -4,7 +4,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.search.Search
+import org.n27.stonks.domain.models.common.Stocks
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
@@ -27,7 +27,7 @@ class SearchViewModel(
     private val state = MutableStateFlow<SearchState>(Idle)
     internal val viewState = state.asStateFlow()
 
-    private lateinit var currentSearch: Search
+    private lateinit var currentStocks: Stocks
     private var currentPage = 0
     private val pageSize = 11
     private val filterWatchlist = origin == Origin.WATCHLIST
@@ -63,7 +63,7 @@ class SearchViewModel(
                 filterWatchlist = filterWatchlist,
             ).onSuccess {
                 currentPage += pageSize
-                currentSearch = it
+                currentStocks = it
             }.fold(
                 onSuccess = { it.toContent(isEndReached()) },
                 onFailure = { Error },
@@ -92,8 +92,8 @@ class SearchViewModel(
                     filterWatchlist = filterWatchlist,
                 ).onSuccess {
                     currentPage += pageSize
-                    currentSearch = it
-                    if (currentSearch.items.isEmpty())
+                    currentStocks = it
+                    if (currentStocks.items.isEmpty())
                         eventBus.emit(ShowErrorNotification("No assets found."))
                 }.onFailure {
                     it.showErrorNotification()
@@ -101,7 +101,7 @@ class SearchViewModel(
                     onSuccess = {
                         c.copy(
                             isSearchLoading = false,
-                            items = currentSearch.items.toPresentationEntity(),
+                            items = currentStocks.items.toPresentationEntity(),
                             isEndReached = isEndReached(),
                         )
                     },
@@ -128,13 +128,13 @@ class SearchViewModel(
                     filterWatchlist = filterWatchlist
                 ).onSuccess {
                     currentPage += pageSize
-                    currentSearch = currentSearch.copy(items = currentSearch.items.plus(it.items))
+                    currentStocks = currentStocks.copy(items = currentStocks.items.plus(it.items))
                 }.onFailure {
                     it.showErrorNotification()
                 }.fold(
                     onSuccess = {
                         c.copy(
-                            items = currentSearch.items.toPresentationEntity(),
+                            items = currentStocks.items.toPresentationEntity(),
                             isPageLoading = false,
                             isEndReached = isEndReached(),
                         )
@@ -159,7 +159,7 @@ class SearchViewModel(
 
     private fun onItemClicked(index: Int) {
         viewModelScope.launch {
-            val symbol = currentSearch.items[index].symbol
+            val symbol = currentStocks.items[index].symbol
             eventBus.emit(
                 when (origin) {
                     Origin.HOME -> NavigateToDetail(DetailParams(symbol))
@@ -169,7 +169,7 @@ class SearchViewModel(
         }
     }
 
-    private fun isEndReached() = currentPage >= currentSearch.pages
+    private fun isEndReached() = currentStocks.nextPage == null
 
     private suspend fun Throwable.showErrorNotification() {
         if (this !is CancellationException)

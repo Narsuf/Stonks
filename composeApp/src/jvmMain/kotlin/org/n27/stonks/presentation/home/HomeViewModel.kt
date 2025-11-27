@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.home.Home
-import org.n27.stonks.domain.home.StockInfo
-import org.n27.stonks.domain.home.Watchlist
+import org.n27.stonks.domain.models.common.Stocks
+import org.n27.stonks.domain.models.watchlist.StockInfo
+import org.n27.stonks.domain.models.watchlist.Watchlist
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
@@ -40,7 +40,7 @@ class HomeViewModel(
     internal val viewEvent = event.receiveAsFlow()
 
     private lateinit var currentWatchlist: Watchlist
-    private lateinit var currentHome: Home
+    private lateinit var currentStocks: Stocks
     private var currentPage = 0
     private val pageSize = 11
 
@@ -104,12 +104,12 @@ class HomeViewModel(
         repository.getStocks(stocks.map { it.symbol })
             .onSuccess {
                 currentPage += pageSize
-                currentHome = if (isInitialRequest)
+                currentStocks = if (isInitialRequest)
                     it
                 else
-                    currentHome.copy(items = currentHome.items + it.items)
+                    currentStocks.copy(items = currentStocks.items + it.items)
 
-                state.emit(currentHome.toContent(currentWatchlist))
+                state.emit(currentStocks.toContent(currentWatchlist))
             }
             .onFailure {
                 if (isInitialRequest)
@@ -132,11 +132,11 @@ class HomeViewModel(
 
     private fun onRemoveItemClicked(index: Int) {
         viewModelScope.launch {
-            val symbol = currentHome.items[index].symbol
+            val symbol = currentStocks.items[index].symbol
             repository.removeFromWatchlist(symbol)
                 .onSuccess {
-                    currentHome = currentHome.copy(
-                        items = currentHome.items.filterIndexed { i, _ -> i != index }
+                    currentStocks = currentStocks.copy(
+                        items = currentStocks.items.filterIndexed { i, _ -> i != index }
                     )
                     requestWatchlist()
                 }
