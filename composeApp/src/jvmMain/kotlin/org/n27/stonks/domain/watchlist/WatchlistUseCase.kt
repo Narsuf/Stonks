@@ -1,10 +1,9 @@
 package org.n27.stonks.domain.watchlist
 
+import org.n27.stonks.PAGE_SIZE
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.common.Stocks
 import kotlin.Result.Companion.failure
-
-private const val PAGE_SIZE = 11
 
 class WatchlistUseCase(private val repository: Repository) {
 

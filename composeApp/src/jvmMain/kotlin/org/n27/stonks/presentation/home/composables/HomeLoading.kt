@@ -1,7 +1,6 @@
 package org.n27.stonks.presentation.home.composables
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -49,11 +48,11 @@ internal fun HomeLoading() {
 
         Spacer(Modifier.height(Spacing.default))
 
-        LazyColumn(
+        Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(Spacing.smaller)
         ) {
-            items(11) { ShimmerCell() }
+            repeat(11) { ShimmerCell() }
         }
     }
 }

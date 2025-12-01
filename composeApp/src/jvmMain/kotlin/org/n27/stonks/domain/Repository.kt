@@ -9,8 +9,7 @@ interface Repository {
     suspend fun getStock(symbol: String): Result<Stock>
     suspend fun getStocks(symbols: List<String>): Result<Stocks>
     suspend fun getStocks(
-        from: Int,
-        size: Int,
+        from: Int? = null,
         symbol: String? = null,
         filterWatchlist: Boolean = false,
     ): Result<Stocks>

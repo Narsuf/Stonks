@@ -1,9 +1,6 @@
 package org.n27.stonks.presentation.search.composables
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -66,6 +63,7 @@ private fun StockList(
 
     LazyColumn(
         state = listState,
+        contentPadding = PaddingValues(bottom = Spacing.smaller),
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = Spacing.default),

@@ -51,12 +51,14 @@ class HomeViewModel(
     private fun requestWatchlist() {
         viewModelScope.launch {
             state.emit(Loading)
-            useCase.getWatchlist()
-                .onSuccess {
-                    currentStocks = it
-                    state.emit(currentStocks.toContent())
-                }
-                .onFailure { state.emit(Error) }
+            val newState = useCase.getWatchlist()
+                .onSuccess { currentStocks = it }
+                .fold(
+                    onSuccess = { currentStocks.toContent() },
+                    onFailure = { Error },
+                )
+
+            state.emit(newState)
         }
     }
 

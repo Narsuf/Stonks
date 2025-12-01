@@ -28,8 +28,6 @@ class SearchViewModel(
     internal val viewState = state.asStateFlow()
 
     private lateinit var currentStocks: Stocks
-    private var currentPage = 0
-    private val pageSize = 11
     private val filterWatchlist = origin == Origin.WATCHLIST
 
     private val searchText = MutableStateFlow<String?>(null)
@@ -58,11 +56,8 @@ class SearchViewModel(
             state.emit(Loading)
 
             val newState = repository.getStocks(
-                from = currentPage,
-                size = pageSize,
                 filterWatchlist = filterWatchlist,
             ).onSuccess {
-                currentPage += pageSize
                 currentStocks = it
             }.fold(
                 onSuccess = { it.toContent(isEndReached()) },
@@ -83,15 +78,11 @@ class SearchViewModel(
                     isPageLoading = false,
                 )
             }
-            currentPage = 0
             state.updateIfType { c: Content ->
                 repository.getStocks(
-                    from = currentPage,
-                    size = pageSize,
                     symbol = text.uppercase(),
                     filterWatchlist = filterWatchlist,
                 ).onSuccess {
-                    currentPage += pageSize
                     currentStocks = it
                     if (currentStocks.items.isEmpty())
                         eventBus.emit(ShowErrorNotification("No assets found."))
@@ -122,12 +113,10 @@ class SearchViewModel(
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
             state.updateIfType { c: Content ->
                 repository.getStocks(
-                    from = currentPage,
-                    size = pageSize,
+                    from = currentStocks.nextPage,
                     symbol = searchText.value?.uppercase(),
                     filterWatchlist = filterWatchlist
                 ).onSuccess {
-                    currentPage += pageSize
                     currentStocks = currentStocks.copy(items = currentStocks.items.plus(it.items))
                 }.onFailure {
                     it.showErrorNotification()

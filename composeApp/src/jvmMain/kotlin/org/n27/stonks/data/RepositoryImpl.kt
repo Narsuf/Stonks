@@ -1,5 +1,6 @@
 package org.n27.stonks.data
 
+import org.n27.stonks.PAGE_SIZE
 import org.n27.stonks.data.common.mapping.toDomainEntity
 import org.n27.stonks.data.json.JsonReader
 import org.n27.stonks.data.json.JsonStorage
@@ -21,11 +22,11 @@ class RepositoryImpl(private val api: Api) : Repository {
     }
 
     override suspend fun getStocks(
-        from: Int,
-        size: Int,
+        from: Int?,
         symbol: String?,
         filterWatchlist: Boolean,
     ): Result<Stocks> = runCatching {
+        val start = from ?: 0
         val params = symbol?.takeIf { it.isNotEmpty() }
             ?.let { getFilteredSymbols(it) }
             ?: JsonReader.getSymbols()
@@ -38,12 +39,13 @@ class RepositoryImpl(private val api: Api) : Repository {
         }
 
         val paginatedParams = filteredParams
-            .drop(from)
-            .take(size)
+            .drop(start)
+            .take(PAGE_SIZE)
             .joinToString(separator = ",")
 
+        val nextPage = start + PAGE_SIZE
         api.getStocks(paginatedParams).toDomainEntity(
-            nextPage = from + size + 1,
+            nextPage = nextPage.takeIf { it <= filteredParams.size },
         )
     }
 
