@@ -29,18 +29,18 @@ class HomeViewModel(
 
     private lateinit var currentStocks: Stocks
 
-    init { requestWatchlist(isInitialRequest = true) }
+    init { requestWatchlist() }
 
     override fun onResult(result: String) {
         viewModelScope.launch {
             useCase.addToWatchlist(result)
-                .onSuccess { requestWatchlist(isInitialRequest = true) }
+                .onSuccess { requestWatchlist() }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
 
     internal fun handleInteraction(action: HomeInteraction) = when(action) {
-        Retry -> requestWatchlist(isInitialRequest = true)
+        Retry -> requestWatchlist()
         SearchClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch()) }
         AddClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch(Origin.WATCHLIST)) }
         LoadNextPage -> requestMoreStocks()
@@ -48,40 +48,30 @@ class HomeViewModel(
         is RemoveItemClicked -> onRemoveItemClicked(action.index)
     }
 
-    private fun requestWatchlist(isInitialRequest: Boolean = false) {
+    private fun requestWatchlist() {
         viewModelScope.launch {
-            var from: Int? = 0
-
-            if (isInitialRequest)
-                state.emit(Loading)
-            else
-                from = currentStocks.nextPage
-
-            useCase.getWatchlist(from)
+            state.emit(Loading)
+            useCase.getWatchlist()
                 .onSuccess {
-                    currentStocks = if (isInitialRequest)
-                        it
-                    else
-                        currentStocks.copy(
-                            nextPage = it.nextPage,
-                            items = currentStocks.items + it.items
-                        )
-
+                    currentStocks = it
                     state.emit(currentStocks.toContent())
                 }
-                .onFailure {
-                    if (isInitialRequest)
-                        state.emit(Error)
-                    else
-                        eventBus.emit(ShowErrorNotification("Something went wrong."))
-                }
+                .onFailure { state.emit(Error) }
         }
     }
 
     private fun requestMoreStocks() {
         viewModelScope.launch {
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
-            requestWatchlist()
+            useCase.getWatchlist(currentStocks.nextPage)
+                .onSuccess {
+                    currentStocks = currentStocks.copy(
+                        nextPage = it.nextPage,
+                        items = currentStocks.items + it.items
+                    )
+                    state.emit(currentStocks.toContent())
+                }
+                .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
     }
 
