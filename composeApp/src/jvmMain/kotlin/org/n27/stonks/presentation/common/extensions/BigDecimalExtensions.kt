@@ -2,7 +2,7 @@ package org.n27.stonks.presentation.common.extensions
 
 import java.math.BigDecimal
 import java.text.NumberFormat
-import java.util.Currency
+import java.util.*
 
 internal fun BigDecimal.toPrice(currency: String?): String? {
     val safeCurrency = runCatching {

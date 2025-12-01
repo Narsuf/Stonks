@@ -3,7 +3,6 @@ package org.n27.stonks.presentation.common.extensions
 import org.n27.stonks.presentation.common.composables.DeltaState
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import java.math.RoundingMode
-import java.util.Currency
 import kotlin.math.absoluteValue
 
 internal fun Double.toFormattedBigDecimal() = toString()

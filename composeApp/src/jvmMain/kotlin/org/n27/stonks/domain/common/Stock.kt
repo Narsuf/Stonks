@@ -13,4 +13,5 @@ data class Stock(
     val currentIntrinsicValue: Double?,
     val forwardIntrinsicValue: Double?,
     val currency: String?,
+    val lastUpdated: Long?,
 )

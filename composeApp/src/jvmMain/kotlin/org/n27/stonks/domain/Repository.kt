@@ -17,6 +17,5 @@ interface Repository {
 
     suspend fun getWatchlist(): Result<Watchlist>
     suspend fun addToWatchlist(symbol: String): Result<Unit>
-    suspend fun editWatchlistItem(symbol: String, expectedEpsGrowth: Double): Result<Unit>
     suspend fun removeFromWatchlist(symbol: String): Result<Unit>
 }

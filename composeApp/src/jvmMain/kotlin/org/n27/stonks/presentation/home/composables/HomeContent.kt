@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,11 +69,12 @@ private fun WatchlistSectionHeader(onAction: (action: HomeInteraction) -> Unit) 
             ) { Text("Add") }
         }
 
+        /*
         Text(
-            text = "Expected EPS Growth",
+            text = "Last updated",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(start = Spacing.smallest)
-        )
+        )*/
     }
 }
 

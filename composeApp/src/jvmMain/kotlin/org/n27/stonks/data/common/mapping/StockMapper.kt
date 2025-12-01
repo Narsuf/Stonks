@@ -22,4 +22,5 @@ internal fun StockRaw.toDomainEntity() = Stock(
     currentIntrinsicValue = intrinsicValue,
     forwardIntrinsicValue = null,
     currency = currency,
+    lastUpdated = null,
 )

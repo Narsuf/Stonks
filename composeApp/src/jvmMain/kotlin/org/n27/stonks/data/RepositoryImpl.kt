@@ -63,15 +63,6 @@ class RepositoryImpl(private val api: Api) : Repository {
         JsonStorage.save(current.filterNot { it.symbol == symbol })
     }
 
-    override suspend fun editWatchlistItem(symbol: String, expectedEpsGrowth: Double): Result<Unit> = runCatching {
-        val current = JsonStorage.load()
-        val updated = current.map { stock ->
-            if (stock.symbol == symbol) stock.copy(expectedEpsGrowth = expectedEpsGrowth)
-            else stock
-        }
-        JsonStorage.save(updated)
-    }
-
     private suspend fun getFilteredSymbols(symbol: String): List<String> = JsonReader.getSymbols()
         .filter { it.contains(symbol) }
 }
