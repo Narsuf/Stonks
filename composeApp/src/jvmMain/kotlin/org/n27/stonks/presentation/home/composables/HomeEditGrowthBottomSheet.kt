@@ -12,8 +12,6 @@ import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.NumberInput
 import org.n27.stonks.presentation.common.composables.PrimaryButton
 import org.n27.stonks.presentation.home.entities.HomeInteraction
-import org.n27.stonks.presentation.home.entities.HomeInteraction.ValueChanged
-import org.n27.stonks.presentation.home.entities.HomeInteraction.ValueUpdated
 import org.n27.stonks.presentation.home.entities.HomeState
 
 @Composable
@@ -39,7 +37,7 @@ internal fun HomeEditGrowthBottomSheet(
 
             NumberInput(
                 value = value,
-                onValueChange = { onAction(ValueChanged(it)) },
+                onValueChange = {},
                 maxLength = 10,
                 modifier = Modifier.fillMaxWidth(0.3f),
             )
@@ -47,7 +45,7 @@ internal fun HomeEditGrowthBottomSheet(
             PrimaryButton(
                 title = "Save",
                 modifier = Modifier.fillMaxWidth(),
-            ) { onAction(ValueUpdated(itemIndex, value)) }
+            ) {}
         }
     }
 }

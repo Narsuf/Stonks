@@ -43,7 +43,7 @@ val appModule = module {
 
     single { EventBus() }
     single<Repository> { RepositoryImpl(get()) }
-
+    
     factory { AppViewModel(get()) }
     factory { HomeViewModel(get(), get()) }
     factory { (origin: NavigateToSearch.Origin) -> SearchViewModel(origin, get(), get()) }

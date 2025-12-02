@@ -2,14 +2,16 @@ package org.n27.stonks.domain.common
 
 data class Stock(
     val symbol: String,
-    val logoUrl: String?,
     val companyName: String,
+    val logoUrl: String?,
     val price: Double?,
-    val eps: Double?,
-    val trailingPe: Double?,
-    val forwardPe: Double?,
     val dividendYield: Double?,
+    val eps: Double?,
+    val pe: Double?,
     val earningsQuarterlyGrowth: Double?,
+    val expectedEpsGrowth: Double?,
+    val currentIntrinsicValue: Double?,
+    val forwardIntrinsicValue: Double?,
     val currency: String?,
-    val intrinsicValue: Double?,
+    val lastUpdated: Long?,
 )

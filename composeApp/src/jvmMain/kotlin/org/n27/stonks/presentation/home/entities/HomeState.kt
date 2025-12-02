@@ -23,7 +23,7 @@ internal sealed class HomeState {
             val symbol: String,
             val price: String?,
             val targetPrice: DeltaTextEntity?,
-            val estimatedEpsGrowth: String?,
+            val lastUpdated: String?,
         )
     }
 }

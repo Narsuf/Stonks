@@ -7,6 +7,7 @@ import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.GoBack
 import org.n27.stonks.presentation.common.broadcast.EventBus
+import org.n27.stonks.presentation.common.extensions.toIntrinsicValue
 import org.n27.stonks.presentation.detail.entities.DetailInteraction
 import org.n27.stonks.presentation.detail.entities.DetailInteraction.BackClicked
 import org.n27.stonks.presentation.detail.entities.DetailInteraction.Retry
@@ -35,7 +36,7 @@ class DetailViewModel(
 
             val newState = repository.getStock(params.symbol)
                 .fold(
-                    onSuccess = { it.toDetailContent(params.expectedEpsGrowth) },
+                    onSuccess = { it.toDetailContent() },
                     onFailure = { Error }
                 )
 

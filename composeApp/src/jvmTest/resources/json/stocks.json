@@ -1,10 +1,14 @@
 [
   {
     "symbol": "AAPL",
-    "logoUrl": "https://logo.clearbit.com/apple.com",
     "companyName": "Apple Inc.",
-    "price": 276.970001220703,
-    "currency": "USD",
-    "eps": 7.48
+    "logoUrl": "https://logo.clearbit.com/apple.com",
+    "price": 285.910003662109,
+    "dividendYield": 0.37,
+    "eps": 7.47,
+    "pe": 38.2744315478058,
+    "earningsQuarterlyGrowth": 86.4,
+    "intrinsicValue": 93.375,
+    "currency": "USD"
   }
 ]

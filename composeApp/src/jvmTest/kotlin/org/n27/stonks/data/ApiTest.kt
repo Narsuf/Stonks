@@ -9,8 +9,7 @@ import io.ktor.utils.io.*
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.Test
-import org.n27.stonks.data.common.model.StockRaw
-import org.n27.stonks.data.search.model.SearchStockRaw
+import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.utils.getJson
 import kotlin.test.assertEquals
 
@@ -26,16 +25,7 @@ class ApiTest {
             )
         }
         val api = Api(createHttpClient(mockEngine), "https://api.stonks.com")
-        val expected = listOf(
-            SearchStockRaw(
-                symbol = "AAPL",
-                logoUrl = "https://logo.clearbit.com/apple.com",
-                companyName = "Apple Inc.",
-                price = 276.970001220703,
-                currency = "USD",
-                eps = 7.48
-            )
-        )
+        val expected = listOf(getStockRaw())
 
         val actual = api.getStocks("AAPL")
 
@@ -52,23 +42,10 @@ class ApiTest {
             )
         }
         val api = Api(createHttpClient(mockEngine), "https://api.stonks.com")
-        val expected = StockRaw(
-            symbol = "AAPL",
-            logoUrl = "https://logo.clearbit.com/apple.com",
-            companyName = "Apple Inc.",
-            price = 276.970001220703,
-            eps = 7.48,
-            trailingPe = 37.028076,
-            forwardPe = 33.329723,
-            dividendYield = 0.38,
-            earningsQuarterlyGrowth = 86.4,
-            currency = "USD",
-            intrinsicValue = 174.284
-        )
 
         val actual = api.getStock("AAPL")
 
-        assertEquals(expected, actual)
+        assertEquals(getStockRaw(), actual)
     }
 }
 

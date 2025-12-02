@@ -3,8 +3,9 @@ package org.n27.stonks.presentation.search
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.search.Search
+import org.n27.stonks.domain.common.Stocks
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
@@ -27,9 +28,7 @@ class SearchViewModel(
     private val state = MutableStateFlow<SearchState>(Idle)
     internal val viewState = state.asStateFlow()
 
-    private lateinit var currentSearch: Search
-    private var currentPage = 0
-    private val pageSize = 11
+    private lateinit var currentStocks: Stocks
     private val filterWatchlist = origin == Origin.WATCHLIST
 
     private val searchText = MutableStateFlow<String?>(null)
@@ -58,12 +57,9 @@ class SearchViewModel(
             state.emit(Loading)
 
             val newState = repository.getStocks(
-                from = currentPage,
-                size = pageSize,
                 filterWatchlist = filterWatchlist,
             ).onSuccess {
-                currentPage += pageSize
-                currentSearch = it
+                currentStocks = it
             }.fold(
                 onSuccess = { it.toContent(isEndReached()) },
                 onFailure = { Error },
@@ -83,17 +79,13 @@ class SearchViewModel(
                     isPageLoading = false,
                 )
             }
-            currentPage = 0
             state.updateIfType { c: Content ->
                 repository.getStocks(
-                    from = currentPage,
-                    size = pageSize,
                     symbol = text.uppercase(),
                     filterWatchlist = filterWatchlist,
                 ).onSuccess {
-                    currentPage += pageSize
-                    currentSearch = it
-                    if (currentSearch.items.isEmpty())
+                    currentStocks = it
+                    if (currentStocks.items.isEmpty())
                         eventBus.emit(ShowErrorNotification("No assets found."))
                 }.onFailure {
                     it.showErrorNotification()
@@ -101,7 +93,7 @@ class SearchViewModel(
                     onSuccess = {
                         c.copy(
                             isSearchLoading = false,
-                            items = currentSearch.items.toPresentationEntity(),
+                            items = currentStocks.items.toPresentationEntity(),
                             isEndReached = isEndReached(),
                         )
                     },
@@ -122,19 +114,17 @@ class SearchViewModel(
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
             state.updateIfType { c: Content ->
                 repository.getStocks(
-                    from = currentPage,
-                    size = pageSize,
+                    from = currentStocks.nextPage,
                     symbol = searchText.value?.uppercase(),
                     filterWatchlist = filterWatchlist
                 ).onSuccess {
-                    currentPage += pageSize
-                    currentSearch = currentSearch.copy(items = currentSearch.items.plus(it.items))
+                    currentStocks = currentStocks.copy(items = currentStocks.items.plus(it.items))
                 }.onFailure {
                     it.showErrorNotification()
                 }.fold(
                     onSuccess = {
                         c.copy(
-                            items = currentSearch.items.toPresentationEntity(),
+                            items = currentStocks.items.toPresentationEntity(),
                             isPageLoading = false,
                             isEndReached = isEndReached(),
                         )
@@ -159,17 +149,17 @@ class SearchViewModel(
 
     private fun onItemClicked(index: Int) {
         viewModelScope.launch {
-            val symbol = currentSearch.items[index].symbol
+            val symbol = currentStocks.items[index].symbol
             eventBus.emit(
                 when (origin) {
                     Origin.HOME -> NavigateToDetail(DetailParams(symbol))
-                    Origin.WATCHLIST -> GoBack(symbol)
+                    Origin.WATCHLIST -> GoBack(mapOf(SYMBOL to symbol))
                 }
             )
         }
     }
 
-    private fun isEndReached() = currentPage >= currentSearch.pages
+    private fun isEndReached() = currentStocks.nextPage == null
 
     private suspend fun Throwable.showErrorNotification() {
         if (this !is CancellationException)

@@ -9,24 +9,23 @@ internal fun Double.toFormattedBigDecimal() = toString()
     .toBigDecimal()
     .setScale(2, RoundingMode.HALF_UP)
 
+internal fun Double.toPrice(currency: String?) = toFormattedBigDecimal().toPrice(currency)
+
 internal fun Double.toFormattedString() = toFormattedBigDecimal().toPlainString()
 
 internal fun Double.toFormattedPercentage() = "${toFormattedString()} %"
 
-internal fun Double.toZeroIfNegative(): Double = if (this < 0) 0.0 else this
+internal fun Double.toIntrinsicValue(expectedEpsGrowth: Double): Double = this * 12.5 * expectedEpsGrowth.toMultiplier()
 
 internal fun Double.toMultiplier(): Double = 1 + this / 100
 
 internal fun Double.getTargetPrice(
-    eps: Double?,
-    expectedEpsGrowth: Double?,
-    currency: String?
+    intrinsicValue: Double?,
+    currency: String?,
 ): DeltaTextEntity? {
-    if (eps == null || expectedEpsGrowth == null || currency == null) return null
+    if (intrinsicValue == null) return null
 
-    val targetPrice = expectedEpsGrowth.toMultiplier() * 12.5 * eps
-    val priceDiff = targetPrice - this
-
+    val priceDiff = intrinsicValue - this
     val percentage = if (this != 0.0)
         (priceDiff / this) * 100
     else
@@ -38,7 +37,7 @@ internal fun Double.getTargetPrice(
         else -> DeltaState.NEUTRAL
     }
 
-    return priceDiff.absoluteValue.toFormattedBigDecimal().toPrice(currency)?.let {
+    return priceDiff.absoluteValue.toPrice(currency)?.let {
         DeltaTextEntity(
             value = it,
             percentage = percentage.absoluteValue.toFormattedPercentage(),

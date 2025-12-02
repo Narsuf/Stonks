@@ -8,8 +8,6 @@ import org.n27.stonks.presentation.common.composables.ErrorScreen
 import org.n27.stonks.presentation.home.composables.HomeContent
 import org.n27.stonks.presentation.home.composables.HomeEditGrowthBottomSheet
 import org.n27.stonks.presentation.home.composables.HomeLoading
-import org.n27.stonks.presentation.home.entities.HomeEvent.CloseBottomSheet
-import org.n27.stonks.presentation.home.entities.HomeEvent.ShowBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeInteraction.Retry
 import org.n27.stonks.presentation.home.entities.HomeState.*
 
@@ -18,10 +16,12 @@ import org.n27.stonks.presentation.home.entities.HomeState.*
 internal fun HomeScreen(viewModel: HomeViewModel) {
 
     val state by viewModel.viewState.collectAsState()
+
+    var selectedIndex by remember { mutableStateOf<Int?>(null) }
     var showBottomSheet by remember { mutableStateOf(false) }
     val modalSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var selectedIndex by remember { mutableStateOf<Int?>(null) }
 
+    /*
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
@@ -35,7 +35,7 @@ internal fun HomeScreen(viewModel: HomeViewModel) {
                 }
             }
         }
-    }
+    }*/
 
     when (val s = state) {
         Idle -> Unit
@@ -44,6 +44,7 @@ internal fun HomeScreen(viewModel: HomeViewModel) {
         is Content -> HomeContent(s, viewModel::handleInteraction)
     }
 
+    // Not used by now.
     if (showBottomSheet) {
         ModalBottomSheet(
             sheetState = modalSheetState,

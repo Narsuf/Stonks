@@ -7,14 +7,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class StockRaw(
     val symbol: String,
-    val logoUrl: String?,
     val companyName: String,
+    val logoUrl: String?,
     val price: Double?,
-    val eps: Double?,
-    val trailingPe: Double?,
-    val forwardPe: Double?,
     val dividendYield: Double?,
+    val eps: Double?,
+    val pe: Double?,
     val earningsQuarterlyGrowth: Double?,
-    val currency: String?,
     val intrinsicValue: Double?,
+    val currency: String?,
 )

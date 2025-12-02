@@ -1,16 +1,14 @@
 package org.n27.stonks.data
 
+import org.n27.stonks.PAGE_SIZE
 import org.n27.stonks.data.common.mapping.toDomainEntity
-import org.n27.stonks.data.home.toDomainEntity
 import org.n27.stonks.data.json.JsonReader
 import org.n27.stonks.data.json.JsonStorage
-import org.n27.stonks.data.search.mapping.toDomainEntity
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.common.Stock
-import org.n27.stonks.domain.home.Home
-import org.n27.stonks.domain.home.StockInfo
-import org.n27.stonks.domain.home.Watchlist
-import org.n27.stonks.domain.search.Search
+import org.n27.stonks.domain.common.Stocks
+import org.n27.stonks.domain.watchlist.StockInfo
+import org.n27.stonks.domain.watchlist.Watchlist
 
 class RepositoryImpl(private val api: Api) : Repository {
 
@@ -18,17 +16,12 @@ class RepositoryImpl(private val api: Api) : Repository {
         api.getStock(symbol).toDomainEntity()
     }
 
-    override suspend fun getStocks(symbols: List<String>): Result<Home> = runCatching {
-        val formattedSymbols = symbols.joinToString(separator = ",")
-        api.getStocks(formattedSymbols).toDomainEntity()
-    }
-
     override suspend fun getStocks(
-        from: Int,
-        size: Int,
+        from: Int?,
         symbol: String?,
         filterWatchlist: Boolean,
-    ): Result<Search> = runCatching {
+    ): Result<Stocks> = runCatching {
+        val start = from ?: 0
         val params = symbol?.takeIf { it.isNotEmpty() }
             ?.let { getFilteredSymbols(it) }
             ?: JsonReader.getSymbols()
@@ -41,15 +34,27 @@ class RepositoryImpl(private val api: Api) : Repository {
         }
 
         val paginatedParams = filteredParams
-            .drop(from)
-            .take(size)
+            .drop(start)
+            .take(PAGE_SIZE)
             .joinToString(separator = ",")
 
-        api.getStocks(paginatedParams).toDomainEntity(params.size)
+        val nextPage = start + PAGE_SIZE
+        api.getStocks(paginatedParams).toDomainEntity(
+            nextPage = nextPage.takeIf { it <= filteredParams.size },
+        )
     }
 
-    override suspend fun getWatchlist(): Result<Watchlist> = runCatching {
-        Watchlist(JsonStorage.load())
+    override suspend fun getWatchlist(from: Int?): Result<Stocks> = runCatching {
+        val watchlist = Watchlist(JsonStorage.load())
+        val start = from ?: 0
+        val symbols = watchlist.items
+            .drop(start)
+            .take(PAGE_SIZE)
+            .map { it.symbol }
+
+        val nextPage = start + PAGE_SIZE
+        val formattedSymbols = symbols.joinToString(separator = ",")
+        api.getStocks(formattedSymbols).toDomainEntity(nextPage = nextPage.takeIf { it <= watchlist.items.size })
     }
 
     override suspend fun addToWatchlist(symbol: String): Result<Unit> = runCatching {
@@ -62,15 +67,6 @@ class RepositoryImpl(private val api: Api) : Repository {
     override suspend fun removeFromWatchlist(symbol: String): Result<Unit> = runCatching {
         val current = JsonStorage.load()
         JsonStorage.save(current.filterNot { it.symbol == symbol })
-    }
-
-    override suspend fun editWatchlistItem(symbol: String, expectedEpsGrowth: Double): Result<Unit> = runCatching {
-        val current = JsonStorage.load()
-        val updated = current.map { stock ->
-            if (stock.symbol == symbol) stock.copy(expectedEpsGrowth = expectedEpsGrowth)
-            else stock
-        }
-        JsonStorage.save(updated)
     }
 
     private suspend fun getFilteredSymbols(symbol: String): List<String> = JsonReader.getSymbols()
