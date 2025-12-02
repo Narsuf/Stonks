@@ -7,18 +7,13 @@ import org.n27.stonks.data.json.JsonStorage
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.common.Stock
 import org.n27.stonks.domain.common.Stocks
-import org.n27.stonks.domain.watchlist.models.StockInfo
-import org.n27.stonks.domain.watchlist.models.Watchlist
+import org.n27.stonks.domain.watchlist.StockInfo
+import org.n27.stonks.domain.watchlist.Watchlist
 
 class RepositoryImpl(private val api: Api) : Repository {
 
     override suspend fun getStock(symbol: String): Result<Stock> = runCatching {
         api.getStock(symbol).toDomainEntity()
-    }
-
-    override suspend fun getStocks(symbols: List<String>): Result<Stocks> = runCatching {
-        val formattedSymbols = symbols.joinToString(separator = ",")
-        api.getStocks(formattedSymbols).toDomainEntity()
     }
 
     override suspend fun getStocks(
@@ -49,8 +44,17 @@ class RepositoryImpl(private val api: Api) : Repository {
         )
     }
 
-    override suspend fun getWatchlist(): Result<Watchlist> = runCatching {
-        Watchlist(JsonStorage.load())
+    override suspend fun getWatchlist(from: Int?): Result<Stocks> = runCatching {
+        val watchlist = Watchlist(JsonStorage.load())
+        val start = from ?: 0
+        val symbols = watchlist.items
+            .drop(start)
+            .take(PAGE_SIZE)
+            .map { it.symbol }
+
+        val nextPage = start + PAGE_SIZE
+        val formattedSymbols = symbols.joinToString(separator = ",")
+        api.getStocks(formattedSymbols).toDomainEntity(nextPage = nextPage.takeIf { it <= watchlist.items.size })
     }
 
     override suspend fun addToWatchlist(symbol: String): Result<Unit> = runCatching {

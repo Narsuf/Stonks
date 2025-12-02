@@ -8,7 +8,6 @@ import org.koin.dsl.module
 import org.n27.stonks.data.Api
 import org.n27.stonks.data.RepositoryImpl
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.watchlist.WatchlistUseCase
 import org.n27.stonks.presentation.app.AppViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch
 import org.n27.stonks.presentation.common.broadcast.EventBus
@@ -44,8 +43,7 @@ val appModule = module {
 
     single { EventBus() }
     single<Repository> { RepositoryImpl(get()) }
-
-    factory { WatchlistUseCase(get()) }
+    
     factory { AppViewModel(get()) }
     factory { HomeViewModel(get(), get()) }
     factory { (origin: NavigateToSearch.Origin) -> SearchViewModel(origin, get(), get()) }

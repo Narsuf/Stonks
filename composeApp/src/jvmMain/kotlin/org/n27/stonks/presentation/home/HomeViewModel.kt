@@ -3,8 +3,9 @@ package org.n27.stonks.presentation.home
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.n27.stonks.data.RepositoryImpl
+import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.common.Stocks
-import org.n27.stonks.domain.watchlist.WatchlistUseCase
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
@@ -22,7 +23,7 @@ import org.n27.stonks.presentation.home.mapping.toPresentationEntity
 
 class HomeViewModel(
     private val eventBus: EventBus,
-    private val useCase: WatchlistUseCase,
+    private val repository: Repository,
 ) : ViewModel() {
     private val state = MutableStateFlow<HomeState>(Idle)
     internal val viewState = state.asStateFlow()
@@ -33,7 +34,7 @@ class HomeViewModel(
 
     override fun onResult(result: String) {
         viewModelScope.launch {
-            useCase.addToWatchlist(result)
+            repository.addToWatchlist(result)
                 .onSuccess { requestWatchlist() }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }
@@ -51,7 +52,7 @@ class HomeViewModel(
     private fun requestWatchlist() {
         viewModelScope.launch {
             state.emit(Loading)
-            val newState = useCase.getWatchlist()
+            val newState = repository.getWatchlist()
                 .onSuccess { currentStocks = it }
                 .fold(
                     onSuccess = { currentStocks.toContent() },
@@ -65,7 +66,7 @@ class HomeViewModel(
     private fun requestMoreStocks() {
         viewModelScope.launch {
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
-            useCase.getWatchlist(currentStocks.nextPage)
+            repository.getWatchlist(currentStocks.nextPage)
                 .onSuccess {
                     currentStocks = currentStocks.copy(
                         nextPage = it.nextPage,
@@ -91,7 +92,7 @@ class HomeViewModel(
     private fun onRemoveItemClicked(index: Int) {
         viewModelScope.launch {
             val symbol = currentStocks.items[index].symbol
-            useCase.removeFromWatchlist(symbol)
+            repository.removeFromWatchlist(symbol)
                 .onSuccess {
                     currentStocks = currentStocks.copy(
                         items = currentStocks.items.filterIndexed { i, _ -> i != index }
