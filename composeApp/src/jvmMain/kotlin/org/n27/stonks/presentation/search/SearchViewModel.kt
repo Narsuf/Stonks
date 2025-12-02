@@ -3,6 +3,7 @@ package org.n27.stonks.presentation.search
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.common.Stocks
 import org.n27.stonks.presentation.common.ViewModel
@@ -152,7 +153,7 @@ class SearchViewModel(
             eventBus.emit(
                 when (origin) {
                     Origin.HOME -> NavigateToDetail(DetailParams(symbol))
-                    Origin.WATCHLIST -> GoBack(symbol)
+                    Origin.WATCHLIST -> GoBack(mapOf(SYMBOL to symbol))
                 }
             )
         }

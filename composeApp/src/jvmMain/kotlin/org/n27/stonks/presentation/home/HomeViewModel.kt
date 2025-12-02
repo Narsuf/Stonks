@@ -3,6 +3,7 @@ package org.n27.stonks.presentation.home
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.common.Stocks
 import org.n27.stonks.presentation.common.ViewModel
@@ -31,9 +32,10 @@ class HomeViewModel(
 
     init { requestWatchlist() }
 
-    override fun onResult(result: String) {
+    override fun onResult(result: Map<String, Any>) {
         viewModelScope.launch {
-            repository.addToWatchlist(result)
+            val stock = result[SYMBOL] as String
+            repository.addToWatchlist(stock)
                 .onSuccess { requestWatchlist() }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }

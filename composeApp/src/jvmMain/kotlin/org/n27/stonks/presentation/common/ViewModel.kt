@@ -7,5 +7,5 @@ import kotlinx.coroutines.SupervisorJob
 abstract class ViewModel {
     protected val viewModelScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
-    open fun onResult(result: String) {}
+    open fun onResult(result: Map<String, Any>) {}
 }
