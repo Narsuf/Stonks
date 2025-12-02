@@ -24,5 +24,5 @@ private fun Stock.toPresentationEntity() = Content.Item(
     iconUrl = logoUrl ?: "",
     name = companyName.truncateAfterDoubleSpace(),
     symbol = symbol,
-    price = price?.toFormattedBigDecimal()?.toPrice(currency),
+    price = price?.toPrice(currency),
 )

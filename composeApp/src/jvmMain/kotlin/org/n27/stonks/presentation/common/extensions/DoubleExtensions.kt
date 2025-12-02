@@ -37,7 +37,7 @@ internal fun Double.getTargetPrice(
         else -> DeltaState.NEUTRAL
     }
 
-    return priceDiff.absoluteValue.toFormattedBigDecimal().toPrice(currency)?.let {
+    return priceDiff.absoluteValue.toPrice(currency)?.let {
         DeltaTextEntity(
             value = it,
             percentage = percentage.absoluteValue.toFormattedPercentage(),

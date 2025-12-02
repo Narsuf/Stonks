@@ -36,15 +36,7 @@ class DetailViewModel(
 
             val newState = repository.getStock(params.symbol)
                 .fold(
-                    onSuccess = { stock ->
-                        val updatedStock = params.expectedEpsGrowth?.let {
-                            stock.copy(
-                                expectedEpsGrowth = it,
-                                forwardIntrinsicValue = stock.eps?.toIntrinsicValue(it),
-                            )
-                        } ?: stock
-                        updatedStock.toDetailContent()
-                    },
+                    onSuccess = { it.toDetailContent() },
                     onFailure = { Error }
                 )
 
