@@ -18,4 +18,4 @@ For the Back-End I created a Python script using `FastApi` and [yfinance](https:
 
 | Detail |
 |:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/9d35d7f9-ce33-4722-a11d-100627ab7ed2"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/ff50485c-180d-4921-a337-1c7971b45789"> |
