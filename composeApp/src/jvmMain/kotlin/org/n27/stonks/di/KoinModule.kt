@@ -1,4 +1,4 @@
-package org.n27.stonks
+package org.n27.stonks.di
 
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -16,7 +16,7 @@ import org.n27.stonks.presentation.detail.DetailViewModel
 import org.n27.stonks.presentation.home.HomeViewModel
 import org.n27.stonks.presentation.search.SearchViewModel
 
-const val BASE_URL = "http://127.0.0.1:8000"
+const val BASE_URL = "http://localhost:8000"
 
 val appModule = module {
 

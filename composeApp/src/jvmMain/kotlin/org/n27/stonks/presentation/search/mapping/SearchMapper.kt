@@ -4,7 +4,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import org.n27.stonks.domain.common.Stock
 import org.n27.stonks.domain.common.Stocks
-import org.n27.stonks.presentation.common.extensions.toFormattedBigDecimal
 import org.n27.stonks.presentation.common.extensions.toPrice
 import org.n27.stonks.presentation.common.extensions.truncateAfterDoubleSpace
 import org.n27.stonks.presentation.search.entities.SearchState.Content

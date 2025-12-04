@@ -15,10 +15,6 @@ internal fun Double.toFormattedString() = toFormattedBigDecimal().toPlainString(
 
 internal fun Double.toFormattedPercentage() = "${toFormattedString()} %"
 
-internal fun Double.toIntrinsicValue(expectedEpsGrowth: Double): Double = this * 12.5 * expectedEpsGrowth.toMultiplier()
-
-internal fun Double.toMultiplier(): Double = 1 + this / 100
-
 internal fun Double.getTargetPrice(
     intrinsicValue: Double?,
     currency: String?,
