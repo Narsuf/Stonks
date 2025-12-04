@@ -4,6 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.n27.stonks.domain.common.Stock
+import org.n27.stonks.domain.common.Stocks
 
 
 class Api(baseUrl: String, private val httpClient: HttpClient) {
@@ -17,10 +18,10 @@ class Api(baseUrl: String, private val httpClient: HttpClient) {
         return response
     }
 
-    suspend fun getStocks(page: Int?, symbol: String?, filterWatchlist: Boolean): List<Stock> {
+    suspend fun getStocks(page: Int?, symbol: String?, filterWatchlist: Boolean): Stocks {
         val url = "$url/stocks"
         println("getStocks request triggered")
-        val response: List<Stock> = httpClient.get(url) {
+        val response: Stocks = httpClient.get(url) {
             parameter("page", page)
             parameter("symbol", symbol)
             parameter("filterWatchlist", filterWatchlist)
@@ -29,10 +30,10 @@ class Api(baseUrl: String, private val httpClient: HttpClient) {
         return response
     }
 
-    suspend fun getWatchlist(page: Int?): List<Stock> {
+    suspend fun getWatchlist(page: Int?): Stocks {
         val url = "$url/watchlist"
         println("getWatchlist request triggered")
-        val response: List<Stock> = httpClient.get(url) {
+        val response: Stocks = httpClient.get(url) {
             parameter("page", page)
         }.body()
 

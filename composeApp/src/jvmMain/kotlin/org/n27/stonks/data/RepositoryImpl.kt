@@ -12,11 +12,11 @@ class RepositoryImpl(private val api: Api) : Repository {
         from: Int?,
         symbol: String?,
         filterWatchlist: Boolean,
-    ): Result<Stocks> = runCatching { Stocks(api.getStocks(from, symbol, filterWatchlist)) }
+    ): Result<Stocks> = runCatching { api.getStocks(from, symbol, filterWatchlist) }
 
     override suspend fun getWatchlist(
         from: Int?,
-    ): Result<Stocks> = runCatching { Stocks(api.getWatchlist(from)) }
+    ): Result<Stocks> = runCatching { api.getWatchlist(from) }
 
     override suspend fun addToWatchlist(symbol: String): Result<Unit> = runCatching {}
 

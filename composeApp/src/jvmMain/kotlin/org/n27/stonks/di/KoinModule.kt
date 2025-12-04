@@ -5,6 +5,8 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
+import org.n27.stonks.data.Api
+import org.n27.stonks.data.RepositoryImpl
 import org.n27.stonks.data.yfinance.YfinanceApi
 import org.n27.stonks.data.yfinance.YfinanceRepositoryImpl
 import org.n27.stonks.domain.Repository
@@ -34,8 +36,10 @@ val appModule = module {
         }
     }
 
-    single { YfinanceApi(BASE_URL, get()) }
-    single<Repository> { YfinanceRepositoryImpl(get()) }
+    //single { YfinanceApi(BASE_URL, get()) }
+    single { Api(BASE_URL, get()) }
+    //single<Repository> { YfinanceRepositoryImpl(get()) }
+    single<Repository> { RepositoryImpl(get()) }
     single { EventBus() }
 
     factory { AppViewModel(get()) }

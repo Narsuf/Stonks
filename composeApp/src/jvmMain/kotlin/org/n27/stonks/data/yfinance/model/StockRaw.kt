@@ -3,7 +3,6 @@ package org.n27.stonks.data.yfinance.model
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 
-@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class StockRaw(
     val symbol: String,
