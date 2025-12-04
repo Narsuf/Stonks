@@ -69,12 +69,11 @@ private fun WatchlistSectionHeader(onAction: (action: HomeInteraction) -> Unit) 
             ) { Text("Add") }
         }
 
-        /*
         Text(
             text = "Last updated",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(start = Spacing.smallest)
-        )*/
+        )
     }
 }
 
