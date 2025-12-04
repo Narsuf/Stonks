@@ -13,7 +13,7 @@ import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.utils.getJson
 import kotlin.test.assertEquals
 
-class ApiTest {
+class YfinanceApiTest {
 
     @Test
     fun `getStocks should return a list of stocks`() = runTest {
@@ -24,7 +24,7 @@ class ApiTest {
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
         }
-        val api = YfinanceApi(createHttpClient(mockEngine), "https://api.stonks.com")
+        val api = YfinanceApi("https://api.stonks.com", createHttpClient(mockEngine))
         val expected = listOf(getStockRaw())
 
         val actual = api.getStocks("AAPL")
@@ -41,7 +41,7 @@ class ApiTest {
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
         }
-        val api = YfinanceApi(createHttpClient(mockEngine), "https://api.stonks.com")
+        val api = YfinanceApi("https://api.stonks.com", createHttpClient(mockEngine))
 
         val actual = api.getStock("AAPL")
 
