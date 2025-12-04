@@ -39,7 +39,6 @@ internal fun DetailContent(content: Content) {
                 ),
             )
         }
-        content.targetPrice?.let { DeltaText(it) }
 
         LazyColumn(
             modifier = Modifier.padding(top = Spacing.default),

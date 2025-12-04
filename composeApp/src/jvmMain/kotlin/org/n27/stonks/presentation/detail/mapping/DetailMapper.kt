@@ -11,14 +11,14 @@ internal fun Stock.toDetailContent() = Content(
     logoUrl = logoUrl ?: "",
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toPrice(currency),
-    targetPrice = price?.getTargetPrice(currentIntrinsicValue, currency),
     cells = buildList {
         dividendYield?.toDividendCell()?.let(::add)
         eps?.toEpsCell(currency)?.let(::add)
-        pe?.toPe()?.let(::add)
         earningsQuarterlyGrowth?.toGrowth()?.let(::add)
-        currentIntrinsicValue?.toIntrinsicValue(currency)?.let(::add)
-        forwardIntrinsicValue?.let { it.toForwardIntrinsicValue(this@toDetailContent)?.let(::add) }
+        expectedEpsGrowth?.toExpectedEpsGrowth()?.let(::add)
+        currentIntrinsicValue?.toIntrinsicValue(this@toDetailContent)?.let(::add)
+        forwardIntrinsicValue?.toForwardIntrinsicValue(this@toDetailContent)?.let(::add)
+        pe?.toPe()?.let(::add)
     }.toPersistentList(),
 )
 
@@ -44,9 +44,16 @@ private fun Double.toGrowth() = toFormattedPercentage().toCell(
             "The company’s growth compared to the same quarter of the previous year.",
 )
 
-private fun Double.toIntrinsicValue(currency: String?) = toPrice(currency)?.toCell(
+private fun Double.toExpectedEpsGrowth() = toFormattedPercentage().toCell(
+    title = "Forward Growth",
+    description = "Expected EPS growth.\n\n" +
+            "The company’s expected EPS growth for the next year."
+)
+
+private fun Double.toIntrinsicValue(stock: Stock) = toPrice(stock.currency)?.toCell(
     title = "Intrinsic Value",
-    description = "The estimated intrinsic value based on an ideal P/E ratio of 12.5."
+    description = "The estimated intrinsic value based on an ideal P/E ratio of 12.5.",
+    delta = stock.price?.getTargetPrice(this, stock.currency),
 )
 
 private fun Double.toForwardIntrinsicValue(stock: Stock) = toPrice(stock.currency)?.toCell(

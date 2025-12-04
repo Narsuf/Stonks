@@ -14,7 +14,6 @@ internal sealed class DetailState {
         val logoUrl: String,
         val name: String,
         val price: String?,
-        val targetPrice: DeltaTextEntity?,
         val cells: ImmutableList<Cell>,
     ) : DetailState() {
 
