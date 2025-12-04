@@ -1,11 +1,12 @@
-package org.n27.stonks.data
+package org.n27.stonks.data.yfinance
 
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import org.n27.stonks.data.common.model.StockRaw
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import org.n27.stonks.data.yfinance.model.StockRaw
 
-class Api(
+class YfinanceApi(
     private val httpClient: HttpClient,
     private val baseUrl: String
 ) {

@@ -1,4 +1,4 @@
-package org.n27.stonks.data.common.mapping
+package org.n27.stonks.data.yfinance.mapping
 
 import org.junit.Test
 import org.n27.stonks.test_data.data.getStockRaw
@@ -10,7 +10,7 @@ class StockMapperTest {
     @Test
     fun `should return expected value`() {
         val expected = getStock()
-        
+
         val actual = getStockRaw().toDomainEntity()
 
         assertEquals(expected, actual)

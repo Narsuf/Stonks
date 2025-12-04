@@ -1,6 +1,6 @@
-package org.n27.stonks.data.common.mapping
+package org.n27.stonks.data.yfinance.mapping
 
-import org.n27.stonks.data.common.model.StockRaw
+import org.n27.stonks.data.yfinance.model.StockRaw
 import org.n27.stonks.domain.common.Stock
 import org.n27.stonks.domain.common.Stocks
 

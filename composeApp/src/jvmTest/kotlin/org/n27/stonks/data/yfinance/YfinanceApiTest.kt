@@ -1,4 +1,4 @@
-package org.n27.stonks.data
+package org.n27.stonks.data.yfinance
 
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
@@ -24,7 +24,7 @@ class ApiTest {
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
         }
-        val api = Api(createHttpClient(mockEngine), "https://api.stonks.com")
+        val api = YfinanceApi(createHttpClient(mockEngine), "https://api.stonks.com")
         val expected = listOf(getStockRaw())
 
         val actual = api.getStocks("AAPL")
@@ -41,7 +41,7 @@ class ApiTest {
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
         }
-        val api = Api(createHttpClient(mockEngine), "https://api.stonks.com")
+        val api = YfinanceApi(createHttpClient(mockEngine), "https://api.stonks.com")
 
         val actual = api.getStock("AAPL")
 

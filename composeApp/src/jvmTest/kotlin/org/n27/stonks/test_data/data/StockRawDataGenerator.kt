@@ -1,6 +1,6 @@
 package org.n27.stonks.test_data.data
 
-import org.n27.stonks.data.common.model.StockRaw
+import org.n27.stonks.data.yfinance.model.StockRaw
 
 fun getStockRaw(
     symbol: String = "AAPL",

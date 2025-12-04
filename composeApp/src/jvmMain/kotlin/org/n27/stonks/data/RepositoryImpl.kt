@@ -1,16 +1,17 @@
 package org.n27.stonks.data
 
 import org.n27.stonks.PAGE_SIZE
-import org.n27.stonks.data.common.mapping.toDomainEntity
+import org.n27.stonks.data.yfinance.mapping.toDomainEntity
 import org.n27.stonks.data.json.JsonReader
 import org.n27.stonks.data.json.JsonStorage
+import org.n27.stonks.data.yfinance.YfinanceApi
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.common.Stock
 import org.n27.stonks.domain.common.Stocks
 import org.n27.stonks.domain.watchlist.StockInfo
 import org.n27.stonks.domain.watchlist.Watchlist
 
-class RepositoryImpl(private val api: Api) : Repository {
+class RepositoryImpl(private val api: YfinanceApi) : Repository {
 
     override suspend fun getStock(symbol: String): Result<Stock> = runCatching {
         api.getStock(symbol).toDomainEntity()

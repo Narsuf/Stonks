@@ -1,4 +1,4 @@
-package org.n27.stonks.data.common.model
+package org.n27.stonks.data.yfinance.model
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
