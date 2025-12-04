@@ -44,7 +44,7 @@ class YfinanceRepositoryImpl(private val api: YfinanceApi) : Repository {
         )
     }
 
-    override suspend fun getWatchlist(from: Int?): Result<Stocks> = runCatching {
+    override suspend fun getWatchlist(from: Int?, forceUpdate: Boolean?): Result<Stocks> = runCatching {
         val watchlist = Watchlist(JsonStorage.load())
         val start = from ?: 0
         val symbols = watchlist.items

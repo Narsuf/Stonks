@@ -12,7 +12,7 @@ interface Repository {
         filterWatchlist: Boolean = false,
     ): Result<Stocks>
 
-    suspend fun getWatchlist(from: Int? = null): Result<Stocks>
+    suspend fun getWatchlist(from: Int? = null, forceUpdate: Boolean? = null): Result<Stocks>
     suspend fun addToWatchlist(symbol: String): Result<Unit>
     suspend fun removeFromWatchlist(symbol: String): Result<Unit>
 }

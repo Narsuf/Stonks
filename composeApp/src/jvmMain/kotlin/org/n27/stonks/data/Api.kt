@@ -30,11 +30,12 @@ class Api(baseUrl: String, private val httpClient: HttpClient) {
         return response
     }
 
-    suspend fun getWatchlist(page: Int?): Stocks {
+    suspend fun getWatchlist(page: Int?, forceUpdate: Boolean?): Stocks {
         val url = "$url/watchlist"
         println("getWatchlist request triggered")
         val response: Stocks = httpClient.get(url) {
             parameter("page", page)
+            parameter("forceUpdate", forceUpdate)
         }.body()
 
         return response

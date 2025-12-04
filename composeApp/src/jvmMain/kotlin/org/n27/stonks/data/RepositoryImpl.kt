@@ -16,7 +16,8 @@ class RepositoryImpl(private val api: Api) : Repository {
 
     override suspend fun getWatchlist(
         from: Int?,
-    ): Result<Stocks> = runCatching { api.getWatchlist(from) }
+        forceUpdate: Boolean?,
+    ): Result<Stocks> = runCatching { api.getWatchlist(from, forceUpdate) }
 
     override suspend fun addToWatchlist(symbol: String): Result<Unit> = runCatching { api.addToWatchlist(symbol) }
 
