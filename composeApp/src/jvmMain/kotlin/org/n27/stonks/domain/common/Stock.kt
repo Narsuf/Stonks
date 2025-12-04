@@ -1,6 +1,5 @@
 package org.n27.stonks.domain.common
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 
 @Serializable

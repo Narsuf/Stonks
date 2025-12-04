@@ -39,4 +39,16 @@ class Api(baseUrl: String, private val httpClient: HttpClient) {
 
         return response
     }
+
+    suspend fun addToWatchlist(symbol: String) {
+        val url = "$url/watchlist/$symbol"
+        println("addToWatchlist request triggered for symbol: $symbol")
+        httpClient.post(url)
+    }
+
+    suspend fun removeFromWatchlist(symbol: String) {
+        val url = "$url/watchlist/$symbol"
+        println("removeFromWatchlist request triggered for symbol: $symbol")
+        httpClient.delete(url)
+    }
 }
