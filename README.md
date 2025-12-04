@@ -4,7 +4,7 @@
 
 Desktop app (Compose Multiplatform) to check information about stocks.
 
-For the Back-End I created a Python script using `FastApi` and [yfinance](https://github.com/ranaroussi/yfinance).
+For the Back-End I created a Python script using `FastApi` and [yfinance](https://github.com/ranaroussi/yfinance). But also [this Ktor service](https://github.com/Narsuf/KtStonks) using `Alpha Vantage`.
 
 <h2 id="screenshots">Screenshots 📷</h2>
 
