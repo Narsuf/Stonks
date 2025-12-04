@@ -2,6 +2,7 @@ package org.n27.stonks.presentation.detail.mapping
 
 import kotlinx.collections.immutable.toPersistentList
 import org.n27.stonks.domain.common.Stock
+import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
 
@@ -17,7 +18,7 @@ internal fun Stock.toDetailContent() = Content(
         pe?.toPe()?.let(::add)
         earningsQuarterlyGrowth?.toGrowth()?.let(::add)
         currentIntrinsicValue?.toIntrinsicValue(currency)?.let(::add)
-        forwardIntrinsicValue?.let { it.toForwardIntrinsicValue(currency)?.let(::add) }
+        forwardIntrinsicValue?.let { it.toForwardIntrinsicValue(this@toDetailContent)?.let(::add) }
     }.toPersistentList(),
 )
 
@@ -48,13 +49,15 @@ private fun Double.toIntrinsicValue(currency: String?) = toPrice(currency)?.toCe
     description = "The estimated intrinsic value based on an ideal P/E ratio of 12.5."
 )
 
-private fun Double.toForwardIntrinsicValue(currency: String?) = toPrice(currency)?.toCell(
+private fun Double.toForwardIntrinsicValue(stock: Stock) = toPrice(stock.currency)?.toCell(
     title = "Forward Intrinsic Value",
-    description = "The estimated intrinsic value including the expected EPS growth for the next year."
+    description = "The estimated intrinsic value including the expected EPS growth for the next year.",
+    delta = stock.price?.getTargetPrice(this, stock.currency),
 )
 
-private fun String.toCell(title: String, description: String) = Content.Cell(
+private fun String.toCell(title: String, description: String, delta: DeltaTextEntity? = null) = Content.Cell(
     title = title,
     value = this,
     description = description,
+    delta = delta,
 )

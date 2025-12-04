@@ -22,6 +22,7 @@ internal sealed class DetailState {
             val title: String,
             val value: String,
             val description: String,
+            val delta: DeltaTextEntity?,
         )
     }
 }

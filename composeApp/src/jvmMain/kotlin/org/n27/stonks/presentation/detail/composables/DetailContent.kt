@@ -88,6 +88,12 @@ private fun InfoCell(
                             .padding(start = Spacing.big)
                     )
                 }
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) { cell.delta?.let { DeltaText(it) } }
+
                 Text(
                     text = cell.description,
                     color = Color.Gray,
