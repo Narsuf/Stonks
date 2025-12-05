@@ -2,10 +2,10 @@ package org.n27.stonks.presentation.home.mapping
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import org.n27.stonks.domain.common.Stock
-import org.n27.stonks.domain.common.Stocks
+import org.n27.stonks.domain.models.Stock
+import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.presentation.common.extensions.getTargetPrice
-import org.n27.stonks.presentation.common.extensions.toDateString
+import org.n27.stonks.presentation.common.extensions.toFormattedPercentage
 import org.n27.stonks.presentation.common.extensions.toPrice
 import org.n27.stonks.presentation.home.entities.HomeState.Content
 import java.math.BigDecimal
@@ -27,5 +27,5 @@ private fun Stock.toPresentationEntity() = Content.Item(
     symbol = symbol,
     price = price?.toPrice(currency),
     targetPrice = price?.getTargetPrice(currentIntrinsicValue, currency),
-    lastUpdated = lastUpdated?.toDateString(),
+    extraValue = expectedEpsGrowth?.toFormattedPercentage(),
 )

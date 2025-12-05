@@ -5,7 +5,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.common.Stocks
+import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin

@@ -3,17 +3,19 @@ package org.n27.stonks.data.yfinance
 import org.n27.stonks.PAGE_SIZE
 import org.n27.stonks.data.json.JsonReader
 import org.n27.stonks.data.json.JsonStorage
+import org.n27.stonks.data.watchlist.StockInfo
+import org.n27.stonks.data.watchlist.Watchlist
 import org.n27.stonks.data.yfinance.mapping.toDomainEntity
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.common.Stock
-import org.n27.stonks.domain.common.Stocks
-import org.n27.stonks.domain.watchlist.StockInfo
-import org.n27.stonks.domain.watchlist.Watchlist
+import org.n27.stonks.domain.models.Stock
+import org.n27.stonks.domain.models.Stocks
 
 class YfinanceRepositoryImpl(private val api: YfinanceApi) : Repository {
 
     override suspend fun getStock(symbol: String): Result<Stock> = runCatching {
-        api.getStock(symbol).toDomainEntity()
+        val watchlist = Watchlist(JsonStorage.load())
+        val watchlistStock = watchlist.items.firstOrNull { it.symbol == symbol }
+        api.getStock(symbol).toDomainEntity(watchlistStock)
     }
 
     override suspend fun getStocks(
@@ -47,14 +49,16 @@ class YfinanceRepositoryImpl(private val api: YfinanceApi) : Repository {
     override suspend fun getWatchlist(from: Int?, forceUpdate: Boolean?): Result<Stocks> = runCatching {
         val watchlist = Watchlist(JsonStorage.load())
         val start = from ?: 0
-        val symbols = watchlist.items
+        val paginatedWatchlist = watchlist.items
             .drop(start)
             .take(PAGE_SIZE)
-            .map { it.symbol }
 
         val nextPage = start + PAGE_SIZE
-        val formattedSymbols = symbols.joinToString(separator = ",")
-        api.getStocks(formattedSymbols).toDomainEntity(nextPage = nextPage.takeIf { it <= watchlist.items.size })
+        val formattedSymbols = paginatedWatchlist.joinToString(separator = ",") { it.symbol }
+        api.getStocks(formattedSymbols).toDomainEntity(
+            watchlist = paginatedWatchlist,
+            nextPage = nextPage.takeIf { it <= watchlist.items.size },
+        )
     }
 
     override suspend fun addToWatchlist(symbol: String): Result<Unit> = runCatching {
@@ -67,6 +71,15 @@ class YfinanceRepositoryImpl(private val api: YfinanceApi) : Repository {
     override suspend fun removeFromWatchlist(symbol: String): Result<Unit> = runCatching {
         val current = JsonStorage.load()
         JsonStorage.save(current.filterNot { it.symbol == symbol })
+    }
+
+    override suspend fun editWatchlistItem(symbol: String, expectedEpsGrowth: Double): Result<Unit> = runCatching {
+        val current = JsonStorage.load()
+        val updated = current.map { stock ->
+            if (stock.symbol == symbol) stock.copy(expectedEpsGrowth = expectedEpsGrowth)
+            else stock
+        }
+        JsonStorage.save(updated)
     }
 
     private suspend fun getFilteredSymbols(symbol: String): List<String> = JsonReader.getSymbols()

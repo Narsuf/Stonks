@@ -70,7 +70,7 @@ private fun WatchlistSectionHeader(onAction: (action: HomeInteraction) -> Unit) 
         }
 
         Text(
-            text = "Last updated",
+            text = "Expected EPS Growth",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(start = Spacing.smallest)
         )
