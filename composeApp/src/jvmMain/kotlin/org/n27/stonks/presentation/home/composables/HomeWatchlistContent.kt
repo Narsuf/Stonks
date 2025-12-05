@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -73,13 +74,22 @@ private fun ListItem(
             )
         }
 
-        item.lastUpdated?.let {
+        IconButton(
+            onClick = { onAction(EditItemClicked(index)) }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Edit",
+                tint = Color.Gray,
+            )
+        }
+
+        item.extraValue?.let {
             Spacer(Modifier.weight(1f))
             Text(
                 text = it,
                 modifier = Modifier.padding(start = Spacing.smallest),
-                color = Color.Gray,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
     }

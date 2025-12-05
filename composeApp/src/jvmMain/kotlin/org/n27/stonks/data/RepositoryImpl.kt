@@ -1,8 +1,8 @@
 package org.n27.stonks.data
 
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.common.Stock
-import org.n27.stonks.domain.common.Stocks
+import org.n27.stonks.domain.models.Stock
+import org.n27.stonks.domain.models.Stocks
 
 class RepositoryImpl(private val api: Api) : Repository {
 
@@ -24,4 +24,6 @@ class RepositoryImpl(private val api: Api) : Repository {
     override suspend fun removeFromWatchlist(
         symbol: String,
     ): Result<Unit> = runCatching { api.removeFromWatchlist(symbol) }
+
+    override suspend fun editWatchlistItem(symbol: String, expectedEpsGrowth: Double): Result<Unit> = runCatching {}
 }

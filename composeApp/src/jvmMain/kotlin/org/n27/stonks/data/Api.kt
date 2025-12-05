@@ -3,8 +3,8 @@ package org.n27.stonks.data
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import org.n27.stonks.domain.common.Stock
-import org.n27.stonks.domain.common.Stocks
+import org.n27.stonks.domain.models.Stock
+import org.n27.stonks.domain.models.Stocks
 
 
 class Api(baseUrl: String, private val httpClient: HttpClient) {
