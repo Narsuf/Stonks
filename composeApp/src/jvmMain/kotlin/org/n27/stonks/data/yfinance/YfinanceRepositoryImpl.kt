@@ -73,11 +73,19 @@ class YfinanceRepositoryImpl(private val api: YfinanceApi) : Repository {
         JsonStorage.save(current.filterNot { it.symbol == symbol })
     }
 
-    override suspend fun editWatchlistItem(symbol: String, expectedEpsGrowth: Double): Result<Unit> = runCatching {
+    override suspend fun editWatchlistItem(
+        symbol: String,
+        epsGrowth: Double,
+        valuationFloor: Double,
+    ): Result<Unit> = runCatching {
         val current = JsonStorage.load()
         val updated = current.map { stock ->
-            if (stock.symbol == symbol) stock.copy(expectedEpsGrowth = expectedEpsGrowth)
-            else stock
+            if (stock.symbol == symbol) {
+                stock.copy(
+                    expectedEpsGrowth = epsGrowth,
+                    valuationFloor = valuationFloor,
+                )
+            } else stock
         }
         JsonStorage.save(updated)
     }

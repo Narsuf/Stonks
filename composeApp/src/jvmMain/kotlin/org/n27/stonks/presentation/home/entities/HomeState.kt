@@ -11,7 +11,8 @@ internal sealed class HomeState {
     data object Error: HomeState()
 
     data class Content(
-        val input: BigDecimal,
+        val epsGrowthInput: BigDecimal,
+        val valuationFloorInput: BigDecimal,
         val isWatchlistLoading: Boolean,
         val watchlist: ImmutableList<Item>,
         val isEndReached: Boolean,

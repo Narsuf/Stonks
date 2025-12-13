@@ -6,12 +6,14 @@ import org.n27.stonks.domain.models.Stock
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.presentation.common.extensions.getTargetPrice
 import org.n27.stonks.presentation.common.extensions.toFormattedPercentage
+import org.n27.stonks.presentation.common.extensions.toFormattedString
 import org.n27.stonks.presentation.common.extensions.toPrice
 import org.n27.stonks.presentation.home.entities.HomeState.Content
 import java.math.BigDecimal
 
 internal fun Stocks.toContent() = Content(
-    input = BigDecimal.ZERO,
+    epsGrowthInput = BigDecimal.ZERO,
+    valuationFloorInput = BigDecimal.ZERO,
     isWatchlistLoading = false,
     watchlist = items.toPresentationEntity(),
     isEndReached = nextPage == null,
@@ -27,5 +29,6 @@ private fun Stock.toPresentationEntity() = Content.Item(
     symbol = symbol,
     price = price?.toPrice(currency),
     targetPrice = price?.getTargetPrice(currentIntrinsicValue, currency),
-    extraValue = expectedEpsGrowth?.toFormattedPercentage(),
+    extraValue = "${valuationFloor?.toFormattedString() ?: "Default"} / " +
+            (expectedEpsGrowth?.toFormattedPercentage()  ?: "Not set"),
 )
