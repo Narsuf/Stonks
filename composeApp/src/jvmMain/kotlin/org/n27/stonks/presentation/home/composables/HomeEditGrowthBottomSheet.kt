@@ -33,8 +33,13 @@ internal fun HomeEditGrowthBottomSheet(
                 .padding(bottom = Spacing.smaller),
             verticalArrangement = Arrangement.spacedBy(Spacing.default),
         ) {
-            var epsGrowth by remember(state.epsGrowthInput) { mutableStateOf(state.epsGrowthInput) }
-            var valuationFloor by remember(state.valuationFloorInput) { mutableStateOf(state.valuationFloorInput) }
+            var epsGrowth by remember(state.bottomSheet.epsGrowthInput) {
+                mutableStateOf(state.bottomSheet.epsGrowthInput)
+            }
+
+            var valuationFloor by remember(state.bottomSheet.valuationFloorInput) {
+                mutableStateOf(state.bottomSheet.valuationFloorInput)
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),

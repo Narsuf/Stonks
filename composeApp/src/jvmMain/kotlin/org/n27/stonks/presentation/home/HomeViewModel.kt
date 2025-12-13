@@ -125,19 +125,33 @@ class HomeViewModel(
         val item = currentStocks.items[index]
         state.updateIfType { c: Content ->
             c.copy(
-                epsGrowthInput = item.expectedEpsGrowth?.toFormattedBigDecimal() ?: BigDecimal.ZERO,
-                valuationFloorInput = item.valuationFloor?.toFormattedBigDecimal() ?: BigDecimal.ZERO,
+                bottomSheet = c.bottomSheet.copy(
+                    epsGrowthInput = item.expectedEpsGrowth?.toFormattedBigDecimal() ?: BigDecimal.ZERO,
+                    valuationFloorInput = item.valuationFloor?.toFormattedBigDecimal() ?: BigDecimal.ZERO,
+                ),
             )
         }
         event.trySend(ShowBottomSheet(index))
     }
 
     private fun onEpsGrowthValueChanged(value: BigDecimal) {
-        state.updateIfType { c: Content -> c.copy(epsGrowthInput = value) }
+        state.updateIfType { c: Content ->
+            c.copy(
+                bottomSheet = c.bottomSheet.copy(
+                    epsGrowthInput = value,
+                ),
+            )
+        }
     }
 
     private fun onValuationFloorValueChanged(value: BigDecimal) {
-        state.updateIfType { c: Content -> c.copy(valuationFloorInput = value) }
+        state.updateIfType { c: Content ->
+            c.copy(
+                bottomSheet = c.bottomSheet.copy(
+                    valuationFloorInput = value,
+                ),
+            )
+        }
     }
 
     private fun onValuesUpdated(index: Int, epsGrowth: BigDecimal, valuationFloor: BigDecimal) {

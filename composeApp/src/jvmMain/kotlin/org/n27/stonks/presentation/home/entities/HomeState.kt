@@ -11,13 +11,18 @@ internal sealed class HomeState {
     data object Error: HomeState()
 
     data class Content(
-        val epsGrowthInput: BigDecimal,
-        val valuationFloorInput: BigDecimal,
+        val bottomSheet: BottomSheet,
         val isWatchlistLoading: Boolean,
         val watchlist: ImmutableList<Item>,
         val isEndReached: Boolean,
         val isPageLoading: Boolean,
     ) : HomeState() {
+
+        data class BottomSheet(
+            val epsGrowthInput: BigDecimal,
+            val valuationFloorInput: BigDecimal,
+        )
+
         data class Item(
             val iconUrl: String,
             val name: String,

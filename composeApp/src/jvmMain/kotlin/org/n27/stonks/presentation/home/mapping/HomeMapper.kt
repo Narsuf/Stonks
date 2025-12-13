@@ -9,11 +9,14 @@ import org.n27.stonks.presentation.common.extensions.toFormattedPercentage
 import org.n27.stonks.presentation.common.extensions.toFormattedString
 import org.n27.stonks.presentation.common.extensions.toPrice
 import org.n27.stonks.presentation.home.entities.HomeState.Content
+import org.n27.stonks.presentation.home.entities.HomeState.Content.BottomSheet
 import java.math.BigDecimal
 
 internal fun Stocks.toContent() = Content(
-    epsGrowthInput = BigDecimal.ZERO,
-    valuationFloorInput = BigDecimal.ZERO,
+    bottomSheet = BottomSheet(
+        epsGrowthInput = BigDecimal.ZERO,
+        valuationFloorInput = BigDecimal.ZERO,
+    ),
     isWatchlistLoading = false,
     watchlist = items.toPresentationEntity(),
     isEndReached = nextPage == null,
