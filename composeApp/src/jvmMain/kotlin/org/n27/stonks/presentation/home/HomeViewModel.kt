@@ -59,8 +59,9 @@ class HomeViewModel(
         is ItemClicked -> onItemClicked(action.index)
         is RemoveItemClicked -> onRemoveItemClicked(action.index)
         is EditItemClicked -> onEditItemClicked(action.index)
-        is ValueChanged -> onValueChanged(action.value)
-        is ValueUpdated -> onValueUpdated(action.index, action.value)
+        is EpsGrowthValueChanged -> onEpsGrowthValueChanged(action.value)
+        is ValuationFloorValueChanged -> onValuationFloorValueChanged(action.value)
+        is ValuesUpdated -> onValuesUpdated(action.index, action.epsGrowth, action.valuationFloor)
     }
 
     private fun requestWatchlist() {
@@ -123,20 +124,33 @@ class HomeViewModel(
     private fun onEditItemClicked(index: Int) {
         val item = currentStocks.items[index]
         state.updateIfType { c: Content ->
-            c.copy(input = item.expectedEpsGrowth?.toFormattedBigDecimal() ?: BigDecimal.ZERO)
+            c.copy(
+                bottomSheet = c.bottomSheet.copy(
+                    epsGrowthInput = item.expectedEpsGrowth?.toFormattedBigDecimal() ?: BigDecimal.ZERO,
+                    valuationFloorInput = item.valuationFloor?.toFormattedBigDecimal() ?: BigDecimal.ZERO,
+                ),
+            )
         }
         event.trySend(ShowBottomSheet(index))
     }
 
-    private fun onValueChanged(value: BigDecimal) {
-        state.updateIfType { c: Content -> c.copy(input = value) }
+    private fun onEpsGrowthValueChanged(value: BigDecimal) {
+        state.updateIfType { c: Content ->
+            c.copy(bottomSheet = c.bottomSheet.copy(epsGrowthInput = value))
+        }
     }
 
-    private fun onValueUpdated(index: Int, value: BigDecimal) {
+    private fun onValuationFloorValueChanged(value: BigDecimal) {
+        state.updateIfType { c: Content ->
+            c.copy(bottomSheet = c.bottomSheet.copy(valuationFloorInput = value))
+        }
+    }
+
+    private fun onValuesUpdated(index: Int, epsGrowth: BigDecimal, valuationFloor: BigDecimal) {
         viewModelScope.launch {
             val item = currentStocks.items[index]
             event.send(HomeEvent.CloseBottomSheet)
-            repository.editWatchlistItem(item.symbol, value.toDouble())
+            repository.editWatchlistItem(item.symbol, epsGrowth.toDouble(), valuationFloor.toDouble())
                 .onSuccess { requestWatchlist() }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }

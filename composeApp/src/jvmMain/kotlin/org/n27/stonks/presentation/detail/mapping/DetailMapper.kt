@@ -35,7 +35,7 @@ private fun Double.toEpsCell(currency: String?) = toPrice(currency)?.toCell(
 private fun Double.toPe() = toFormattedString().toCell(
     title = "P/E",
     description = "The stock price divided by its earnings per share.\n\n" +
-            "A P/E around 12.5 is traditionally considered a reasonable value.",
+            "A P/E around 16 is traditionally considered a reasonable value.",
 )
 
 private fun Double.toGrowth() = toFormattedPercentage().toCell(
@@ -52,7 +52,7 @@ private fun Double.toExpectedEpsGrowth() = toFormattedPercentage().toCell(
 
 private fun Double.toIntrinsicValue(stock: Stock) = toPrice(stock.currency)?.toCell(
     title = "Intrinsic Value",
-    description = "The estimated intrinsic value based on an ideal P/E ratio of 12.5.",
+    description = "The estimated intrinsic value based on an ideal P/E ratio of 16.",
     delta = stock.price?.getTargetPrice(this, stock.currency),
 )
 

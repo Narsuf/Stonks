@@ -25,5 +25,9 @@ class RepositoryImpl(private val api: Api) : Repository {
         symbol: String,
     ): Result<Unit> = runCatching { api.removeFromWatchlist(symbol) }
 
-    override suspend fun editWatchlistItem(symbol: String, expectedEpsGrowth: Double): Result<Unit> = runCatching {}
+    override suspend fun editWatchlistItem(
+        symbol: String,
+        epsGrowth: Double,
+        valuationFloor: Double,
+    ): Result<Unit> = runCatching {}
 }
