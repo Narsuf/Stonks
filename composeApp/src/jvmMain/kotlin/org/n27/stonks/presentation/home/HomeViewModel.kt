@@ -136,21 +136,13 @@ class HomeViewModel(
 
     private fun onEpsGrowthValueChanged(value: BigDecimal) {
         state.updateIfType { c: Content ->
-            c.copy(
-                bottomSheet = c.bottomSheet.copy(
-                    epsGrowthInput = value,
-                ),
-            )
+            c.copy(bottomSheet = c.bottomSheet.copy(epsGrowthInput = value))
         }
     }
 
     private fun onValuationFloorValueChanged(value: BigDecimal) {
         state.updateIfType { c: Content ->
-            c.copy(
-                bottomSheet = c.bottomSheet.copy(
-                    valuationFloorInput = value,
-                ),
-            )
+            c.copy(bottomSheet = c.bottomSheet.copy(valuationFloorInput = value))
         }
     }
 
