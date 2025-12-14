@@ -19,7 +19,7 @@ class YfinanceApiTest {
     fun `getStocks should return a list of stocks`() = runTest {
         val mockEngine = MockEngine {
             respond(
-                content = ByteReadChannel(getJson("stocks.json")),
+                content = ByteReadChannel(getJson("stocks_raw.json")),
                 status = HttpStatusCode.OK,
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
@@ -36,7 +36,7 @@ class YfinanceApiTest {
     fun `getStock should return a stock`() = runTest {
         val mockEngine = MockEngine {
             respond(
-                content = ByteReadChannel(getJson("stock.json")),
+                content = ByteReadChannel(getJson("stock_raw.json")),
                 status = HttpStatusCode.OK,
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )

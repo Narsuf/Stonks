@@ -1,6 +1,23 @@
 package org.n27.stonks.test_data.domain
 
 import org.n27.stonks.domain.models.Stock
+import org.n27.stonks.domain.models.Stocks
+
+fun getStocks(
+    items: List<Stock> = listOf(
+        getStock(
+            expectedEpsGrowth = 7.75,
+            valuationFloor = 12.5,
+            currentIntrinsicValue = 185.03,
+            forwardIntrinsicValue = 177.83,
+            lastUpdated = 1765627200000,
+        )
+    ),
+    nextPage: Int = 2,
+) = Stocks(
+    items = items,
+    nextPage = nextPage,
+)
 
 fun getStock(
     symbol: String = "AAPL",

@@ -1,10 +1,6 @@
 package org.n27.stonks.presentation.home.composables
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
@@ -14,9 +10,7 @@ import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.NumberInput
 import org.n27.stonks.presentation.common.composables.PrimaryButton
 import org.n27.stonks.presentation.home.entities.HomeInteraction
-import org.n27.stonks.presentation.home.entities.HomeInteraction.EpsGrowthValueChanged
-import org.n27.stonks.presentation.home.entities.HomeInteraction.ValuationFloorValueChanged
-import org.n27.stonks.presentation.home.entities.HomeInteraction.ValuesUpdated
+import org.n27.stonks.presentation.home.entities.HomeInteraction.*
 import org.n27.stonks.presentation.home.entities.HomeState
 
 @Composable
