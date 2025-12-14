@@ -1,3 +1,5 @@
+# Stonks
+
 [![CI](https://github.com/Narsuf/Stonks/actions/workflows/ci.yml/badge.svg)](https://github.com/Narsuf/Stonks/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Narsuf/Stonks/branch/master/graph/badge.svg)](https://codecov.io/gh/Narsuf/Stonks)
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
