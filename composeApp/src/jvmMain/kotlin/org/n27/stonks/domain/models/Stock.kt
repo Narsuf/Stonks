@@ -11,6 +11,7 @@ data class Stock(
     val dividendYield: Double?,
     val eps: Double?,
     val pe: Double?,
+    val pb: Double?,
     val earningsQuarterlyGrowth: Double?,
     val expectedEpsGrowth: Double?,
     val valuationFloor: Double?,

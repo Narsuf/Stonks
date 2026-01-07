@@ -28,6 +28,7 @@ private fun StockRaw.toDomainEntity() = Stock(
     dividendYield = dividendYield,
     eps = eps,
     pe = pe,
+    pb = pb,
     earningsQuarterlyGrowth = earningsQuarterlyGrowth,
     expectedEpsGrowth = null,
     valuationFloor = null,

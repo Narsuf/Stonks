@@ -19,6 +19,7 @@ internal fun Stock.toDetailContent() = Content(
         currentIntrinsicValue?.toIntrinsicValue(this@toDetailContent)?.let(::add)
         forwardIntrinsicValue?.toForwardIntrinsicValue(this@toDetailContent)?.let(::add)
         pe?.toPe()?.let(::add)
+        pb?.toPb()?.let(::add)
     }.toPersistentList(),
 )
 
@@ -36,6 +37,12 @@ private fun Double.toPe() = toFormattedString().toCell(
     title = "P/E",
     description = "The stock price divided by its earnings per share.\n\n" +
             "A P/E around 16 is traditionally considered a reasonable value.",
+)
+
+private fun Double.toPb() = toFormattedString().toCell(
+    title = "P/B",
+    description =  "The stock price divided by its book value per share.\n\n" +
+            "A P/B below 1.8 is traditionally considered a reasonable valuation.",
 )
 
 private fun Double.toGrowth() = toFormattedPercentage().toCell(

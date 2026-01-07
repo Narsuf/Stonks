@@ -118,7 +118,10 @@ class SearchViewModel(
                     symbol = searchText.value?.uppercase(),
                     filterWatchlist = filterWatchlist
                 ).onSuccess {
-                    currentStocks = currentStocks.copy(items = currentStocks.items.plus(it.items))
+                    currentStocks = currentStocks.copy(
+                        items = currentStocks.items.plus(it.items),
+                        nextPage = it.nextPage,
+                    )
                 }.onFailure {
                     it.showErrorNotification()
                 }.fold(
