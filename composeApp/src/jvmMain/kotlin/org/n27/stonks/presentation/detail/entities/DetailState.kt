@@ -15,6 +15,7 @@ internal sealed class DetailState {
         val icon: ImageBitmap?,
         val name: String,
         val price: String?,
+        val lastUpdated: String?,
         val cells: ImmutableList<Cell>,
     ) : DetailState() {
 

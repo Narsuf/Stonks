@@ -29,15 +29,27 @@ internal fun DetailContent(content: Content) {
             }
         }
 
-        content.price?.let {
-            Text(
-                text = it,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(
-                    top = Spacing.default,
-                    bottom = Spacing.smallest,
-                ),
-            )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            content.price?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(
+                        top = Spacing.default,
+                        bottom = Spacing.smallest,
+                    ),
+                )
+            }
+
+            content.lastUpdated?.let {
+                Spacer(Modifier.weight(1f))
+                Text(
+                    text = "Last updated: $it",
+                    modifier = Modifier.padding(start = Spacing.smallest),
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
         }
 
         LazyColumn(

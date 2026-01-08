@@ -11,6 +11,7 @@ internal fun Stock.toDetailContent() = Content(
     icon = logo?.toImageBitmap(),
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toPrice(currency),
+    lastUpdated = lastUpdated?.toDateString(),
     cells = buildList {
         dividendYield?.toDividendCell()?.let(::add)
         eps?.toEpsCell(currency)?.let(::add)
