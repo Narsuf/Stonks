@@ -1,7 +1,7 @@
 package org.n27.stonks.presentation.detail.mapping
 
 import kotlinx.collections.immutable.toPersistentList
-import org.n27.stonks.domain.models.Stock
+import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.detail.entities.DetailState.Content

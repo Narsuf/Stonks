@@ -59,21 +59,12 @@ class ApiTest {
     fun `getStock should return a stock`() = runTest {
         val actual = api.getStock("AAPL")
 
-        assertEquals(
-            expected = getStock(
-                expectedEpsGrowth = 7.75,
-                valuationFloor = 12.5,
-                currentIntrinsicValue = 185.03,
-                forwardIntrinsicValue = 177.83,
-                lastUpdated = 1765627200000,
-            ),
-            actual = actual,
-        )
+        assertEquals(getStock(), actual)
     }
 
     @Test
     fun `getStocks should return stocks`() = runTest {
-        val actual = api.getStocks(null, null, false)
+        val actual = api.getStocks(false, null, null, null)
 
         assertEquals(getStocks(), actual)
     }

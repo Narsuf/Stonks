@@ -2,8 +2,8 @@ package org.n27.stonks.presentation.search.mapping
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import org.n27.stonks.domain.models.Stock
 import org.n27.stonks.domain.models.Stocks
+import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.presentation.common.extensions.toImageBitmap
 import org.n27.stonks.presentation.common.extensions.toPrice
 import org.n27.stonks.presentation.common.extensions.truncateAfterDoubleSpace

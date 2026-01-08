@@ -3,18 +3,19 @@
     {
       "symbol": "AAPL",
       "companyName": "Apple Inc.",
-      "logoUrl": "https://logo.clearbit.com/apple.com",
+      "logo": "/9j/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBA",
       "price": 285.910003662109,
       "dividendYield": 0.37,
       "eps": 7.47,
       "pe": 38.2744315478058,
+      "pb": 51.430573,
       "earningsQuarterlyGrowth": 86.4,
       "expectedEpsGrowth": 7.75,
       "valuationFloor": 12.5,
-      "currentIntrinsicValue": 185.03,
-      "forwardIntrinsicValue": 177.83,
+      "currentIntrinsicValue": 23.31,
+      "forwardIntrinsicValue": 25.776198,
       "currency": "USD",
-      "lastUpdated": 1765627200000
+      "lastUpdated": 1767879314413
     }
   ],
   "nextPage": 2
