@@ -18,24 +18,34 @@ class Api(baseUrl: String, private val httpClient: HttpClient) {
         return response
     }
 
-    suspend fun getStocks(page: Int?, symbol: String?, filterWatchlist: Boolean): Stocks {
+    suspend fun addCustomValues(symbol: String, epsGrowth: Double, valuationFloor: Double?) {
+        val url = "$url/stock/$symbol/valuation"
+        println("addCustomValues request triggered for symbol: $symbol")
+        httpClient.post(url) {
+            parameter("epsGrowth", epsGrowth)
+            parameter("valuationFloor", valuationFloor)
+        }
+    }
+
+    suspend fun getStocks(filterWatchlist: Boolean, symbol: String?, page: Int?, pageSize: Int?): Stocks {
         val url = "$url/stocks"
         println("getStocks request triggered")
         val response: Stocks = httpClient.get(url) {
-            parameter("page", page)
-            parameter("symbol", symbol)
             parameter("filterWatchlist", filterWatchlist)
+            parameter("symbol", symbol)
+            parameter("page", page)
+            parameter("pageSize", pageSize)
         }.body()
 
         return response
     }
 
-    suspend fun getWatchlist(page: Int?, forceUpdate: Boolean?): Stocks {
+    suspend fun getWatchlist(page: Int?, pageSize: Int?): Stocks {
         val url = "$url/watchlist"
         println("getWatchlist request triggered")
         val response: Stocks = httpClient.get(url) {
             parameter("page", page)
-            parameter("forceUpdate", forceUpdate)
+            parameter("pageSize", pageSize)
         }.body()
 
         return response

@@ -98,21 +98,21 @@ private fun ListItem(
 @Composable
 private fun WatchlistCell(
     index: Int,
-    stock: Content.Item,
+    item: Content.Item,
     onAction: (action: HomeInteraction) -> Unit,
 ) {
     Cell(
-        start = { RoundIcon(stock.iconUrl) },
+        start = { RoundIcon(item.icon) },
         center = {
             Column {
-                Text(text = stock.name, style = MaterialTheme.typography.titleMedium)
-                Text(text = stock.symbol, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+                Text(text = item.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = item.symbol, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
             }
         },
         end = {
             Column(horizontalAlignment = Alignment.End) {
-                stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
-                stock.targetPrice?.let { DeltaText(it) }
+                item.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
+                item.targetPrice?.let { DeltaText(it) }
             }
         },
         modifier = Modifier.fillMaxWidth(0.5f),

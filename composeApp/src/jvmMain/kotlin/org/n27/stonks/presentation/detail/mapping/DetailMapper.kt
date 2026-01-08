@@ -8,7 +8,7 @@ import org.n27.stonks.presentation.detail.entities.DetailState.Content
 
 internal fun Stock.toDetailContent() = Content(
     symbol = symbol,
-    logoUrl = logoUrl ?: "",
+    icon = logo?.toImageBitmap(),
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toPrice(currency),
     cells = buildList {

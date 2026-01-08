@@ -86,7 +86,7 @@ private fun SearchCell(
     onAction: (action: SearchInteraction) -> Unit,
 ) {
     Cell(
-        start = { RoundIcon(stock.iconUrl) },
+        start = { RoundIcon(stock.icon) },
         center = {
             Column {
                 Text(text = stock.name, style = MaterialTheme.typography.titleMedium)

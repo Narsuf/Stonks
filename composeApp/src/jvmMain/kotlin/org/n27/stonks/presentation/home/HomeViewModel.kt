@@ -149,8 +149,9 @@ class HomeViewModel(
     private fun onValuesUpdated(index: Int, epsGrowth: BigDecimal, valuationFloor: BigDecimal) {
         viewModelScope.launch {
             val item = currentStocks.items[index]
+            val vf = if (valuationFloor > BigDecimal.ZERO) valuationFloor.toDouble() else null
             event.send(HomeEvent.CloseBottomSheet)
-            repository.editWatchlistItem(item.symbol, epsGrowth.toDouble(), valuationFloor.toDouble())
+            repository.editWatchlistItem(item.symbol, epsGrowth.toDouble(), vf)
                 .onSuccess { requestWatchlist() }
                 .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
         }

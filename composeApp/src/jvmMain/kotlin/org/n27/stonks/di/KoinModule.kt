@@ -37,8 +37,6 @@ val appModule = module {
     single { Api(BASE_URL, get()) }
     single<Repository> { RepositoryImpl(get()) }
 
-    //single { YfinanceApi(BASE_URL, get()) }
-    //single<Repository> { YfinanceRepositoryImpl(get()) }
     single { EventBus() }
 
     factory { AppViewModel(get()) }

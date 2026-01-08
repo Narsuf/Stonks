@@ -4,10 +4,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import org.n27.stonks.domain.models.Stock
 import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.presentation.common.extensions.getTargetPrice
-import org.n27.stonks.presentation.common.extensions.toFormattedPercentage
-import org.n27.stonks.presentation.common.extensions.toFormattedString
-import org.n27.stonks.presentation.common.extensions.toPrice
+import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.home.entities.HomeState.Content
 import org.n27.stonks.presentation.home.entities.HomeState.Content.BottomSheet
 import java.math.BigDecimal
@@ -27,7 +24,7 @@ internal fun List<Stock>.toPresentationEntity(): ImmutableList<Content.Item> = m
     .toPersistentList()
 
 private fun Stock.toPresentationEntity() = Content.Item(
-    iconUrl = logoUrl ?: "",
+    icon = logo?.toImageBitmap(),
     name = companyName.substringBefore(" "),
     symbol = symbol,
     price = price?.toPrice(currency),

@@ -21,7 +21,7 @@ internal fun DetailContent(content: Content) {
         modifier = Modifier.padding(horizontal = Spacing.default)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            RoundIcon(content.logoUrl)
+            RoundIcon(content.icon)
             Spacer(Modifier.width(Spacing.small))
             Column {
                 Text(text = content.name, style = MaterialTheme.typography.headlineSmall)

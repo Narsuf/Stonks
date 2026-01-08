@@ -1,5 +1,6 @@
 package org.n27.stonks.presentation.search.entities
 
+import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.collections.immutable.ImmutableList
 
 internal sealed class SearchState {
@@ -16,7 +17,7 @@ internal sealed class SearchState {
     ) : SearchState() {
 
         data class Item(
-            val iconUrl: String,
+            val icon: ImageBitmap?,
             val name: String,
             val symbol: String,
             val price: String?,
