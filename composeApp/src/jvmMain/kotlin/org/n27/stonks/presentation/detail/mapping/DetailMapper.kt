@@ -1,14 +1,14 @@
 package org.n27.stonks.presentation.detail.mapping
 
 import kotlinx.collections.immutable.toPersistentList
-import org.n27.stonks.domain.models.Stock
+import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
 
 internal fun Stock.toDetailContent() = Content(
     symbol = symbol,
-    logoUrl = logoUrl ?: "",
+    icon = logo?.toImageBitmap(),
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toPrice(currency),
     cells = buildList {
@@ -19,6 +19,7 @@ internal fun Stock.toDetailContent() = Content(
         currentIntrinsicValue?.toIntrinsicValue(this@toDetailContent)?.let(::add)
         forwardIntrinsicValue?.toForwardIntrinsicValue(this@toDetailContent)?.let(::add)
         pe?.toPe()?.let(::add)
+        pb?.toPb()?.let(::add)
     }.toPersistentList(),
 )
 
@@ -36,6 +37,12 @@ private fun Double.toPe() = toFormattedString().toCell(
     title = "P/E",
     description = "The stock price divided by its earnings per share.\n\n" +
             "A P/E around 16 is traditionally considered a reasonable value.",
+)
+
+private fun Double.toPb() = toFormattedString().toCell(
+    title = "P/B",
+    description =  "The stock price divided by its book value per share.\n\n" +
+            "A P/B below 1.8 is traditionally considered a reasonable valuation.",
 )
 
 private fun Double.toGrowth() = toFormattedPercentage().toCell(

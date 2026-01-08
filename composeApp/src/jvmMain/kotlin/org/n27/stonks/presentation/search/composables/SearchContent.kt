@@ -86,15 +86,12 @@ private fun SearchCell(
     onAction: (action: SearchInteraction) -> Unit,
 ) {
     Cell(
-        start = { RoundIcon(stock.iconUrl) },
+        start = { RoundIcon(stock.icon) },
         center = {
             Column {
                 Text(text = stock.name, style = MaterialTheme.typography.titleMedium)
                 Text(text = stock.symbol, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
             }
-        },
-        end = {
-            stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
         },
         modifier = Modifier
             .padding(bottom = Spacing.smaller)

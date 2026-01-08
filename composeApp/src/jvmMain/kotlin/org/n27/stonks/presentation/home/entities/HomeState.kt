@@ -1,5 +1,6 @@
 package org.n27.stonks.presentation.home.entities
 
+import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.collections.immutable.ImmutableList
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import java.math.BigDecimal
@@ -24,7 +25,7 @@ internal sealed class HomeState {
         )
 
         data class Item(
-            val iconUrl: String,
+            val icon: ImageBitmap?,
             val name: String,
             val symbol: String,
             val price: String?,
