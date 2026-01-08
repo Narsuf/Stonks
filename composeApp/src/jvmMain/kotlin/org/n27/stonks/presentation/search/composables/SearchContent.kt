@@ -93,9 +93,6 @@ private fun SearchCell(
                 Text(text = stock.symbol, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
             }
         },
-        end = {
-            stock.price?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
-        },
         modifier = Modifier
             .padding(bottom = Spacing.smaller)
             .fillMaxWidth(),

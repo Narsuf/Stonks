@@ -7,9 +7,7 @@ import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock
 
 
-class Api(baseUrl: String, private val httpClient: HttpClient) {
-
-    private val url = baseUrl + 8080
+class Api(private val url: String, private val httpClient: HttpClient) {
 
     suspend fun getStock(symbol: String): Stock {
         val url = "$url/stock/$symbol"

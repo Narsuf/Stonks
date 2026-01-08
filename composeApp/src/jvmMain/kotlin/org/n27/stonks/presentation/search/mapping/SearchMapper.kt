@@ -24,5 +24,4 @@ private fun Stock.toPresentationEntity() = Content.Item(
     icon = logo?.toImageBitmap(),
     name = companyName.truncateAfterDoubleSpace(),
     symbol = symbol,
-    price = price?.toPrice(currency),
 )

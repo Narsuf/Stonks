@@ -20,7 +20,6 @@ internal sealed class SearchState {
             val icon: ImageBitmap?,
             val name: String,
             val symbol: String,
-            val price: String?,
         )
     }
 }

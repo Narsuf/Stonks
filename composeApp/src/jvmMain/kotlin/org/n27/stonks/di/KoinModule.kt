@@ -16,8 +16,6 @@ import org.n27.stonks.presentation.detail.DetailViewModel
 import org.n27.stonks.presentation.home.HomeViewModel
 import org.n27.stonks.presentation.search.SearchViewModel
 
-const val BASE_URL = "http://localhost:"
-
 val appModule = module {
 
     single {
@@ -34,7 +32,7 @@ val appModule = module {
         }
     }
 
-    single { Api(BASE_URL, get()) }
+    single { Api(System.getenv("STONKS_URL"), get()) }
     single<Repository> { RepositoryImpl(get()) }
 
     single { EventBus() }
