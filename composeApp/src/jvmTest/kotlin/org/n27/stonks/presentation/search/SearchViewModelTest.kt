@@ -16,12 +16,14 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.GoBack
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
+import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
 import org.n27.stonks.presentation.search.entities.SearchInteraction.BackClicked
 import org.n27.stonks.presentation.search.entities.SearchInteraction.ItemClicked
 import org.n27.stonks.presentation.search.entities.SearchInteraction.LoadNextPage
@@ -35,6 +37,9 @@ import org.n27.stonks.test_data.domain.getStocks
 import org.n27.stonks.test_data.presentation.getSearchContent
 import org.n27.stonks.test_data.presentation.getSearchContentItem
 import org.n27.stonks.utils.test
+import stonks.composeapp.generated.resources.Res
+import stonks.composeapp.generated.resources.error_generic
+import stonks.composeapp.generated.resources.error_no_assets
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
@@ -130,6 +135,31 @@ class SearchViewModelTest {
     }
 
     @Test
+    fun `should emit error when load next page fails`() = runTest {
+        `when`(repository.getStocks(
+            filterWatchlist = false,
+            from = 2,
+            symbol = null,
+        )).thenReturn(failure(Throwable()))
+        val viewModel = getViewModel()
+        val stateObserver = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        val eventObserver = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        stateObserver.reset()
+
+        viewModel.handleInteraction(LoadNextPage)
+        runCurrent()
+
+        stateObserver.assertValues(
+            getSearchContent().copy(isPageLoading = true),
+            getSearchContent().copy(isPageLoading = false)
+        )
+        eventObserver.assertValues(ShowErrorNotification(Res.string.error_generic))
+        stateObserver.close()
+        eventObserver.close()
+    }
+
+    @Test
     fun `should emit search loading and content when search value changed`() = runTest {
         `when`(repository.getStocks(
             filterWatchlist = false,
@@ -162,6 +192,77 @@ class SearchViewModelTest {
     }
 
     @Test
+    fun `should emit error notification when search returns empty list`() = runTest {
+        `when`(repository.getStocks(
+            filterWatchlist = false,
+            symbol = "TEST",
+        )).thenReturn(success(getStocks(items = listOf())))
+        val viewModel = getViewModel()
+        val stateObserver = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        val eventObserver = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        stateObserver.reset()
+
+        viewModel.handleInteraction(SearchValueChanged("test"))
+        runCurrent()
+        advanceTimeBy(500)
+        runCurrent()
+
+        stateObserver.assertValues(
+            getSearchContent().copy(search = "test"),
+            getSearchContent().copy(
+                search = "test",
+                isSearchLoading = true,
+                items = persistentListOf()
+            ),
+            getSearchContent().copy(
+                search = "test",
+                isSearchLoading = false,
+                items = persistentListOf()
+            )
+        )
+        eventObserver.assertValues(ShowErrorNotification(Res.string.error_no_assets))
+        stateObserver.close()
+        eventObserver.close()
+    }
+
+    @Test
+    fun `should emit error notification when search returns error`() = runTest {
+        `when`(repository.getStocks(
+            filterWatchlist = false,
+            symbol = "TEST",
+        )).thenReturn(failure(Throwable()))
+        val viewModel = getViewModel()
+        val stateObserver = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        val eventObserver = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        stateObserver.reset()
+
+        viewModel.handleInteraction(SearchValueChanged("test"))
+        runCurrent()
+        advanceTimeBy(500)
+        runCurrent()
+
+        stateObserver.assertValues(
+            getSearchContent().copy(search = "test"),
+            getSearchContent().copy(
+                search = "test",
+                isSearchLoading = true,
+                items = persistentListOf()
+            ),
+            getSearchContent().copy(
+                search = "test",
+                isSearchLoading = false,
+                items = persistentListOf(),
+                isEndReached = true,
+            )
+        )
+        eventObserver.assertValues(ShowErrorNotification(Res.string.error_generic))
+        stateObserver.close()
+        eventObserver.close()
+    }
+
+    @Test
     fun `should emit navigate to detail when item clicked`() = runTest {
         val viewModel = getViewModel()
         val observer = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
@@ -174,8 +275,25 @@ class SearchViewModelTest {
         observer.close()
     }
 
-    private fun TestScope.getViewModel() = SearchViewModel(
-        origin = Origin.HOME,
+    @Test
+    fun `should emit go back when item clicked`() = runTest {
+        `when`(repository.getStocks(filterWatchlist = true))
+            .thenReturn(success(getStocks()))
+        val viewModel = getViewModel(origin = Origin.WATCHLIST)
+        val observer = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+
+        viewModel.handleInteraction(ItemClicked(0))
+        runCurrent()
+
+        observer.assertValues(GoBack(mapOf(SYMBOL to "AAPL")))
+        observer.close()
+    }
+
+    private fun TestScope.getViewModel(
+        origin: Origin = Origin.HOME,
+    ) = SearchViewModel(
+        origin = origin,
         eventBus = eventBus,
         repository = repository,
         dispatcher = StandardTestDispatcher(testScheduler),

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Stonks</string>
+
+    <!-- Detail -->
     <string name="dividend_yield">Dividend yield</string>
     <string name="dividend_yield_description">How much a company pays in dividends each year relative to its stock price.</string>
     <string name="eps">EPS</string>
@@ -16,4 +18,8 @@
     <string name="intrinsic_value_description">The estimated intrinsic value based on an ideal P/E ratio of 16.</string>
     <string name="forward_intrinsic_value">Forward Intrinsic Value</string>
     <string name="forward_intrinsic_value_description">The estimated intrinsic value including the expected EPS growth for the next year.</string>
+
+    <!-- Errors -->
+    <string name="error_generic">Something went wrong.</string>
+    <string name="error_no_assets">No assets found.</string>
 </resources>

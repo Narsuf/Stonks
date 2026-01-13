@@ -18,6 +18,10 @@ import org.n27.stonks.presentation.search.entities.SearchState
 import org.n27.stonks.presentation.search.entities.SearchState.*
 import org.n27.stonks.presentation.search.mapping.toContent
 import org.n27.stonks.presentation.search.mapping.toPresentationEntity
+import stonks.composeapp.generated.resources.Res
+import stonks.composeapp.generated.resources.error_generic
+import stonks.composeapp.generated.resources.error_no_assets
+import stonks.composeapp.generated.resources.growth_description
 
 @OptIn(FlowPreview::class)
 class SearchViewModel(
@@ -87,7 +91,7 @@ class SearchViewModel(
                 ).onSuccess {
                     currentStocks = it
                     if (currentStocks.items.isEmpty())
-                        eventBus.emit(ShowErrorNotification("No assets found."))
+                        eventBus.emit(ShowErrorNotification(Res.string.error_no_assets))
                 }.onFailure {
                     it.showErrorNotification()
                 }.fold(
@@ -167,6 +171,6 @@ class SearchViewModel(
 
     private suspend fun Throwable.showErrorNotification() {
         if (this !is CancellationException)
-            eventBus.emit(ShowErrorNotification("Something went wrong."))
+            eventBus.emit(ShowErrorNotification(Res.string.error_generic))
     }
 }
