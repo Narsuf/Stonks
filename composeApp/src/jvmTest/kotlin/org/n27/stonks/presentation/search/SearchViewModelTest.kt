@@ -84,6 +84,7 @@ class SearchViewModelTest {
         )).thenReturn(failure(Throwable()))
         val viewModel = getViewModel()
         val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+
         runCurrent()
 
         observer.assertValues(Idle, Loading, Error)
