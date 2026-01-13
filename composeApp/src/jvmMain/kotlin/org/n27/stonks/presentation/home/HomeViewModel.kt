@@ -1,5 +1,6 @@
 package org.n27.stonks.presentation.home
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,6 @@ import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.toFormattedBigDecimal
 import org.n27.stonks.presentation.common.extensions.updateIfType
-import org.n27.stonks.presentation.detail.DetailParams
 import org.n27.stonks.presentation.home.entities.HomeEvent
 import org.n27.stonks.presentation.home.entities.HomeEvent.ShowBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeInteraction
@@ -26,12 +26,15 @@ import org.n27.stonks.presentation.home.entities.HomeState
 import org.n27.stonks.presentation.home.entities.HomeState.*
 import org.n27.stonks.presentation.home.mapping.toContent
 import org.n27.stonks.presentation.home.mapping.toPresentationEntity
+import stonks.composeapp.generated.resources.Res
+import stonks.composeapp.generated.resources.error_generic
 import java.math.BigDecimal
 
 class HomeViewModel(
     private val eventBus: EventBus,
     private val repository: Repository,
-) : ViewModel() {
+    dispatcher: CoroutineDispatcher,
+) : ViewModel(dispatcher) {
     private val state = MutableStateFlow<HomeState>(Idle)
     internal val viewState = state.asStateFlow()
 
@@ -47,7 +50,7 @@ class HomeViewModel(
             val stock = result[SYMBOL] as String
             repository.addToWatchlist(stock)
                 .onSuccess { requestWatchlist() }
-                .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
+                .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
         }
     }
 
@@ -89,18 +92,14 @@ class HomeViewModel(
                     )
                     state.emit(currentStocks.toContent())
                 }
-                .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
+                .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
         }
     }
 
     private fun onItemClicked(index: Int) {
         viewModelScope.launch {
             val item = currentStocks.items[index]
-            eventBus.emit(
-                NavigateToDetail(
-                    DetailParams(item.symbol, item.expectedEpsGrowth)
-                )
-            )
+            eventBus.emit(NavigateToDetail(item.symbol))
         }
     }
 
@@ -117,7 +116,7 @@ class HomeViewModel(
                         c.copy(watchlist = currentStocks.items.toPresentationEntity())
                     }
                 }
-                .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
+                .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
         }
     }
 
@@ -153,7 +152,7 @@ class HomeViewModel(
             event.send(HomeEvent.CloseBottomSheet)
             repository.editWatchlistItem(item.symbol, epsGrowth.toDouble(), vf)
                 .onSuccess { requestWatchlist() }
-                .onFailure { eventBus.emit(ShowErrorNotification("Something went wrong.")) }
+                .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
         }
     }
 }

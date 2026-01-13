@@ -11,20 +11,23 @@ import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
-import org.n27.stonks.presentation.detail.DetailParams
 import org.n27.stonks.presentation.search.entities.SearchInteraction
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
 import org.n27.stonks.presentation.search.entities.SearchState
 import org.n27.stonks.presentation.search.entities.SearchState.*
 import org.n27.stonks.presentation.search.mapping.toContent
 import org.n27.stonks.presentation.search.mapping.toPresentationEntity
+import stonks.composeapp.generated.resources.Res
+import stonks.composeapp.generated.resources.error_generic
+import stonks.composeapp.generated.resources.error_no_assets
 
 @OptIn(FlowPreview::class)
 class SearchViewModel(
     private val origin: Origin,
     private val eventBus: EventBus,
     private val repository: Repository,
-) : ViewModel() {
+    dispatcher: CoroutineDispatcher,
+) : ViewModel(dispatcher) {
     private val state = MutableStateFlow<SearchState>(Idle)
     internal val viewState = state.asStateFlow()
 
@@ -86,7 +89,7 @@ class SearchViewModel(
                 ).onSuccess {
                     currentStocks = it
                     if (currentStocks.items.isEmpty())
-                        eventBus.emit(ShowErrorNotification("No assets found."))
+                        eventBus.emit(ShowErrorNotification(Res.string.error_no_assets))
                 }.onFailure {
                     it.showErrorNotification()
                 }.fold(
@@ -155,7 +158,7 @@ class SearchViewModel(
             val symbol = currentStocks.items[index].symbol
             eventBus.emit(
                 when (origin) {
-                    Origin.HOME -> NavigateToDetail(DetailParams(symbol))
+                    Origin.HOME -> NavigateToDetail(symbol)
                     Origin.WATCHLIST -> GoBack(mapOf(SYMBOL to symbol))
                 }
             )
@@ -166,6 +169,6 @@ class SearchViewModel(
 
     private suspend fun Throwable.showErrorNotification() {
         if (this !is CancellationException)
-            eventBus.emit(ShowErrorNotification("Something went wrong."))
+            eventBus.emit(ShowErrorNotification(Res.string.error_generic))
     }
 }

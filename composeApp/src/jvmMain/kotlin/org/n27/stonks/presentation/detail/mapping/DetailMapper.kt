@@ -1,10 +1,12 @@
 package org.n27.stonks.presentation.detail.mapping
 
 import kotlinx.collections.immutable.toPersistentList
+import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
+import stonks.composeapp.generated.resources.*
 
 internal fun Stock.toDetailContent() = Content(
     symbol = symbol,
@@ -25,52 +27,52 @@ internal fun Stock.toDetailContent() = Content(
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(
-    title = "Dividend yield",
-    description = "How much a company pays in dividends each year relative to its stock price.",
+    title = Res.string.dividend_yield,
+    description = Res.string.dividend_yield_description,
 )
 
 private fun Double.toEpsCell(currency: String?) = toPrice(currency)?.toCell(
-    title = "EPS",
-    description = "The company’s earnings divided by the total number of shares.",
+    title = Res.string.eps,
+    description = Res.string.eps_description,
 )
 
 private fun Double.toPe() = toFormattedString().toCell(
-    title = "P/E",
-    description = "The stock price divided by its earnings per share.\n\n" +
-            "A P/E around 16 is traditionally considered a reasonable value.",
+    title = Res.string.pe,
+    description = Res.string.pe_description,
 )
 
 private fun Double.toPb() = toFormattedString().toCell(
-    title = "P/B",
-    description =  "The stock price divided by its book value per share.\n\n" +
-            "A P/B below 1.8 is traditionally considered a reasonable valuation.",
+    title = Res.string.pb,
+    description = Res.string.pb_description,
 )
 
 private fun Double.toGrowth() = toFormattedPercentage().toCell(
-    title = "Growth",
-    description = "Quarterly earnings growth (YoY).\n\n" +
-            "The company’s growth compared to the same quarter of the previous year.",
+    title = Res.string.growth,
+    description = Res.string.growth_description,
 )
 
 private fun Double.toExpectedEpsGrowth() = toFormattedPercentage().toCell(
-    title = "Forward Growth",
-    description = "Expected EPS growth.\n\n" +
-            "The company’s expected EPS growth for the next year."
+    title = Res.string.forward_growth,
+    description = Res.string.forward_growth_description,
 )
 
 private fun Double.toIntrinsicValue(stock: Stock) = toPrice(stock.currency)?.toCell(
-    title = "Intrinsic Value",
-    description = "The estimated intrinsic value based on an ideal P/E ratio of 16.",
+    title = Res.string.intrinsic_value,
+    description = Res.string.intrinsic_value_description,
     delta = stock.price?.getTargetPrice(this, stock.currency),
 )
 
 private fun Double.toForwardIntrinsicValue(stock: Stock) = toPrice(stock.currency)?.toCell(
-    title = "Forward Intrinsic Value",
-    description = "The estimated intrinsic value including the expected EPS growth for the next year.",
+    title = Res.string.forward_intrinsic_value,
+    description = Res.string.forward_intrinsic_value_description,
     delta = stock.price?.getTargetPrice(this, stock.currency),
 )
 
-private fun String.toCell(title: String, description: String, delta: DeltaTextEntity? = null) = Content.Cell(
+private fun String.toCell(
+    title: StringResource,
+    description: StringResource,
+    delta: DeltaTextEntity? = null
+) = Content.Cell(
     title = title,
     value = this,
     description = description,

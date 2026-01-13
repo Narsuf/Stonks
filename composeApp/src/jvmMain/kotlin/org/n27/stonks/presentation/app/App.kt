@@ -8,6 +8,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.n27.stonks.presentation.app.entities.AppEvent.ShowErrorNotification
@@ -27,7 +28,7 @@ fun App(viewModel: AppViewModel = koinInject()) {
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
-                is ShowErrorNotification -> snackbarHostState.showSnackbar(event.title)
+                is ShowErrorNotification -> snackbarHostState.showSnackbar(getString(event.title))
             }
         }
     }
