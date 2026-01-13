@@ -1,11 +1,18 @@
 package org.n27.stonks.presentation.detail.mapping
 
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.presentation.getDetailContent
+import java.util.*
 
 class DetailMapperTest {
+
+    @Before
+    fun setup() {
+        Locale.setDefault(Locale.GERMANY)
+    }
 
     @Test
     fun `toDetailContent should map Stock to Content correctly`() {

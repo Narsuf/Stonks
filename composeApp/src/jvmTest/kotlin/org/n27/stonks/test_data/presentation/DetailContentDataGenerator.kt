@@ -11,8 +11,8 @@ import kotlin.text.Typography.nbsp
 fun getDetailContent(
     symbol: String = "AAPL",
     name: String = "Apple Inc.",
-    price: String = "259,37${nbsp}US$",
-    lastUpdated: String? = "10. Jan 17:55",
+    price: String = "259,37${nbsp}$",
+    lastUpdated: String? = "10. Jan. 17:55",
     cells: List<Cell> = listOf(
         Cell(
             title = Res.string.dividend_yield,
@@ -22,7 +22,7 @@ fun getDetailContent(
         ),
         Cell(
             title = Res.string.eps,
-            value = "7,47${nbsp}US$",
+            value = "7,47${nbsp}$",
             description = Res.string.eps_description,
             delta = null
         ),
@@ -40,20 +40,20 @@ fun getDetailContent(
         ),
         Cell(
             title = Res.string.intrinsic_value,
-            value = "93,38${nbsp}US$",
+            value = "93,38${nbsp}$",
             description = Res.string.intrinsic_value_description,
             delta = DeltaTextEntity(
-                value = "165,99${nbsp}US$",
+                value = "165,99${nbsp}$",
                 percentage = "64.00 %",
                 state = DeltaState.NEGATIVE
             )
         ),
         Cell(
             title = Res.string.forward_intrinsic_value,
-            value = "100,58${nbsp}US$",
+            value = "100,58${nbsp}$",
             description = Res.string.forward_intrinsic_value_description,
             delta = DeltaTextEntity(
-                value = "158,79${nbsp}US$",
+                value = "158,79${nbsp}$",
                 percentage = "61.22 %",
                 state = DeltaState.NEGATIVE
             )
