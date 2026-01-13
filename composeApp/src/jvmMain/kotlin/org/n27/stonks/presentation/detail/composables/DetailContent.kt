@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import org.jetbrains.compose.resources.stringResource
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.DeltaText
@@ -87,7 +88,7 @@ private fun InfoCell(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = cell.title,
+                        text = stringResource(cell.title),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(horizontal = Spacing.smaller)
                     )
@@ -106,7 +107,7 @@ private fun InfoCell(
                 ) { cell.delta?.let { DeltaText(it) } }
 
                 Text(
-                    text = cell.description,
+                    text = stringResource(cell.description),
                     color = Color.Gray,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier

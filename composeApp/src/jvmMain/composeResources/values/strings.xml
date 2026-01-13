@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Stonks</string>
+    <string name="dividend_yield">Dividend yield</string>
+    <string name="dividend_yield_description">How much a company pays in dividends each year relative to its stock price.</string>
+    <string name="eps">EPS</string>
+    <string name="eps_description">The company’s earnings divided by the total number of shares.</string>
+    <string name="pe">P/E</string>
+    <string name="pe_description">The stock price divided by its earnings per share.\n\nA P/E around 16 is traditionally considered a reasonable value.</string>
+    <string name="pb">P/B</string>
+    <string name="pb_description">The stock price divided by its book value per share.\n\nA P/B below 1.8 is traditionally considered a reasonable valuation.</string>
+    <string name="growth">Growth</string>
+    <string name="growth_description">Quarterly earnings growth (YoY).\n\nThe company’s growth compared to the same quarter of the previous year.</string>
+    <string name="forward_growth">Forward Growth</string>
+    <string name="forward_growth_description">Expected EPS growth.\n\nThe company’s expected EPS growth for the next year.</string>
+    <string name="intrinsic_value">Intrinsic Value</string>
+    <string name="intrinsic_value_description">The estimated intrinsic value based on an ideal P/E ratio of 16.</string>
+    <string name="forward_intrinsic_value">Forward Intrinsic Value</string>
+    <string name="forward_intrinsic_value_description">The estimated intrinsic value including the expected EPS growth for the next year.</string>
+</resources>

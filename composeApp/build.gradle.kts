@@ -76,8 +76,8 @@ tasks.register("jacocoJvmTestReport", JacocoReport::class) {
         "src/jvmMain/kotlin"
     ))
 
-    classDirectories.setFrom(files("$buildDir/classes/kotlin/jvm/main"))
-    executionData.setFrom(files("$buildDir/jacoco/jvmTest.exec"))
+    classDirectories.setFrom(files("${layout.buildDirectory.get()}/classes/kotlin/jvm/main"))
+    executionData.setFrom(files("${layout.buildDirectory.get()}/jacoco/jvmTest.exec"))
 }
 
 tasks.named("jvmTest") {
