@@ -46,5 +46,3 @@ class DetailViewModel(
         }
     }
 }
-
-data class DetailParams(val symbol: String)

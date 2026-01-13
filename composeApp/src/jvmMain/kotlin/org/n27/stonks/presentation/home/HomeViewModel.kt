@@ -1,5 +1,6 @@
 package org.n27.stonks.presentation.home
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +33,8 @@ import java.math.BigDecimal
 class HomeViewModel(
     private val eventBus: EventBus,
     private val repository: Repository,
-) : ViewModel() {
+    dispatcher: CoroutineDispatcher,
+) : ViewModel(dispatcher) {
     private val state = MutableStateFlow<HomeState>(Idle)
     internal val viewState = state.asStateFlow()
 

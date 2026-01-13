@@ -1,6 +1,7 @@
 package org.n27.stonks.presentation.app
 
 import androidx.compose.runtime.mutableStateListOf
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
@@ -16,7 +17,10 @@ import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.EventBus
 
 @OptIn(FlowPreview::class)
-class AppViewModel(eventBus: EventBus) : ViewModel() {
+class AppViewModel(
+    eventBus: EventBus,
+    dispatcher: CoroutineDispatcher,
+) : ViewModel(dispatcher) {
 
     private val koin = GlobalContext.get()
 
