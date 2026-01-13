@@ -2,7 +2,6 @@ package org.n27.stonks.presentation.common.broadcast
 
 import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin.HOME
-import org.n27.stonks.presentation.detail.DetailParams
 
 sealed class Event {
 

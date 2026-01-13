@@ -11,7 +11,6 @@ import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
-import org.n27.stonks.presentation.detail.DetailParams
 import org.n27.stonks.presentation.search.entities.SearchInteraction
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
 import org.n27.stonks.presentation.search.entities.SearchState
@@ -21,7 +20,6 @@ import org.n27.stonks.presentation.search.mapping.toPresentationEntity
 import stonks.composeapp.generated.resources.Res
 import stonks.composeapp.generated.resources.error_generic
 import stonks.composeapp.generated.resources.error_no_assets
-import stonks.composeapp.generated.resources.growth_description
 
 @OptIn(FlowPreview::class)
 class SearchViewModel(

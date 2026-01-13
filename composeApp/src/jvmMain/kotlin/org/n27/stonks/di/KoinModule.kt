@@ -12,7 +12,6 @@ import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.app.AppViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch
 import org.n27.stonks.presentation.common.broadcast.EventBus
-import org.n27.stonks.presentation.detail.DetailParams
 import org.n27.stonks.presentation.detail.DetailViewModel
 import org.n27.stonks.presentation.home.HomeViewModel
 import org.n27.stonks.presentation.search.SearchViewModel

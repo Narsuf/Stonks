@@ -17,7 +17,6 @@ import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.toFormattedBigDecimal
 import org.n27.stonks.presentation.common.extensions.updateIfType
-import org.n27.stonks.presentation.detail.DetailParams
 import org.n27.stonks.presentation.home.entities.HomeEvent
 import org.n27.stonks.presentation.home.entities.HomeEvent.ShowBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeInteraction
