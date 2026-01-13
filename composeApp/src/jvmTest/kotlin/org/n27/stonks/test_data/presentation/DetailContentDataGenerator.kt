@@ -13,7 +13,7 @@ fun getDetailContent(
     symbol: String = "AAPL",
     name: String = "Apple Inc.",
     price: String = "$259.37",
-    lastUpdated: String? = "10. Jan 17:55",
+    lastUpdated: String? = "10. Jan 16:55",
     cells: List<Cell> = listOf(
         getDetailContentCell(
             title = Res.string.dividend_yield,

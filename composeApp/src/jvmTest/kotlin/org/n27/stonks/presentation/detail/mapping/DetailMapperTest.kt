@@ -12,6 +12,7 @@ class DetailMapperTest {
     @Before
     fun setup() {
         Locale.setDefault(Locale.US)
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
     }
 
     @Test

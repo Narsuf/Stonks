@@ -31,6 +31,7 @@ class DetailViewModelTest {
     @Before
     fun init() = runTest {
         Locale.setDefault(Locale.US)
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
         Dispatchers.setMain(StandardTestDispatcher())
         `when`(repository.getStock(symbol)).thenReturn(success(getStock()))
     }
