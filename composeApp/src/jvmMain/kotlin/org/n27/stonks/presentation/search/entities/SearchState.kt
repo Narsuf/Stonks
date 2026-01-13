@@ -3,7 +3,7 @@ package org.n27.stonks.presentation.search.entities
 import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.collections.immutable.ImmutableList
 
-internal sealed class SearchState {
+sealed class SearchState {
 
     data object Idle: SearchState()
     data object Loading: SearchState()

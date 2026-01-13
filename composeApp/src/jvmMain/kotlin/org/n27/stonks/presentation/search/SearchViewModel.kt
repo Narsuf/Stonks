@@ -24,7 +24,8 @@ class SearchViewModel(
     private val origin: Origin,
     private val eventBus: EventBus,
     private val repository: Repository,
-) : ViewModel() {
+    dispatcher: CoroutineDispatcher,
+) : ViewModel(dispatcher) {
     private val state = MutableStateFlow<SearchState>(Idle)
     internal val viewState = state.asStateFlow()
 

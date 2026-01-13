@@ -1,0 +1,183 @@
+package org.n27.stonks.presentation.search
+
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.plus
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runCurrent
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.Before
+import org.junit.Test
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
+import org.n27.stonks.domain.Repository
+import org.n27.stonks.presentation.common.broadcast.Event
+import org.n27.stonks.presentation.common.broadcast.Event.GoBack
+import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
+import org.n27.stonks.presentation.common.broadcast.EventBus
+import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
+import org.n27.stonks.presentation.search.entities.SearchInteraction.BackClicked
+import org.n27.stonks.presentation.search.entities.SearchInteraction.ItemClicked
+import org.n27.stonks.presentation.search.entities.SearchInteraction.LoadNextPage
+import org.n27.stonks.presentation.search.entities.SearchInteraction.Retry
+import org.n27.stonks.presentation.search.entities.SearchInteraction.SearchValueChanged
+import org.n27.stonks.presentation.search.entities.SearchState.Error
+import org.n27.stonks.presentation.search.entities.SearchState.Idle
+import org.n27.stonks.presentation.search.entities.SearchState.Loading
+import org.n27.stonks.test_data.domain.getStock
+import org.n27.stonks.test_data.domain.getStocks
+import org.n27.stonks.test_data.presentation.getSearchContent
+import org.n27.stonks.test_data.presentation.getSearchContentItem
+import org.n27.stonks.utils.test
+import kotlin.Result.Companion.failure
+import kotlin.Result.Companion.success
+
+@ExperimentalCoroutinesApi
+class SearchViewModelTest {
+
+    private val repository: Repository = mock()
+    private val eventBus = EventBus()
+
+    @Before
+    fun init() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher())
+        `when`(repository.getStocks(filterWatchlist = false))
+            .thenReturn(success(getStocks()))
+    }
+
+    @Test
+    fun `should emit loading and content when init`() = runTest {
+        val viewModel = getViewModel()
+        val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+
+        runCurrent()
+
+        observer.assertValues(Idle, Loading, getSearchContent())
+        observer.close()
+    }
+
+    @Test
+    fun `should emit loading and content when retry`() = runTest {
+        val viewModel = getViewModel()
+        val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        observer.reset()
+
+        viewModel.handleInteraction(Retry)
+        runCurrent()
+
+        observer.assertValues(Loading, getSearchContent())
+        observer.close()
+    }
+
+    @Test
+    fun `should emit go back when back button clicked`() = runTest {
+        val viewModel = getViewModel()
+        val observer = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
+
+        viewModel.handleInteraction(BackClicked)
+        runCurrent()
+
+        observer.assertValues(GoBack())
+        observer.close()
+    }
+
+    @Test
+    fun `should emit error when get stocks fails`() = runTest {
+        `when`(repository.getStocks(
+            filterWatchlist = false,
+        )).thenReturn(failure(Throwable()))
+        val viewModel = getViewModel()
+        val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+
+        observer.assertValues(Idle, Loading, Error)
+        observer.close()
+    }
+
+    @Test
+    fun `should emit page loading and content when load next page`() = runTest {
+        `when`(repository.getStocks(
+            filterWatchlist = false,
+            from = 2,
+            symbol = null,
+        )).thenReturn(success(getStocks()))
+        val viewModel = getViewModel()
+        val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        observer.reset()
+
+        viewModel.handleInteraction(LoadNextPage)
+        runCurrent()
+
+        observer.assertValues(
+            getSearchContent().copy(isPageLoading = true),
+            getSearchContent().copy(
+                isPageLoading = false,
+                items = persistentListOf(
+                    getSearchContentItem(),
+                    getSearchContentItem(),
+                ),
+            )
+        )
+        observer.close()
+    }
+
+    @Test
+    fun `should emit search loading and content when search value changed`() = runTest {
+        `when`(repository.getStocks(
+            filterWatchlist = false,
+            symbol = "TEST",
+        )).thenReturn(success(getStocks(items = listOf(getStock(symbol = "TEST")))))
+        val viewModel = getViewModel()
+        val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        observer.reset()
+
+        viewModel.handleInteraction(SearchValueChanged("test"))
+        runCurrent()
+        advanceTimeBy(500)
+        runCurrent()
+
+        observer.assertValues(
+            getSearchContent().copy(search = "test"),
+            getSearchContent().copy(
+                search = "test",
+                isSearchLoading = true,
+                items = persistentListOf()
+            ),
+            getSearchContent().copy(
+                search = "test",
+                isSearchLoading = false,
+                items = persistentListOf(getSearchContentItem(symbol = "TEST"))
+            )
+        )
+        observer.close()
+    }
+
+    @Test
+    fun `should emit navigate to detail when item clicked`() = runTest {
+        val viewModel = getViewModel()
+        val observer = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+
+        viewModel.handleInteraction(ItemClicked(0))
+        runCurrent()
+
+        observer.assertValues(NavigateToDetail("AAPL"))
+        observer.close()
+    }
+
+    private fun TestScope.getViewModel() = SearchViewModel(
+        origin = Origin.HOME,
+        eventBus = eventBus,
+        repository = repository,
+        dispatcher = StandardTestDispatcher(testScheduler),
+    )
+}
