@@ -11,7 +11,7 @@ class DetailMapperTest {
 
     @Before
     fun setup() {
-        Locale.setDefault(Locale.GERMANY)
+        Locale.setDefault(Locale.US)
     }
 
     @Test

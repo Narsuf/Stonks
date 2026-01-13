@@ -30,7 +30,7 @@ class DetailViewModelTest {
 
     @Before
     fun init() = runTest {
-        Locale.setDefault(Locale.GERMANY)
+        Locale.setDefault(Locale.US)
         Dispatchers.setMain(StandardTestDispatcher())
         `when`(repository.getStock(symbol)).thenReturn(success(getStock()))
     }
