@@ -1,11 +1,15 @@
 package org.n27.stonks.presentation.common
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
-abstract class ViewModel {
-    protected val viewModelScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+abstract class ViewModel(
+    dispatcher: CoroutineDispatcher = Dispatchers.Default,
+) {
+
+    protected val viewModelScope = CoroutineScope(dispatcher + SupervisorJob())
 
     open fun onResult(result: Map<String, Any>) {}
 }

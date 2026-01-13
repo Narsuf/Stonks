@@ -96,11 +96,7 @@ class HomeViewModel(
     private fun onItemClicked(index: Int) {
         viewModelScope.launch {
             val item = currentStocks.items[index]
-            eventBus.emit(
-                NavigateToDetail(
-                    DetailParams(item.symbol, item.expectedEpsGrowth)
-                )
-            )
+            eventBus.emit(NavigateToDetail(item.symbol))
         }
     }
 

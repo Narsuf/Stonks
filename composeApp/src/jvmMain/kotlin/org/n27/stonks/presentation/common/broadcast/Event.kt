@@ -8,6 +8,6 @@ sealed class Event {
     data class NavigateToSearch(val from: Origin = HOME) : Event() {
         enum class Origin { HOME, WATCHLIST }
     }
-    data class NavigateToDetail(val params: DetailParams) : Event()
+    data class NavigateToDetail(val symbol: String) : Event()
     data class ShowErrorNotification(val title: String) : Event()
 }

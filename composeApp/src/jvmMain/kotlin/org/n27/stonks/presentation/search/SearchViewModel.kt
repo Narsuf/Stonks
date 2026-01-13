@@ -155,7 +155,7 @@ class SearchViewModel(
             val symbol = currentStocks.items[index].symbol
             eventBus.emit(
                 when (origin) {
-                    Origin.HOME -> NavigateToDetail(DetailParams(symbol))
+                    Origin.HOME -> NavigateToDetail(symbol)
                     Origin.WATCHLIST -> GoBack(mapOf(SYMBOL to symbol))
                 }
             )

@@ -1,5 +1,6 @@
 package org.n27.stonks.presentation.detail
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -15,10 +16,12 @@ import org.n27.stonks.presentation.detail.entities.DetailState.*
 import org.n27.stonks.presentation.detail.mapping.toDetailContent
 
 class DetailViewModel(
-    private val params: DetailParams,
+    private val symbol: String,
     private val eventBus: EventBus,
     private val repository: Repository,
-) : ViewModel() {
+    dispatcher: CoroutineDispatcher,
+) : ViewModel(dispatcher) {
+
     private val state = MutableStateFlow<DetailState>(Idle)
     internal val viewState = state.asStateFlow()
 
@@ -33,7 +36,7 @@ class DetailViewModel(
         viewModelScope.launch {
             state.emit(Loading)
 
-            val newState = repository.getStock(params.symbol)
+            val newState = repository.getStock(symbol)
                 .fold(
                     onSuccess = { it.toDetailContent() },
                     onFailure = { Error }
@@ -44,7 +47,4 @@ class DetailViewModel(
     }
 }
 
-data class DetailParams(
-    val symbol: String,
-    val expectedEpsGrowth: Double? = null
-)
+data class DetailParams(val symbol: String)

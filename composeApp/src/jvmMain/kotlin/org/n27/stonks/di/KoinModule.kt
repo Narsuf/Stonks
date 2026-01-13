@@ -3,6 +3,7 @@ package org.n27.stonks.di
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 import org.n27.stonks.data.Api
@@ -40,5 +41,5 @@ val appModule = module {
     factory { AppViewModel(get()) }
     factory { HomeViewModel(get(), get()) }
     factory { (origin: NavigateToSearch.Origin) -> SearchViewModel(origin, get(), get()) }
-    factory { (params: DetailParams) -> DetailViewModel(params, get(), get()) }
+    factory { (symbol: String) -> DetailViewModel(symbol, get(), get(), Dispatchers.Default) }
 }

@@ -38,7 +38,7 @@ class AppViewModel(eventBus: EventBus) : ViewModel() {
     private fun handleEvent(e: Event) = when (e) {
         is GoBack -> pop(e.result)
         is NavigateToSearch -> push(Search(koin.get { parametersOf(e.from) }))
-        is NavigateToDetail -> push(Detail(koin.get { parametersOf(e.params) }))
+        is NavigateToDetail -> push(Detail(koin.get { parametersOf(e.symbol) }))
         is ShowErrorNotification -> event.trySend(AppEvent.ShowErrorNotification(e.title))
     }
 
