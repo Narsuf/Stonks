@@ -61,6 +61,11 @@ compose.desktop {
 
 tasks.withType<Test> {
     jacoco { isEnabled = true }
+
+    if (System.getenv("CI") == "true") {
+        jvmArgs("-Djava.awt.headless=true")
+        systemProperty("java.awt.headless", "true")
+    }
 }
 
 tasks.register("jacocoJvmTestReport", JacocoReport::class) {
@@ -84,6 +89,6 @@ tasks.register("jacocoJvmTestReport", JacocoReport::class) {
     executionData.setFrom(files("${layout.buildDirectory.get()}/jacoco/jvmTest.exec"))
 }
 
-tasks.named("jvmTest") {
+tasks.named<Test>("jvmTest") {
     finalizedBy("jacocoJvmTestReport")
 }
