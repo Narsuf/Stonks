@@ -4,7 +4,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import org.koin.core.context.startKoin
 import org.n27.stonks.di.appModule
-import org.n27.stonks.presentation.app.App
+import org.n27.stonks.presentation.app.composables.App
 
 fun main() = application {
 

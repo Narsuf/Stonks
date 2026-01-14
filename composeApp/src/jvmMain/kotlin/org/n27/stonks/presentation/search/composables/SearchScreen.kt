@@ -1,4 +1,4 @@
-package org.n27.stonks.presentation.search
+package org.n27.stonks.presentation.search.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -6,8 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import org.n27.stonks.presentation.common.composables.ErrorScreen
 import org.n27.stonks.presentation.common.composables.TopBar
-import org.n27.stonks.presentation.search.composables.SearchContent
-import org.n27.stonks.presentation.search.composables.SearchLoading
+import org.n27.stonks.presentation.search.SearchViewModel
 import org.n27.stonks.presentation.search.entities.SearchInteraction.BackClicked
 import org.n27.stonks.presentation.search.entities.SearchInteraction.Retry
 import org.n27.stonks.presentation.search.entities.SearchState.*

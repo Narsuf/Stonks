@@ -1,13 +1,11 @@
-package org.n27.stonks.presentation.home
+package org.n27.stonks.presentation.home.composables
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
 import org.n27.stonks.presentation.common.composables.ErrorScreen
-import org.n27.stonks.presentation.home.composables.HomeContent
-import org.n27.stonks.presentation.home.composables.HomeEditGrowthBottomSheet
-import org.n27.stonks.presentation.home.composables.HomeLoading
+import org.n27.stonks.presentation.home.HomeViewModel
 import org.n27.stonks.presentation.home.entities.HomeEvent.CloseBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeEvent.ShowBottomSheet
 import org.n27.stonks.presentation.home.entities.HomeInteraction.Retry

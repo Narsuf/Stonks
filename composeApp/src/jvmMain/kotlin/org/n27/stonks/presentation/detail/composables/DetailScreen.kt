@@ -1,4 +1,4 @@
-package org.n27.stonks.presentation.detail
+package org.n27.stonks.presentation.detail.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -6,8 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import org.n27.stonks.presentation.common.composables.ErrorScreen
 import org.n27.stonks.presentation.common.composables.TopBar
-import org.n27.stonks.presentation.detail.composables.DetailContent
-import org.n27.stonks.presentation.detail.composables.DetailLoading
+import org.n27.stonks.presentation.detail.DetailViewModel
 import org.n27.stonks.presentation.detail.entities.DetailInteraction.BackClicked
 import org.n27.stonks.presentation.detail.entities.DetailInteraction.Retry
 import org.n27.stonks.presentation.detail.entities.DetailState.*

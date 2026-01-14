@@ -1,4 +1,4 @@
-package org.n27.stonks.presentation.app
+package org.n27.stonks.presentation.app.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,12 +11,13 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
+import org.n27.stonks.presentation.app.AppViewModel
 import org.n27.stonks.presentation.app.entities.AppEvent.ShowErrorNotification
 import org.n27.stonks.presentation.app.entities.AppState.*
 import org.n27.stonks.presentation.common.AppColors
-import org.n27.stonks.presentation.detail.DetailScreen
-import org.n27.stonks.presentation.home.HomeScreen
-import org.n27.stonks.presentation.search.SearchScreen
+import org.n27.stonks.presentation.detail.composables.DetailScreen
+import org.n27.stonks.presentation.home.composables.HomeScreen
+import org.n27.stonks.presentation.search.composables.SearchScreen
 
 @Composable
 @Preview

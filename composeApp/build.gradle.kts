@@ -76,7 +76,11 @@ tasks.register("jacocoJvmTestReport", JacocoReport::class) {
         "src/jvmMain/kotlin"
     ))
 
-    classDirectories.setFrom(files("${layout.buildDirectory.get()}/classes/kotlin/jvm/main"))
+    classDirectories.setFrom(files("${layout.buildDirectory.get()}/classes/kotlin/jvm/main").asFileTree.matching {
+        exclude(
+            "**/composables/**"
+        )
+    })
     executionData.setFrom(files("${layout.buildDirectory.get()}/jacoco/jvmTest.exec"))
 }
 
