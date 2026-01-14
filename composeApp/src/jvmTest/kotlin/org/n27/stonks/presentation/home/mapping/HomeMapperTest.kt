@@ -43,9 +43,6 @@ class HomeMapperTest {
     @Test
     fun `Stock toPresentationEntity should show Default when valuationFloor is null`() = runTest {
         val stock = getStock(valuationFloor = null)
-
-        val result = listOf(stock).toPresentationEntity()[0]
-
         val expected = StringResourceWithArgs(
             resource = Res.string.valuation_and_growth,
             args = persistentListOf(
@@ -53,15 +50,15 @@ class HomeMapperTest {
                 Text("7.72 %"),
             )
         )
+
+        val result = listOf(stock).toPresentationEntity()[0]
+
         assertEquals(expected, result.extraValue)
     }
 
     @Test
     fun `Stock toPresentationEntity should show Not set when expectedEpsGrowth is null`() = runTest {
         val stock = getStock(expectedEpsGrowth = null)
-
-        val result = listOf(stock).toPresentationEntity()[0]
-
         val expected = StringResourceWithArgs(
             resource = Res.string.valuation_and_growth,
             args = persistentListOf(
@@ -69,6 +66,9 @@ class HomeMapperTest {
                 Resource(Res.string.not_set),
             )
         )
+
+        val result = listOf(stock).toPresentationEntity()[0]
+
         assertEquals(expected, result.extraValue)
     }
 }
