@@ -7,7 +7,6 @@ import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
 import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell
 import stonks.composeapp.generated.resources.*
-import kotlin.text.Typography.nbsp
 
 fun getDetailContent(
     symbol: String = "AAPL",

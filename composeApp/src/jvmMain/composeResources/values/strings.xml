@@ -19,6 +19,10 @@
     <string name="forward_intrinsic_value">Forward Intrinsic Value</string>
     <string name="forward_intrinsic_value_description">The estimated intrinsic value including the expected EPS growth for the next year.</string>
 
+    <!-- Home -->
+    <string name="default_value">Default</string>
+    <string name="not_set">Not set</string>
+
     <!-- Errors -->
     <string name="error_generic">Something went wrong.</string>
     <string name="error_no_assets">No assets found.</string>

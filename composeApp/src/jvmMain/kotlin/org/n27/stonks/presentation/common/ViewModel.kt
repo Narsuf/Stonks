@@ -2,7 +2,6 @@ package org.n27.stonks.presentation.common
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 abstract class ViewModel(dispatcher: CoroutineDispatcher) {
