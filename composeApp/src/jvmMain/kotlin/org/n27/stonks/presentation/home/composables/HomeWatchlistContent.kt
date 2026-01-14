@@ -87,7 +87,7 @@ private fun ListItem(
         item.extraValue?.let {
             Spacer(Modifier.weight(1f))
             Text(
-                text = it,
+                text = it.asString(),
                 modifier = Modifier.padding(start = Spacing.smallest),
                 style = MaterialTheme.typography.bodyLarge,
             )

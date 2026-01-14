@@ -22,6 +22,7 @@
     <!-- Home -->
     <string name="default_value">Default</string>
     <string name="not_set">Not set</string>
+    <string name="valuation_and_growth">%1$s / %2$s</string>
 
     <!-- Errors -->
     <string name="error_generic">Something went wrong.</string>

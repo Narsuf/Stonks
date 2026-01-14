@@ -3,6 +3,7 @@ package org.n27.stonks.presentation.home.entities
 import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.collections.immutable.ImmutableList
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
+import org.n27.stonks.presentation.common.entities.StringResourceWithArgs
 import java.math.BigDecimal
 
 internal sealed class HomeState {
@@ -30,7 +31,7 @@ internal sealed class HomeState {
             val symbol: String,
             val price: String?,
             val targetPrice: DeltaTextEntity?,
-            val extraValue: String?,
+            val extraValue: StringResourceWithArgs?,
         )
     }
 }
