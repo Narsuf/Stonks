@@ -1,7 +1,6 @@
 package org.n27.stonks.presentation.home.mapping
 
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
