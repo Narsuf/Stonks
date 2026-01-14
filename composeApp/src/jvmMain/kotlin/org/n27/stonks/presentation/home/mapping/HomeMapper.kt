@@ -11,6 +11,7 @@ import org.n27.stonks.presentation.home.entities.HomeState.Content.BottomSheet
 import stonks.composeapp.generated.resources.Res
 import stonks.composeapp.generated.resources.default_value
 import stonks.composeapp.generated.resources.not_set
+import stonks.composeapp.generated.resources.valuation_and_growth
 import java.math.BigDecimal
 
 internal suspend fun Stocks.toContent() = Content(
@@ -33,6 +34,9 @@ private suspend fun Stock.toPresentationEntity() = Content.Item(
     symbol = symbol,
     price = price?.toPrice(currency),
     targetPrice = price?.getTargetPrice(currentIntrinsicValue, currency),
-    extraValue = "${valuationFloor?.toFormattedString() ?: getString(Res.string.default_value)} / " +
-            (expectedEpsGrowth?.toFormattedPercentage() ?: getString(Res.string.not_set)),
+    extraValue = getString(
+        Res.string.valuation_and_growth,
+        valuationFloor?.toFormattedString() ?: getString(Res.string.default_value),
+        expectedEpsGrowth?.toFormattedPercentage() ?: getString(Res.string.not_set),
+    ),
 )

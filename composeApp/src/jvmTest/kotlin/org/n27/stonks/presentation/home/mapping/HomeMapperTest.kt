@@ -30,5 +30,23 @@ class HomeMapperTest {
 
         assertEquals(true, result.isEndReached)
     }
+
+    @Test
+    fun `Stock toPresentationEntity should show Default when valuationFloor is null`() = runTest {
+        val stock = getStock(valuationFloor = null)
+
+        val result = listOf(stock).toPresentationEntity()[0]
+
+        assertEquals("Default / 7.72 %", result.extraValue)
+    }
+
+    @Test
+    fun `Stock toPresentationEntity should show Not set when expectedEpsGrowth is null`() = runTest {
+        val stock = getStock(expectedEpsGrowth = null)
+
+        val result = listOf(stock).toPresentationEntity()[0]
+
+        assertEquals("12.50 / Not set", result.extraValue)
+    }
 }
 
