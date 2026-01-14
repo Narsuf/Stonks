@@ -85,6 +85,5 @@ tasks.register("jacocoJvmTestReport", JacocoReport::class) {
 }
 
 tasks.named<Test>("jvmTest") {
-    jvmArgs("-Djava.awt.headless=true")
     finalizedBy("jacocoJvmTestReport")
 }
