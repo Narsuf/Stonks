@@ -59,11 +59,16 @@ internal fun DetailContent(content: Content) {
             verticalArrangement = Arrangement.spacedBy(Spacing.default),
         ) {
             items(content.cells.chunked(2)) { rowItems ->
-                Row(horizontalArrangement = Arrangement.spacedBy(Spacing.default)) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.default),
+                    modifier = Modifier.height(IntrinsicSize.Max)
+                ) {
                     rowItems.forEach { cell ->
                         InfoCell(
                             cell = cell,
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
                         )
                     }
 

@@ -22,7 +22,6 @@ fun Cell(
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .border(
@@ -38,12 +37,8 @@ fun Cell(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             start?.let { it() }
-            center()
-        }
-
-        end?.let {
-            Spacer(Modifier.width(Spacing.small))
-            it()
+            Box(Modifier.weight(1f)) { center() }
+            end?.let { it() }
         }
     }
 }
