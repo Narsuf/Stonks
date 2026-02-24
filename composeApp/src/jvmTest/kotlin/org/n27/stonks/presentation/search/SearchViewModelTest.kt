@@ -12,7 +12,6 @@ import org.mockito.Mockito.`when`
 import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.common.broadcast.Event.*
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
 import org.n27.stonks.presentation.search.entities.SearchState.*

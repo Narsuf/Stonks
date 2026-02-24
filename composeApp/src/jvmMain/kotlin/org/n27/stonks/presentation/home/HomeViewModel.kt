@@ -30,6 +30,7 @@ class HomeViewModel(
     private val repository: Repository,
     dispatcher: CoroutineDispatcher,
 ) : ViewModel(dispatcher) {
+
     private val state = MutableStateFlow<HomeState>(Idle)
     internal val viewState = state.asStateFlow()
 

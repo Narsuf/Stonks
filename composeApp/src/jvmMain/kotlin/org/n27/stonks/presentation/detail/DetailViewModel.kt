@@ -62,7 +62,7 @@ class DetailViewModel(
                     .onSuccess {
                         internalStock = internalStock.copy(isWatchlisted = false)
                         state.updateIfType { c: Content -> c.copy(isWatchlisted = false) }
-                        eventBus.emit(WatchlistEvent.AssetAdded)
+                        eventBus.emit(WatchlistEvent.AssetRemoved)
                     }
                     .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
             } else {
@@ -70,7 +70,7 @@ class DetailViewModel(
                     .onSuccess {
                         internalStock = internalStock.copy(isWatchlisted = true)
                         state.updateIfType { c: Content -> c.copy(isWatchlisted = true) }
-                        eventBus.emit(WatchlistEvent.AssetRemoved)
+                        eventBus.emit(WatchlistEvent.AssetAdded)
                     }
                     .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
             }

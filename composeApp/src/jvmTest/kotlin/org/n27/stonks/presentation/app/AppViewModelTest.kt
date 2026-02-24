@@ -13,7 +13,6 @@ import org.mockito.Mockito.mock
 import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState.*
 import org.n27.stonks.presentation.common.broadcast.Event.*
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.detail.DetailViewModel
 import org.n27.stonks.presentation.home.HomeViewModel

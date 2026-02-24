@@ -69,7 +69,8 @@ fun getDetailContent(
             value = "$7.47",
             description = Res.string.eps_description
         )
-    )
+    ),
+    isWatchlisted: Boolean = false
 ) = Content(
     symbol = symbol,
     icon = null,
@@ -77,6 +78,7 @@ fun getDetailContent(
     price = price,
     lastUpdated = lastUpdated,
     cells = cells.toPersistentList(),
+    isWatchlisted = isWatchlisted,
 )
 
 fun getDetailContentCell(
