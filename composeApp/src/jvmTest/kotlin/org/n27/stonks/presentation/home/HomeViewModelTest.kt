@@ -87,7 +87,7 @@ class HomeViewModelTest {
         viewModel.handleInteraction(SearchClicked)
         runCurrent()
 
-        observer.assertValues(NavigateToSearch())
+        observer.assertValues(NavigateToSearch.All)
         observer.close()
     }
 
@@ -100,7 +100,7 @@ class HomeViewModelTest {
         viewModel.handleInteraction(AddClicked)
         runCurrent()
 
-        observer.assertValues(NavigateToSearch(NavigateToSearch.Origin.WATCHLIST))
+        observer.assertValues(NavigateToSearch.Watchlist)
         observer.close()
     }
 
@@ -366,4 +366,3 @@ class HomeViewModelTest {
         dispatcher = StandardTestDispatcher(testScheduler),
     )
 }
-

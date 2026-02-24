@@ -8,7 +8,6 @@ import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.*
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
 import org.n27.stonks.presentation.search.entities.SearchInteraction
@@ -23,7 +22,7 @@ import stonks.composeapp.generated.resources.error_no_assets
 
 @OptIn(FlowPreview::class)
 class SearchViewModel(
-    private val origin: Origin,
+    private val mode: NavigateToSearch,
     private val eventBus: EventBus,
     private val repository: Repository,
     dispatcher: CoroutineDispatcher,
@@ -32,7 +31,7 @@ class SearchViewModel(
     internal val viewState = state.asStateFlow()
 
     private lateinit var currentStocks: Stocks
-    private val filterWatchlist = origin == Origin.WATCHLIST
+    private val filterWatchlist = mode is NavigateToSearch.Watchlist
 
     private val searchText = MutableStateFlow<String?>(null)
     private var job: Job? = null
@@ -157,9 +156,9 @@ class SearchViewModel(
         viewModelScope.launch {
             val symbol = currentStocks.items[index].symbol
             eventBus.emit(
-                when (origin) {
-                    Origin.HOME -> NavigateToDetail(symbol)
-                    Origin.WATCHLIST -> GoBack(mapOf(SYMBOL to symbol))
+                when (mode) {
+                    is NavigateToSearch.All -> NavigateToDetail(symbol)
+                    is NavigateToSearch.Watchlist -> GoBack(mapOf(SYMBOL to symbol))
                 }
             )
         }

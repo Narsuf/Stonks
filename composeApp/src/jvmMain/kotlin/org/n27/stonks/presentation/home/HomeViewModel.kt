@@ -9,9 +9,7 @@ import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.presentation.common.ViewModel
-import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.*
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.toFormattedBigDecimal
 import org.n27.stonks.presentation.common.extensions.updateIfType
@@ -63,8 +61,8 @@ class HomeViewModel(
 
     internal fun handleInteraction(action: HomeInteraction) = when(action) {
         Retry -> requestWatchlist()
-        SearchClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch()) }
-        AddClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch(Origin.WATCHLIST)) }
+        SearchClicked -> viewModelScope.launch { eventBus.emit(NavigateToSearch.All) }
+        AddClicked -> viewModelScope.launch { eventBus.emit(NavigateToSearch.Watchlist) }
         LoadNextPage -> requestMoreStocks()
         is ItemClicked -> onItemClicked(action.index)
         is RemoveItemClicked -> onRemoveItemClicked(action.index)
