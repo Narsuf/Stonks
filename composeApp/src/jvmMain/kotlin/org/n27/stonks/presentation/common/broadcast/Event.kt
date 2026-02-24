@@ -9,6 +9,12 @@ sealed class Event {
     data class NavigateToSearch(val from: Origin = HOME) : Event() {
         enum class Origin { HOME, WATCHLIST }
     }
+
     data class NavigateToDetail(val symbol: String) : Event()
     data class ShowErrorNotification(val title: StringResource) : Event()
+
+    sealed class WatchlistEvent : Event() {
+        data object AssetAdded : WatchlistEvent()
+        data object AssetRemoved : WatchlistEvent()
+    }
 }

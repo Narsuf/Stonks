@@ -7,8 +7,7 @@ import kotlinx.coroutines.launch
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.presentation.common.ViewModel
-import org.n27.stonks.presentation.common.broadcast.Event.GoBack
-import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
+import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.updateIfType
 import org.n27.stonks.presentation.detail.entities.DetailInteraction
@@ -63,6 +62,7 @@ class DetailViewModel(
                     .onSuccess {
                         internalStock = internalStock.copy(isWatchlisted = false)
                         state.updateIfType { c: Content -> c.copy(isWatchlisted = false) }
+                        eventBus.emit(WatchlistEvent.AssetAdded)
                     }
                     .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
             } else {
@@ -70,6 +70,7 @@ class DetailViewModel(
                     .onSuccess {
                         internalStock = internalStock.copy(isWatchlisted = true)
                         state.updateIfType { c: Content -> c.copy(isWatchlisted = true) }
+                        eventBus.emit(WatchlistEvent.AssetRemoved)
                     }
                     .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
             }
