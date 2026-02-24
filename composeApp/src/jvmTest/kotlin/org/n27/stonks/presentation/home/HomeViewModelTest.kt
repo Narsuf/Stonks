@@ -87,7 +87,7 @@ class HomeViewModelTest {
         viewModel.handleInteraction(SearchClicked)
         runCurrent()
 
-        observer.assertValues(NavigateToSearch())
+        observer.assertValues(NavigateToSearch.All)
         observer.close()
     }
 
@@ -100,7 +100,7 @@ class HomeViewModelTest {
         viewModel.handleInteraction(AddClicked)
         runCurrent()
 
-        observer.assertValues(NavigateToSearch(NavigateToSearch.Origin.WATCHLIST))
+        observer.assertValues(NavigateToSearch.Watchlist)
         observer.close()
     }
 
@@ -360,10 +360,37 @@ class HomeViewModelTest {
         eventObserver.close()
     }
 
+    @Test
+    fun `should request watchlist when watchlist event is received`() = runTest {
+        val viewModel = getViewModel()
+        val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        observer.reset()
+
+        eventBus.emit(WatchlistEvent.AssetAdded)
+        runCurrent()
+
+        observer.assertValues(Loading, getHomeContent())
+        observer.close()
+    }
+
+    @Test
+    fun `should not request watchlist when non-watchlist event is received`() = runTest {
+        val viewModel = getViewModel()
+        val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        observer.reset()
+
+        eventBus.emit(NavigateToSearch.All)
+        runCurrent()
+
+        observer.assertValues()
+        observer.close()
+    }
+
     private fun TestScope.getViewModel() = HomeViewModel(
         eventBus = eventBus,
         repository = repository,
         dispatcher = StandardTestDispatcher(testScheduler),
     )
 }
-

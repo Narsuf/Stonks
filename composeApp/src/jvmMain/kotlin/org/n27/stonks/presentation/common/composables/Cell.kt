@@ -2,7 +2,10 @@ package org.n27.stonks.presentation.common.composables
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +25,6 @@ fun Cell(
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .border(
@@ -38,12 +40,8 @@ fun Cell(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             start?.let { it() }
-            center()
-        }
-
-        end?.let {
-            Spacer(Modifier.width(Spacing.small))
-            it()
+            Box(Modifier.weight(1f)) { center() }
+            end?.let { it() }
         }
     }
 }

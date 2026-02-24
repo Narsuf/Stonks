@@ -20,9 +20,9 @@ fun getDetailContent(
             description = Res.string.dividend_yield_description
         ),
         getDetailContentCell(
-            title = Res.string.eps,
-            value = "$7.47",
-            description = Res.string.eps_description
+            title = Res.string.payout_ratio,
+            value = "13.89 %",
+            description = Res.string.payout_ratio_description
         ),
         getDetailContentCell(
             title = Res.string.growth,
@@ -63,8 +63,14 @@ fun getDetailContent(
             title = Res.string.pb,
             value = "51.97",
             description = Res.string.pb_description
+        ),
+        getDetailContentCell(
+            title = Res.string.eps,
+            value = "$7.47",
+            description = Res.string.eps_description
         )
-    )
+    ),
+    isWatchlisted: Boolean = false
 ) = Content(
     symbol = symbol,
     icon = null,
@@ -72,6 +78,7 @@ fun getDetailContent(
     price = price,
     lastUpdated = lastUpdated,
     cells = cells.toPersistentList(),
+    isWatchlisted = isWatchlisted,
 )
 
 fun getDetailContentCell(

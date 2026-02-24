@@ -41,9 +41,10 @@ class AppViewModel(
 
     private fun handleEvent(e: Event) = when (e) {
         is GoBack -> pop(e.result)
-        is NavigateToSearch -> push(Search(koin.get { parametersOf(e.from) }))
+        is NavigateToSearch -> push(Search(koin.get { parametersOf(e) }))
         is NavigateToDetail -> push(Detail(koin.get { parametersOf(e.symbol) }))
         is ShowErrorNotification -> event.trySend(AppEvent.ShowErrorNotification(e.title))
+        else -> Unit
     }
 
     private fun push(screen: AppState) {

@@ -4,6 +4,8 @@
     <!-- Detail -->
     <string name="dividend_yield">Dividend yield</string>
     <string name="dividend_yield_description">How much a company pays in dividends each year relative to its stock price.</string>
+    <string name="payout_ratio">Payout Ratio</string>
+    <string name="payout_ratio_description">Percentage of a company's earnings paid out as dividends each year.</string>
     <string name="eps">EPS</string>
     <string name="eps_description">The company’s earnings divided by the total number of shares.</string>
     <string name="pe">P/E</string>

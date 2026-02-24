@@ -16,20 +16,33 @@ internal fun Stock.toDetailContent() = Content(
     lastUpdated = lastUpdated?.toDateString(),
     cells = buildList {
         dividendYield?.toDividendCell()?.let(::add)
-        eps?.toEpsCell(currency)?.let(::add)
+        toPayoutRatioCell()?.let(::add)
         earningsQuarterlyGrowth?.toGrowth()?.let(::add)
         expectedEpsGrowth?.toExpectedEpsGrowth()?.let(::add)
         currentIntrinsicValue?.toIntrinsicValue(this@toDetailContent)?.let(::add)
         forwardIntrinsicValue?.toForwardIntrinsicValue(this@toDetailContent)?.let(::add)
         pe?.toPe()?.let(::add)
         pb?.toPb()?.let(::add)
+        eps?.toEpsCell(currency)?.let(::add)
     }.toPersistentList(),
+    isWatchlisted = isWatchlisted,
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(
     title = Res.string.dividend_yield,
     description = Res.string.dividend_yield_description,
 )
+
+private fun Stock.toPayoutRatioCell() = if (dividendYield == null || price == null || eps == null || eps == 0.0) {
+    null
+} else {
+    val dividendPerShare = (dividendYield / 100) * price
+    val payoutRatio = (dividendPerShare / eps) * 100
+    payoutRatio.toFormattedPercentage().toCell(
+        title = Res.string.payout_ratio,
+        description = Res.string.payout_ratio_description,
+    )
+}
 
 private fun Double.toEpsCell(currency: String?) = toPrice(currency)?.toCell(
     title = Res.string.eps,

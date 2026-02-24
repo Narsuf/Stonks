@@ -12,7 +12,6 @@ import org.mockito.Mockito.`when`
 import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.common.broadcast.Event.*
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.search.entities.SearchInteraction.*
 import org.n27.stonks.presentation.search.entities.SearchState.*
@@ -264,7 +263,7 @@ class SearchViewModelTest {
     fun `should emit go back when item clicked`() = runTest {
         `when`(repository.getStocks(filterWatchlist = true))
             .thenReturn(success(getStocks()))
-        val viewModel = getViewModel(origin = Origin.WATCHLIST)
+        val viewModel = getViewModel(origin = NavigateToSearch.Watchlist)
         val observer = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
         runCurrent()
 
@@ -276,9 +275,9 @@ class SearchViewModelTest {
     }
 
     private fun TestScope.getViewModel(
-        origin: Origin = Origin.HOME,
+        origin: NavigateToSearch = NavigateToSearch.All,
     ) = SearchViewModel(
-        origin = origin,
+        mode = origin,
         eventBus = eventBus,
         repository = repository,
         dispatcher = StandardTestDispatcher(testScheduler),

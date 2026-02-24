@@ -13,7 +13,6 @@ import org.mockito.Mockito.mock
 import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState.*
 import org.n27.stonks.presentation.common.broadcast.Event.*
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.detail.DetailViewModel
 import org.n27.stonks.presentation.home.HomeViewModel
@@ -38,7 +37,7 @@ class AppViewModelTest {
             modules(
                 module {
                     single { mockHomeViewModel }
-                    single { (_: Origin) -> mockSearchViewModel }
+                    single { (_: NavigateToSearch) -> mockSearchViewModel }
                     single { (_: String) -> mockDetailViewModel }
                 }
             )
@@ -61,7 +60,7 @@ class AppViewModelTest {
         val viewModel = getViewModel()
         runCurrent()
 
-        eventBus.emit(NavigateToSearch())
+        eventBus.emit(NavigateToSearch.All)
         runCurrent()
 
         assert(viewModel.viewState.value is Search)
@@ -72,7 +71,7 @@ class AppViewModelTest {
         val viewModel = getViewModel()
         runCurrent()
 
-        eventBus.emit(NavigateToSearch(Origin.WATCHLIST))
+        eventBus.emit(NavigateToSearch.Watchlist)
         runCurrent()
 
         assert(viewModel.viewState.value is Search)
@@ -108,7 +107,7 @@ class AppViewModelTest {
         runCurrent()
 
         // Navigate: Home -> Search -> Detail
-        eventBus.emit(NavigateToSearch())
+        eventBus.emit(NavigateToSearch.All)
         runCurrent()
         eventBus.emit(NavigateToDetail("AAPL"))
         runCurrent()
@@ -130,4 +129,3 @@ class AppViewModelTest {
         dispatcher = StandardTestDispatcher(testScheduler),
     )
 }
-

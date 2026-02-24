@@ -6,13 +6,12 @@ import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.common.broadcast.Event.GoBack
+import org.n27.stonks.presentation.common.broadcast.Event.WatchlistEvent
 import org.n27.stonks.presentation.common.broadcast.EventBus
-import org.n27.stonks.presentation.detail.entities.DetailInteraction.BackClicked
-import org.n27.stonks.presentation.detail.entities.DetailInteraction.Retry
+import org.n27.stonks.presentation.detail.entities.DetailInteraction.*
 import org.n27.stonks.presentation.detail.entities.DetailState.*
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.presentation.getDetailContent
@@ -83,6 +82,46 @@ class DetailViewModelTest {
 
         observer.assertValues(Idle, Loading, Error)
         observer.close()
+    }
+
+    @Test
+    fun `should add to watchlist when not watchlisted`() = runTest {
+        `when`(repository.getStock(symbol)).thenReturn(success(getStock(isWatchlisted = false)))
+        `when`(repository.addToWatchlist(symbol)).thenReturn(success(Unit))
+        val viewModel = getViewModel()
+        val stateObserver = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        val eventObserver = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        stateObserver.reset()
+
+        viewModel.handleInteraction(ToggleWatchlist)
+        runCurrent()
+
+        verify(repository).addToWatchlist(symbol)
+        eventObserver.assertValues(WatchlistEvent.AssetAdded)
+        stateObserver.assertValues(getDetailContent(isWatchlisted = true))
+        stateObserver.close()
+        eventObserver.close()
+    }
+
+    @Test
+    fun `should remove from watchlist when already watchlisted`() = runTest {
+        `when`(repository.getStock(symbol)).thenReturn(success(getStock(isWatchlisted = true)))
+        `when`(repository.removeFromWatchlist(symbol)).thenReturn(success(Unit))
+        val viewModel = getViewModel()
+        val stateObserver = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
+        val eventObserver = eventBus.events.test(this + UnconfinedTestDispatcher(testScheduler))
+        runCurrent()
+        stateObserver.reset()
+
+        viewModel.handleInteraction(ToggleWatchlist)
+        runCurrent()
+
+        verify(repository).removeFromWatchlist(symbol)
+        eventObserver.assertValues(WatchlistEvent.AssetRemoved)
+        stateObserver.assertValues(getDetailContent(isWatchlisted = false))
+        stateObserver.close()
+        eventObserver.close()
     }
 
     private fun TestScope.getViewModel() = DetailViewModel(

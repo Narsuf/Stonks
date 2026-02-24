@@ -3,18 +3,13 @@ package org.n27.stonks.presentation.home
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.n27.stonks.SYMBOL
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.presentation.common.ViewModel
-import org.n27.stonks.presentation.common.broadcast.Event
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToDetail
-import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch.Origin
-import org.n27.stonks.presentation.common.broadcast.Event.ShowErrorNotification
+import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.common.extensions.toFormattedBigDecimal
 import org.n27.stonks.presentation.common.extensions.updateIfType
@@ -35,6 +30,7 @@ class HomeViewModel(
     private val repository: Repository,
     dispatcher: CoroutineDispatcher,
 ) : ViewModel(dispatcher) {
+
     private val state = MutableStateFlow<HomeState>(Idle)
     internal val viewState = state.asStateFlow()
 
@@ -43,7 +39,17 @@ class HomeViewModel(
 
     private lateinit var currentStocks: Stocks
 
-    init { requestWatchlist() }
+    init {
+        observeEvents()
+        requestWatchlist()
+    }
+
+    private fun observeEvents() {
+        eventBus.events
+            .filterIsInstance<WatchlistEvent>()
+            .onEach { requestWatchlist() }
+            .launchIn(viewModelScope)
+    }
 
     override fun onResult(result: Map<String, Any>) {
         viewModelScope.launch {
@@ -56,8 +62,8 @@ class HomeViewModel(
 
     internal fun handleInteraction(action: HomeInteraction) = when(action) {
         Retry -> requestWatchlist()
-        SearchClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch()) }
-        AddClicked -> viewModelScope.launch { eventBus.emit(Event.NavigateToSearch(Origin.WATCHLIST)) }
+        SearchClicked -> viewModelScope.launch { eventBus.emit(NavigateToSearch.All) }
+        AddClicked -> viewModelScope.launch { eventBus.emit(NavigateToSearch.Watchlist) }
         LoadNextPage -> requestMoreStocks()
         is ItemClicked -> onItemClicked(action.index)
         is RemoveItemClicked -> onRemoveItemClicked(action.index)

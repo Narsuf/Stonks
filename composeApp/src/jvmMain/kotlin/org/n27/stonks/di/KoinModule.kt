@@ -39,6 +39,6 @@ val appModule = module {
 
     factory { AppViewModel(get(), Dispatchers.Default) }
     factory { HomeViewModel(get(), get(), Dispatchers.Default) }
-    factory { (origin: NavigateToSearch.Origin) -> SearchViewModel(origin, get(), get(), Dispatchers.Default) }
+    factory { (origin: NavigateToSearch) -> SearchViewModel(origin, get(), get(), Dispatchers.Default) }
     factory { (symbol: String) -> DetailViewModel(symbol, get(), get(), Dispatchers.Default) }
 }
