@@ -27,6 +27,7 @@ fun getStock(
     forwardIntrinsicValue: Double? = 100.58355,
     currency: String? = "USD",
     lastUpdated: Long? = 1768064114877,
+    isWatchlisted: Boolean = false,
 ) = Stock(
     symbol = symbol,
     companyName = companyName,
@@ -43,4 +44,5 @@ fun getStock(
     forwardIntrinsicValue = forwardIntrinsicValue,
     currency = currency,
     lastUpdated = lastUpdated,
+    isWatchlisted = isWatchlisted,
 )

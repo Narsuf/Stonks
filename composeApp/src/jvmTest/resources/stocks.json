@@ -15,7 +15,8 @@
       "currentIntrinsicValue": 93.375,
       "forwardIntrinsicValue": 100.58355,
       "currency": "USD",
-      "lastUpdated": 1768064114877
+      "lastUpdated": 1768064114877,
+      "isWatchlisted": false
     }
   ],
   "nextPage": 2
