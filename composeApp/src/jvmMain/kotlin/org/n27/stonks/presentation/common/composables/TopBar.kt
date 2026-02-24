@@ -19,6 +19,7 @@ import org.n27.stonks.presentation.common.Spacing
 @Composable
 fun TopBar(
     title: String? = null,
+    rightButton: @Composable (() -> Unit)? = null,
     onBack: (() -> Unit)? = null,
 ) {
     Box(
@@ -47,6 +48,10 @@ fun TopBar(
                 color = Color.Black,
                 style = MaterialTheme.typography.titleMedium,
             )
+        }
+
+        rightButton?.let {
+            Box(Modifier.align(Alignment.CenterEnd)) { it() }
         }
     }
 }

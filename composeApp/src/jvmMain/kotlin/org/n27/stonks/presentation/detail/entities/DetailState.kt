@@ -18,6 +18,7 @@ sealed class DetailState {
         val price: String?,
         val lastUpdated: String?,
         val cells: ImmutableList<Cell>,
+        val isWatchlisted: Boolean = false,
     ) : DetailState() {
 
         data class Cell(

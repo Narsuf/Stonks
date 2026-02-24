@@ -25,6 +25,7 @@ internal fun Stock.toDetailContent() = Content(
         pb?.toPb()?.let(::add)
         eps?.toEpsCell(currency)?.let(::add)
     }.toPersistentList(),
+    isWatchlisted = isWatchlisted,
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(
