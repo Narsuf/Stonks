@@ -17,12 +17,12 @@ internal fun Stock.toDetailContent() = Content(
     cells = buildList {
         dividendYield?.toDividendCell()?.let(::add)
         toPayoutRatioCell()?.let(::add)
-        earningsQuarterlyGrowth?.toGrowth()?.let(::add)
-        expectedEpsGrowth?.toExpectedEpsGrowth()?.let(::add)
         currentIntrinsicValue?.toIntrinsicValue(this@toDetailContent)?.let(::add)
-        forwardIntrinsicValue?.toForwardIntrinsicValue(this@toDetailContent)?.let(::add)
-        pe?.toPe()?.let(::add)
+        //forwardIntrinsicValue?.toForwardIntrinsicValue(this@toDetailContent)?.let(::add)
+        earningsQuarterlyGrowth?.toGrowth()?.let(::add)
+        //expectedEpsGrowth?.toExpectedEpsGrowth()?.let(::add)
         pb?.toPb()?.let(::add)
+        pe?.toPe()?.let(::add)
         eps?.toEpsCell(currency)?.let(::add)
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
