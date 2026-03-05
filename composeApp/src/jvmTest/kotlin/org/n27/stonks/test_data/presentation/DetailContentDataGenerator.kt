@@ -25,16 +25,6 @@ fun getDetailContent(
             description = Res.string.payout_ratio_description
         ),
         getDetailContentCell(
-            title = Res.string.growth,
-            value = "86.40 %",
-            description = Res.string.growth_description
-        ),
-        getDetailContentCell(
-            title = Res.string.forward_growth,
-            value = "7.72 %",
-            description = Res.string.forward_growth_description
-        ),
-        getDetailContentCell(
             title = Res.string.intrinsic_value,
             value = "$93.38",
             description = Res.string.intrinsic_value_description,
@@ -45,24 +35,19 @@ fun getDetailContent(
             )
         ),
         getDetailContentCell(
-            title = Res.string.forward_intrinsic_value,
-            value = "$100.58",
-            description = Res.string.forward_intrinsic_value_description,
-            delta = DeltaTextEntity(
-                value = "$158.79",
-                percentage = "61.22 %",
-                state = DeltaState.NEGATIVE
-            )
-        ),
-        getDetailContentCell(
-            title = Res.string.pe,
-            value = "34.72",
-            description = Res.string.pe_description
+            title = Res.string.growth,
+            value = "86.40 %",
+            description = Res.string.growth_description
         ),
         getDetailContentCell(
             title = Res.string.pb,
             value = "51.97",
             description = Res.string.pb_description
+        ),
+        getDetailContentCell(
+            title = Res.string.pe,
+            value = "34.72",
+            description = Res.string.pe_description
         ),
         getDetailContentCell(
             title = Res.string.eps,

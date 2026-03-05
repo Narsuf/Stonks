@@ -48,7 +48,6 @@ internal fun getHomeItem(
         resource = Res.string.valuation_and_growth,
         args = persistentListOf<Arg>(
             Arg.Text("12.50"),
-            Arg.Text("7.72 %"),
         )
     ),
 ) = Item(

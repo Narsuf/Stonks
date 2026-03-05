@@ -13,7 +13,6 @@ import org.n27.stonks.test_data.domain.getStocks
 import org.n27.stonks.test_data.presentation.getHomeContent
 import stonks.composeapp.generated.resources.Res
 import stonks.composeapp.generated.resources.default_value
-import stonks.composeapp.generated.resources.not_set
 import stonks.composeapp.generated.resources.valuation_and_growth
 import java.util.*
 
@@ -46,7 +45,6 @@ class HomeMapperTest {
             resource = Res.string.valuation_and_growth,
             args = persistentListOf(
                 Resource(Res.string.default_value),
-                Text("7.72 %"),
             )
         )
 
@@ -62,7 +60,6 @@ class HomeMapperTest {
             resource = Res.string.valuation_and_growth,
             args = persistentListOf(
                 Text("12.50"),
-                Resource(Res.string.not_set),
             )
         )
 
@@ -71,4 +68,3 @@ class HomeMapperTest {
         assertEquals(expected, result.extraValue)
     }
 }
-

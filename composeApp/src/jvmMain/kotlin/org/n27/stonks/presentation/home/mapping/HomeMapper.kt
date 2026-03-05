@@ -42,12 +42,6 @@ private fun Stock.toPresentationEntity() = Content.Item(
             valuationFloor?.toFormattedString()
                 ?.let { Text(it) }
                 ?: Resource(Res.string.default_value),
-            Text(""),
-            /*
-            expectedEpsGrowth?.toFormattedPercentage()
-                ?.let { Text(it) }
-                ?: Resource(Res.string.not_set),
-             */
         ),
     ),
 )
