@@ -13,7 +13,6 @@ import org.n27.stonks.presentation.home.entities.HomeState.Content
 import org.n27.stonks.presentation.home.entities.HomeState.Content.BottomSheet
 import stonks.composeapp.generated.resources.Res
 import stonks.composeapp.generated.resources.default_value
-import stonks.composeapp.generated.resources.not_set
 import stonks.composeapp.generated.resources.valuation_and_growth
 import java.math.BigDecimal
 
@@ -43,9 +42,12 @@ private fun Stock.toPresentationEntity() = Content.Item(
             valuationFloor?.toFormattedString()
                 ?.let { Text(it) }
                 ?: Resource(Res.string.default_value),
+            Text(""),
+            /*
             expectedEpsGrowth?.toFormattedPercentage()
                 ?.let { Text(it) }
                 ?: Resource(Res.string.not_set),
+             */
         ),
     ),
 )
