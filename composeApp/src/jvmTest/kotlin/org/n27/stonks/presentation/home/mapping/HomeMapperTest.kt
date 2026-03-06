@@ -10,10 +10,10 @@ import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Re
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Text
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.domain.getStocks
+import org.n27.stonks.test_data.domain.getValuationMeasures
 import org.n27.stonks.test_data.presentation.getHomeContent
 import stonks.composeapp.generated.resources.Res
 import stonks.composeapp.generated.resources.default_value
-import stonks.composeapp.generated.resources.not_set
 import stonks.composeapp.generated.resources.valuation_and_growth
 import java.util.*
 
@@ -41,12 +41,11 @@ class HomeMapperTest {
 
     @Test
     fun `Stock toPresentationEntity should show Default when valuationFloor is null`() = runTest {
-        val stock = getStock(valuationFloor = null)
+        val stock = getStock(valuationMeasures = getValuationMeasures(valuationFloor = null))
         val expected = StringResourceWithArgs(
             resource = Res.string.valuation_and_growth,
             args = persistentListOf(
                 Resource(Res.string.default_value),
-                Text("7.72 %"),
             )
         )
 
@@ -56,13 +55,12 @@ class HomeMapperTest {
     }
 
     @Test
-    fun `Stock toPresentationEntity should show Not set when expectedEpsGrowth is null`() = runTest {
-        val stock = getStock(expectedEpsGrowth = null)
+    fun `Stock toPresentationEntity should show valuation floor value when set`() = runTest {
+        val stock = getStock()
         val expected = StringResourceWithArgs(
             resource = Res.string.valuation_and_growth,
             args = persistentListOf(
                 Text("12.50"),
-                Resource(Res.string.not_set),
             )
         )
 
@@ -71,4 +69,3 @@ class HomeMapperTest {
         assertEquals(expected, result.extraValue)
     }
 }
-

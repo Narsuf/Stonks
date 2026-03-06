@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.n27.stonks.presentation.common.Spacing
 import org.n27.stonks.presentation.common.composables.PrimaryButton
 import org.n27.stonks.presentation.common.composables.shimmer.ShimmerCellList
@@ -20,6 +21,7 @@ import org.n27.stonks.presentation.home.entities.HomeInteraction
 import org.n27.stonks.presentation.home.entities.HomeInteraction.AddClicked
 import org.n27.stonks.presentation.home.entities.HomeInteraction.SearchClicked
 import org.n27.stonks.presentation.home.entities.HomeState.Content
+import stonks.composeapp.generated.resources.*
 
 @Composable
 internal fun HomeContent(
@@ -33,7 +35,7 @@ internal fun HomeContent(
             .padding(top = Spacing.small),
     ) {
         PrimaryButton(
-            title = "Search",
+            title = stringResource(Res.string.search),
             icon = Icons.Default.Search,
         ) { onAction(SearchClicked) }
         WatchlistSectionHeader(onAction)
@@ -60,17 +62,17 @@ private fun WatchlistSectionHeader(onAction: (action: HomeInteraction) -> Unit) 
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "Watchlist",
+                text = stringResource(Res.string.watchlist),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(end = Spacing.smaller),
             )
             TextButton(
                 onClick = { onAction(AddClicked) }
-            ) { Text("Add") }
+            ) { Text(stringResource(Res.string.add)) }
         }
 
         Text(
-            text = "Valuation Floor (P/E) / EPS Growth",
+            text = stringResource(Res.string.valuation_floor_and_eps_growth),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(start = Spacing.smallest)
         )
@@ -81,14 +83,14 @@ private fun WatchlistSectionHeader(onAction: (action: HomeInteraction) -> Unit) 
 private fun EmptyWatchlist() {
     Icon(
         imageVector = Icons.Default.StarBorder,
-        contentDescription = "Empty Watchlist",
+        contentDescription = stringResource(Res.string.empty_watchlist_description),
         tint = Color.Gray,
         modifier = Modifier
             .size(64.dp)
             .padding(bottom = Spacing.smaller)
     )
     Text(
-        text = "Your watchlist is empty",
+        text = stringResource(Res.string.empty_watchlist),
         style = MaterialTheme.typography.bodyLarge,
         color = Color.Gray,
     )

@@ -28,10 +28,8 @@ internal fun getHomeContent(
 )
 
 internal fun getHomeBottomSheet(
-    epsGrowthInput: BigDecimal = BigDecimal.ZERO,
     valuationFloorInput: BigDecimal = BigDecimal.ZERO,
 ) = BottomSheet(
-    epsGrowthInput = epsGrowthInput,
     valuationFloorInput = valuationFloorInput,
 )
 
@@ -48,7 +46,6 @@ internal fun getHomeItem(
         resource = Res.string.valuation_and_growth,
         args = persistentListOf<Arg>(
             Arg.Text("12.50"),
-            Arg.Text("7.72 %"),
         )
     ),
 ) = Item(
