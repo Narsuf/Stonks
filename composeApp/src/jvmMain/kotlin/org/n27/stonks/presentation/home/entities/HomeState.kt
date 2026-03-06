@@ -21,7 +21,6 @@ internal sealed class HomeState {
     ) : HomeState() {
 
         data class BottomSheet(
-            val epsGrowthInput: BigDecimal,
             val valuationFloorInput: BigDecimal,
         )
 

@@ -16,11 +16,10 @@ class Api(private val url: String, private val httpClient: HttpClient) {
         return response
     }
 
-    suspend fun addCustomValues(symbol: String, epsGrowth: Double, valuationFloor: Double?) {
+    suspend fun addCustomValues(symbol: String, valuationFloor: Double) {
         val url = "$url/stock/$symbol/valuation"
         println("addCustomValues request triggered for symbol: $symbol")
         httpClient.post(url) {
-            parameter("epsGrowth", epsGrowth)
             parameter("valuationFloor", valuationFloor)
         }
     }

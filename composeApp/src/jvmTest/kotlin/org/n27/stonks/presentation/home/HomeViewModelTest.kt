@@ -18,6 +18,7 @@ import org.n27.stonks.presentation.home.entities.HomeInteraction.*
 import org.n27.stonks.presentation.home.entities.HomeState.*
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.domain.getStocks
+import org.n27.stonks.test_data.domain.getValuationMeasures
 import org.n27.stonks.test_data.presentation.getHomeBottomSheet
 import org.n27.stonks.test_data.presentation.getHomeContent
 import org.n27.stonks.test_data.presentation.getHomeItem
@@ -203,8 +204,7 @@ class HomeViewModelTest {
                 items = listOf(
                     getStock(
                         symbol = "AAPL",
-                        expectedEpsGrowth = 7.72,
-                        valuationFloor = 12.5
+                        valuationMeasures = getValuationMeasures(valuationFloor = 12.5)
                     )
                 )
             ))
@@ -220,33 +220,12 @@ class HomeViewModelTest {
 
         stateObserver.assertValues(
             getHomeContent().copy(
-                bottomSheet = getHomeBottomSheet(
-                    epsGrowthInput = BigDecimal("7.72"),
-                    valuationFloorInput = BigDecimal("12.50")
-                )
+                bottomSheet = getHomeBottomSheet(valuationFloorInput = BigDecimal("12.50"))
             )
         )
         eventObserver.assertValues(HomeEvent.ShowBottomSheet(0))
         stateObserver.close()
         eventObserver.close()
-    }
-
-    @Test
-    fun `should update eps growth input when eps growth value changed`() = runTest {
-        val viewModel = getViewModel()
-        val observer = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
-        runCurrent()
-        observer.reset()
-
-        viewModel.handleInteraction(EpsGrowthValueChanged(BigDecimal("10.5")))
-        runCurrent()
-
-        observer.assertValues(
-            getHomeContent().copy(
-                bottomSheet = getHomeBottomSheet(epsGrowthInput = BigDecimal("10.5"))
-            )
-        )
-        observer.close()
     }
 
     @Test
@@ -269,7 +248,7 @@ class HomeViewModelTest {
 
     @Test
     fun `should update watchlist item and close bottom sheet when values updated`() = runTest {
-        `when`(repository.editWatchlistItem("AAPL", 10.5, 15.0))
+        `when`(repository.editWatchlistItem("AAPL", 15.0))
             .thenReturn(success(Unit))
         `when`(repository.getWatchlist()).thenReturn(success(getStocks()))
         val viewModel = getViewModel()
@@ -278,27 +257,7 @@ class HomeViewModelTest {
         runCurrent()
         stateObserver.reset()
 
-        viewModel.handleInteraction(ValuesUpdated(0, BigDecimal("10.5"), BigDecimal("15.0")))
-        runCurrent()
-
-        eventObserver.assertValues(HomeEvent.CloseBottomSheet)
-        stateObserver.assertValues(Loading, getHomeContent())
-        stateObserver.close()
-        eventObserver.close()
-    }
-
-    @Test
-    fun `should update watchlist item with null valuation floor when zero provided`() = runTest {
-        `when`(repository.editWatchlistItem("AAPL", 10.5, null))
-            .thenReturn(success(Unit))
-        `when`(repository.getWatchlist()).thenReturn(success(getStocks()))
-        val viewModel = getViewModel()
-        val stateObserver = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
-        val eventObserver = viewModel.viewEvent.test(this + UnconfinedTestDispatcher(testScheduler))
-        runCurrent()
-        stateObserver.reset()
-
-        viewModel.handleInteraction(ValuesUpdated(0, BigDecimal("10.5"), BigDecimal.ZERO))
+        viewModel.handleInteraction(ValuesUpdated(0, BigDecimal("15.0")))
         runCurrent()
 
         eventObserver.assertValues(HomeEvent.CloseBottomSheet)
@@ -309,7 +268,7 @@ class HomeViewModelTest {
 
     @Test
     fun `should emit error notification when edit watchlist item fails`() = runTest {
-        `when`(repository.editWatchlistItem("AAPL", 10.5, 15.0))
+        `when`(repository.editWatchlistItem("AAPL", 15.0))
             .thenReturn(failure(Throwable()))
         val viewModel = getViewModel()
         val stateObserver = viewModel.viewState.test(this + UnconfinedTestDispatcher(testScheduler))
@@ -317,7 +276,7 @@ class HomeViewModelTest {
         runCurrent()
         stateObserver.reset()
 
-        viewModel.handleInteraction(ValuesUpdated(0, BigDecimal("10.5"), BigDecimal("15.0")))
+        viewModel.handleInteraction(ValuesUpdated(0, BigDecimal("15.0")))
         runCurrent()
 
         eventObserver.assertValues(ShowErrorNotification(Res.string.error_generic))

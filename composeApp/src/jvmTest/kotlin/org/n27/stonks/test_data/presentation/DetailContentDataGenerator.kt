@@ -35,14 +35,9 @@ fun getDetailContent(
             )
         ),
         getDetailContentCell(
-            title = Res.string.growth,
-            value = "86.40 %",
-            description = Res.string.growth_description
-        ),
-        getDetailContentCell(
-            title = Res.string.pb,
-            value = "51.97",
-            description = Res.string.pb_description
+            title = Res.string.pe,
+            value = "34.72",
+            description = Res.string.pe_description
         ),
         getDetailContentCell(
             title = Res.string.ps,
@@ -50,9 +45,29 @@ fun getDetailContent(
             description = Res.string.ps_description
         ),
         getDetailContentCell(
-            title = Res.string.pe,
-            value = "34.72",
-            description = Res.string.pe_description
+            title = Res.string.pb,
+            value = "51.97",
+            description = Res.string.pb_description
+        ),
+        getDetailContentCell(
+            title = Res.string.revenue_growth,
+            value = "9.70 %",
+            description = Res.string.revenue_growth_description
+        ),
+        getDetailContentCell(
+            title = Res.string.revenue_estimate,
+            value = "2.83 - 7.22 %",
+            description = Res.string.revenue_estimate_description
+        ),
+        getDetailContentCell(
+            title = Res.string.growth,
+            value = "86.40 %",
+            description = Res.string.growth_description
+        ),
+        getDetailContentCell(
+            title = Res.string.earnings_estimate,
+            value = "5.56 - 11.43 %",
+            description = Res.string.earnings_estimate_description
         ),
         getDetailContentCell(
             title = Res.string.eps,

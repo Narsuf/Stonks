@@ -1,11 +1,6 @@
 package org.n27.stonks.presentation.home.composables
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.StarBorder
@@ -26,13 +21,7 @@ import org.n27.stonks.presentation.home.entities.HomeInteraction
 import org.n27.stonks.presentation.home.entities.HomeInteraction.AddClicked
 import org.n27.stonks.presentation.home.entities.HomeInteraction.SearchClicked
 import org.n27.stonks.presentation.home.entities.HomeState.Content
-import stonks.composeapp.generated.resources.Res
-import stonks.composeapp.generated.resources.add
-import stonks.composeapp.generated.resources.empty_watchlist
-import stonks.composeapp.generated.resources.empty_watchlist_description
-import stonks.composeapp.generated.resources.search
-import stonks.composeapp.generated.resources.valuation_floor_and_eps_growth
-import stonks.composeapp.generated.resources.watchlist
+import stonks.composeapp.generated.resources.*
 
 @Composable
 internal fun HomeContent(

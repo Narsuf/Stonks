@@ -69,11 +69,10 @@ class RepositoryImplTest {
     @Test
     fun `editWatchlistItem should call api`() = runBlocking {
         val symbol = "AAPL"
-        val epsGrowth = 7.7
         val valuationFloor = 16.0
 
-        repository.editWatchlistItem(symbol, epsGrowth, valuationFloor)
+        repository.editWatchlistItem(symbol, valuationFloor)
 
-        verify(api).addCustomValues(symbol, epsGrowth, valuationFloor)
+        verify(api).addCustomValues(symbol, valuationFloor)
     }
 }

@@ -28,10 +28,8 @@ internal fun getHomeContent(
 )
 
 internal fun getHomeBottomSheet(
-    epsGrowthInput: BigDecimal = BigDecimal.ZERO,
     valuationFloorInput: BigDecimal = BigDecimal.ZERO,
 ) = BottomSheet(
-    epsGrowthInput = epsGrowthInput,
     valuationFloorInput = valuationFloorInput,
 )
 

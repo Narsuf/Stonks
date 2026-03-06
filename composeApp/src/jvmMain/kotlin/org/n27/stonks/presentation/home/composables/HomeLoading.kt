@@ -52,7 +52,7 @@ internal fun HomeLoading() {
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(Spacing.smaller)
         ) {
-            repeat(11) { ShimmerCell() }
+            repeat(12) { ShimmerCell() }
         }
     }
 }

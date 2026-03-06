@@ -8,7 +8,10 @@ import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Resource
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Text
-import org.n27.stonks.presentation.common.extensions.*
+import org.n27.stonks.presentation.common.extensions.getTargetPrice
+import org.n27.stonks.presentation.common.extensions.toFormattedString
+import org.n27.stonks.presentation.common.extensions.toImageBitmap
+import org.n27.stonks.presentation.common.extensions.toPrice
 import org.n27.stonks.presentation.home.entities.HomeState.Content
 import org.n27.stonks.presentation.home.entities.HomeState.Content.BottomSheet
 import stonks.composeapp.generated.resources.Res
@@ -18,7 +21,6 @@ import java.math.BigDecimal
 
 internal fun Stocks.toContent() = Content(
     bottomSheet = BottomSheet(
-        epsGrowthInput = BigDecimal.ZERO,
         valuationFloorInput = BigDecimal.ZERO,
     ),
     isWatchlistLoading = false,
@@ -35,18 +37,13 @@ private fun Stock.toPresentationEntity() = Content.Item(
     name = companyName.substringBefore(" "),
     symbol = symbol,
     price = price?.toPrice(currency),
-    targetPrice = price?.getTargetPrice(currentIntrinsicValue, currency),
+    targetPrice = price?.getTargetPrice(valuationMeasures?.intrinsicValue, currency),
     extraValue = StringResourceWithArgs(
         resource = Res.string.valuation_and_growth,
         args = persistentListOf(
-            valuationFloor?.toFormattedString()
+            valuationMeasures?.valuationFloor?.toFormattedString()
                 ?.let { Text(it) }
                 ?: Resource(Res.string.default_value),
-            /*
-            expectedEpsGrowth?.toFormattedPercentage()
-                ?.let { Text(it) }
-                ?: Resource(Res.string.not_set),
-            */
         ),
     ),
 )

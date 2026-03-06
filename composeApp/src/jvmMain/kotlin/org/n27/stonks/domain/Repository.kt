@@ -16,5 +16,5 @@ interface Repository {
     suspend fun getWatchlist(from: Int? = null, pageSize: Int? = null): Result<Stocks>
     suspend fun addToWatchlist(symbol: String): Result<Unit>
     suspend fun removeFromWatchlist(symbol: String): Result<Unit>
-    suspend fun editWatchlistItem(symbol: String, epsGrowth: Double, valuationFloor: Double?): Result<Unit>
+    suspend fun editWatchlistItem(symbol: String, valuationFloor: Double): Result<Unit>
 }

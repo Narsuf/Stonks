@@ -28,7 +28,6 @@ class RepositoryImpl(private val api: Api) : Repository {
 
     override suspend fun editWatchlistItem(
         symbol: String,
-        epsGrowth: Double,
-        valuationFloor: Double?,
-    ): Result<Unit> = runCatching { api.addCustomValues(symbol, epsGrowth, valuationFloor) }
+        valuationFloor: Double,
+    ): Result<Unit> = runCatching { api.addCustomValues(symbol, valuationFloor) }
 }

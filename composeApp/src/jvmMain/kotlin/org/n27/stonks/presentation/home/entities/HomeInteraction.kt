@@ -11,7 +11,6 @@ internal sealed class HomeInteraction {
     data class ItemClicked(val index: Int) : HomeInteraction()
     data class RemoveItemClicked(val index: Int) : HomeInteraction()
     data class EditItemClicked(val index: Int) : HomeInteraction()
-    data class EpsGrowthValueChanged(val value: BigDecimal) : HomeInteraction()
     data class ValuationFloorValueChanged(val value: BigDecimal) : HomeInteraction()
-    data class ValuesUpdated(val index: Int, val epsGrowth: BigDecimal, val valuationFloor: BigDecimal) : HomeInteraction()
+    data class ValuesUpdated(val index: Int, val valuationFloor: BigDecimal) : HomeInteraction()
 }
