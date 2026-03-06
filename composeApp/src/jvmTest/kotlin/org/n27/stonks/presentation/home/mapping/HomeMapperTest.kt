@@ -7,7 +7,6 @@ import org.junit.Before
 import org.junit.Test
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Resource
-import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Text
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.domain.getStocks
 import org.n27.stonks.test_data.domain.getValuationMeasures
