@@ -21,8 +21,9 @@ internal fun Stock.toDetailContent() = Content(
         //forwardIntrinsicValue?.toForwardIntrinsicValue(this@toDetailContent)?.let(::add)
         earningsQuarterlyGrowth?.toGrowth()?.let(::add)
         //expectedEpsGrowth?.toExpectedEpsGrowth()?.let(::add)
-        pb?.toPb()?.let(::add)
         pe?.toPe()?.let(::add)
+        ps?.toPs()?.let(::add)
+        pb?.toPb()?.let(::add)
         eps?.toEpsCell(currency)?.let(::add)
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
@@ -47,6 +48,11 @@ private fun Stock.toPayoutRatioCell() = if (dividendYield == null || price == nu
 private fun Double.toEpsCell(currency: String?) = toPrice(currency)?.toCell(
     title = Res.string.eps,
     description = Res.string.eps_description,
+)
+
+private fun Double.toPs() = toFormattedString().toCell(
+    title = Res.string.ps,
+    description = Res.string.ps_description,
 )
 
 private fun Double.toPe() = toFormattedString().toCell(

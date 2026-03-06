@@ -45,6 +45,11 @@ fun getDetailContent(
             description = Res.string.pb_description
         ),
         getDetailContentCell(
+            title = Res.string.ps,
+            value = "8.23",
+            description = Res.string.ps_description
+        ),
+        getDetailContentCell(
             title = Res.string.pe,
             value = "34.72",
             description = Res.string.pe_description
