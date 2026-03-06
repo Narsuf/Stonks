@@ -32,7 +32,7 @@ val appModule = module {
         }
     }
 
-    single { Api(System.getenv("STONKS_URL"), get()) }
+    single { Api(System.getProperty("STONKS_URL") ?: System.getenv("STONKS_URL"), get()) }
     single<Repository> { RepositoryImpl(get()) }
 
     single { EventBus() }

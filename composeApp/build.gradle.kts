@@ -50,10 +50,11 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "org.n27.stonks.MainKt"
+        jvmArgs("-DSTONKS_URL=http://localhost:8080")
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.n27.stonks"
+            packageName = "Stonks"
             packageVersion = "1.0.0"
         }
     }
