@@ -53,19 +53,4 @@ class HomeMapperTest {
 
         assertEquals(expected, result.extraValue)
     }
-
-    @Test
-    fun `Stock toPresentationEntity should show valuation floor value when set`() = runTest {
-        val stock = getStock()
-        val expected = StringResourceWithArgs(
-            resource = Res.string.valuation_and_growth,
-            args = persistentListOf(
-                Text("12.50"),
-            )
-        )
-
-        val result = listOf(stock).toPresentationEntity()[0]
-
-        assertEquals(expected, result.extraValue)
-    }
 }

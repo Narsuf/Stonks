@@ -17,9 +17,9 @@
     <string name="intrinsic_value">Intrinsic Value</string>
     <string name="intrinsic_value_description">The estimated intrinsic value calculated using the configured P/S ratio.</string>
     <string name="earnings_estimate">Forward Earnings Growth</string>
-    <string name="earnings_estimate_description">Expected EPS growth range (low - high) for the next year.</string>
+    <string name="earnings_estimate_description">Expected EPS growth range for the next year.</string>
     <string name="revenue_estimate">Forward Revenue Growth</string>
-    <string name="revenue_estimate_description">Expected revenue growth range (low - high) for the next year.</string>
+    <string name="revenue_estimate_description">Expected revenue growth range for the next year.</string>
     <string name="revenue_growth">Trailing Revenue Growth</string>
     <string name="revenue_growth_description">Quarterly revenue growth (YoY).\n\nThe company's revenue growth compared to the same quarter of the previous year.</string>
 

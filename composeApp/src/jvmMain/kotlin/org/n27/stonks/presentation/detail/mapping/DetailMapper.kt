@@ -38,6 +38,7 @@ private fun Double.toDividendCell() = toFormattedPercentage().toCell(
 
 private fun Stock.toPayoutRatioCell(): Content.Cell? {
     val eps = incomeStatement?.eps
+
     return if (dividendYield == null || price == null || eps == null || eps == 0.0) {
         null
     } else {
