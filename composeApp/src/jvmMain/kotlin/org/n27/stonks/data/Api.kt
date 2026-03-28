@@ -3,16 +3,16 @@ package org.n27.stonks.data
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.domain.models.Stocks.Stock
+import org.n27.stonks.data.models.StockRaw
+import org.n27.stonks.data.models.StocksRaw
 
 
 class Api(private val url: String, private val httpClient: HttpClient) {
 
-    suspend fun getStock(symbol: String): Stock {
+    suspend fun getStock(symbol: String): StockRaw {
         val url = "$url/stock/$symbol"
         println("getStock request triggered")
-        val response: Stock = httpClient.get(url).body()
+        val response: StockRaw = httpClient.get(url).body()
         return response
     }
 
@@ -24,10 +24,10 @@ class Api(private val url: String, private val httpClient: HttpClient) {
         }
     }
 
-    suspend fun getStocks(filterWatchlist: Boolean, symbol: String?, page: Int?, pageSize: Int?): Stocks {
+    suspend fun getStocks(filterWatchlist: Boolean, symbol: String?, page: Int?, pageSize: Int?): StocksRaw {
         val url = "$url/stocks"
         println("getStocks request triggered")
-        val response: Stocks = httpClient.get(url) {
+        val response: StocksRaw = httpClient.get(url) {
             parameter("filterWatchlist", filterWatchlist)
             parameter("symbol", symbol)
             parameter("page", page)
@@ -37,10 +37,10 @@ class Api(private val url: String, private val httpClient: HttpClient) {
         return response
     }
 
-    suspend fun getWatchlist(page: Int?, pageSize: Int?): Stocks {
+    suspend fun getWatchlist(page: Int?, pageSize: Int?): StocksRaw {
         val url = "$url/watchlist"
         println("getWatchlist request triggered")
-        val response: Stocks = httpClient.get(url) {
+        val response: StocksRaw = httpClient.get(url) {
             parameter("page", page)
             parameter("pageSize", pageSize)
         }.body()

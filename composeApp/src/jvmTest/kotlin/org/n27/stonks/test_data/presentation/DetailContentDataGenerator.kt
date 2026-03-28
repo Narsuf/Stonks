@@ -35,6 +35,16 @@ fun getDetailContent(
             )
         ),
         getDetailContentCell(
+            title = Res.string.peg,
+            value = "1.25",
+            description = Res.string.peg_description
+        ),
+        getDetailContentCell(
+            title = Res.string.dynamic_payback,
+            value = "19.87",
+            description = Res.string.dynamic_payback_description
+        ),
+        getDetailContentCell(
             title = Res.string.pe,
             value = "34.72",
             description = Res.string.pe_description

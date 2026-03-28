@@ -7,6 +7,8 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers.*
 import org.mockito.Mockito.*
 import org.n27.stonks.domain.Repository
+import org.n27.stonks.test_data.data.getStockRaw
+import org.n27.stonks.test_data.data.getStocksRaw
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.domain.getStocks
 
@@ -23,7 +25,7 @@ class RepositoryImplTest {
 
     @Test
     fun `getStock should return stock`() = runBlocking {
-        `when`(api.getStock(anyString())).thenReturn(getStock())
+        `when`(api.getStock(anyString())).thenReturn(getStockRaw())
 
         val result = repository.getStock("AAPL")
 
@@ -32,7 +34,7 @@ class RepositoryImplTest {
 
     @Test
     fun `getStocks should return stocks`() = runBlocking {
-        `when`(api.getStocks(anyBoolean(), anyString(), anyInt(), anyInt())).thenReturn(getStocks())
+        `when`(api.getStocks(anyBoolean(), anyString(), anyInt(), anyInt())).thenReturn(getStocksRaw())
 
         val result = repository.getStocks(false, "AAPL", 0, 10)
 
@@ -41,7 +43,7 @@ class RepositoryImplTest {
 
     @Test
     fun `getWatchlist should return watchlist`() = runBlocking {
-        `when`(api.getWatchlist(anyInt(), anyInt())).thenReturn(getStocks())
+        `when`(api.getWatchlist(anyInt(), anyInt())).thenReturn(getStocksRaw())
 
         val result = repository.getWatchlist(0, 10)
 

@@ -18,6 +18,10 @@
     <string name="revenue_estimate_description">Expected revenue growth range for the next year.</string>
     <string name="revenue_growth">Trailing Revenue Growth</string>
     <string name="revenue_growth_description">Quarterly revenue growth (YoY).\n\nThe company's revenue growth compared to the same quarter of the previous year.</string>
+    <string name="dynamic_payback">Dynamic Payback</string>
+    <string name="dynamic_payback_description">Estimated years to recover the investment, assuming forward earnings growth.\n\nCalculated as: ln(1 + P×g / (EPS×(1+g))) / ln(1+g)</string>
+    <string name="peg">PEG</string>
+    <string name="peg_description">P/E ratio divided by the earnings growth rate.\n\nA PEG below 1 may indicate an undervalued stock relative to its growth.</string>
     <string name="earnings_yield">Earnings Yield</string>
     <string name="earnings_yield_description">The inverse of the P/E ratio (EPS ÷ price).\n\nShows the percentage of earnings generated per dollar invested.</string>
     <string name="cash_to_earnings">Cash / Earnings</string>

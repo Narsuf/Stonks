@@ -2,7 +2,11 @@ package org.n27.stonks.test_data.domain
 
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.*
+import org.n27.stonks.domain.models.Stocks.Stock.Analysis
+import org.n27.stonks.domain.models.Stocks.Stock.BalanceSheet
+import org.n27.stonks.domain.models.Stocks.Stock.Computed
+import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
+import org.n27.stonks.domain.models.Stocks.Stock.ValuationMeasures
 
 fun getStocks(
     items: List<Stock> = listOf(getStock()),
@@ -18,30 +22,32 @@ fun getStock(
     logo: String? = "/9j/2wCEAAEBAQEBAQEBAQEBAQEB...",
     price: Double? = 259.369995117188,
     dividendYield: Double? = 0.4,
+    currency: String? = "USD",
+    lastUpdated: Long? = 1768064114877,
+    isWatchlisted: Boolean = false,
     incomeStatement: IncomeStatement? = getIncomeStatement(),
     analysis: Analysis? = getAnalysis(),
     valuationMeasures: ValuationMeasures? = getValuationMeasures(),
     balanceSheet: BalanceSheet? = getBalanceSheet(),
-    roe: Double? = 1.5202099,
-    profitMargin: Double? = 0.27037,
-    currency: String? = "USD",
-    lastUpdated: Long? = 1768064114877,
-    isWatchlisted: Boolean = false,
+    roe: Double? = 152.02099,
+    profitMargin: Double? = 27.037,
+    computed: Computed? = getComputed(),
 ) = Stock(
     symbol = symbol,
     companyName = companyName,
     logo = logo,
     price = price,
     dividendYield = dividendYield,
+    currency = currency,
+    lastUpdated = lastUpdated,
+    isWatchlisted = isWatchlisted,
     incomeStatement = incomeStatement,
     analysis = analysis,
     valuationMeasures = valuationMeasures,
     balanceSheet = balanceSheet,
     roe = roe,
     profitMargin = profitMargin,
-    currency = currency,
-    lastUpdated = lastUpdated,
-    isWatchlisted = isWatchlisted,
+    computed = computed,
 )
 
 fun getIncomeStatement(
@@ -76,6 +82,22 @@ fun getValuationMeasures(
     pe = pe,
     valuationFloor = valuationFloor,
     intrinsicValue = intrinsicValue,
+)
+
+fun getComputed(
+    earningsYield: Double? = 2.880055573361496,
+    peg: Double? = 1.2489766987238526,
+    dynamicPayback: Double? = 19.8704990310466,
+    payoutRatio: Double? = 13.888620889809264,
+    cashToEarnings: Double? = 0.6100401606425704,
+    cashToPrice: Double? = 1.7569495646329738,
+) = Computed(
+    earningsYield = earningsYield,
+    peg = peg,
+    dynamicPayback = dynamicPayback,
+    payoutRatio = payoutRatio,
+    cashToEarnings = cashToEarnings,
+    cashToPrice = cashToPrice,
 )
 
 fun getBalanceSheet(
