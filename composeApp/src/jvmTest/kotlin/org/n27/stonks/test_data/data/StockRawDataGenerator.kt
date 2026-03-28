@@ -2,6 +2,7 @@ package org.n27.stonks.test_data.data
 
 import org.n27.stonks.data.models.AnalysisRaw
 import org.n27.stonks.data.models.BalanceSheetRaw
+import org.n27.stonks.data.models.DividendsRaw
 import org.n27.stonks.data.models.EarningsEstimateRaw
 import org.n27.stonks.data.models.IncomeStatementRaw
 import org.n27.stonks.data.models.RevenueEstimateRaw
@@ -22,7 +23,7 @@ fun getStockRaw(
     companyName: String = "Apple Inc.",
     logo: String? = "/9j/2wCEAAEBAQEBAQEBAQEBAQEB...",
     price: Double? = 259.369995117188,
-    dividendYield: Double? = 0.4,
+    dividends: DividendsRaw? = getDividendsRaw(),
     incomeStatement: IncomeStatementRaw? = getIncomeStatementRaw(),
     analysis: AnalysisRaw? = getAnalysisRaw(),
     valuationMeasures: ValuationMeasuresRaw? = getValuationMeasuresRaw(),
@@ -37,7 +38,7 @@ fun getStockRaw(
     companyName = companyName,
     logo = logo,
     price = price,
-    dividendYield = dividendYield,
+    dividends = dividends,
     incomeStatement = incomeStatement,
     analysis = analysis,
     valuationMeasures = valuationMeasures,
@@ -47,6 +48,14 @@ fun getStockRaw(
     currency = currency,
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
+)
+
+fun getDividendsRaw(
+    dividendYield: Double? = 0.4,
+    payoutRatio: Double? = 0.5899,
+) = DividendsRaw(
+    dividendYield = dividendYield,
+    payoutRatio = payoutRatio,
 )
 
 fun getIncomeStatementRaw(

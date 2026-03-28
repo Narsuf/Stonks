@@ -14,7 +14,7 @@ data class StockRaw(
     val companyName: String,
     val logo: String?,
     val price: Double?,
-    val dividendYield: Double?,
+    val dividends: DividendsRaw?,
     val incomeStatement: IncomeStatementRaw?,
     val analysis: AnalysisRaw?,
     val valuationMeasures: ValuationMeasuresRaw?,
@@ -24,6 +24,12 @@ data class StockRaw(
     val currency: String?,
     val lastUpdated: Long?,
     val isWatchlisted: Boolean,
+)
+
+@Serializable
+data class DividendsRaw(
+    val dividendYield: Double?,
+    val payoutRatio: Double?,
 )
 
 @Serializable

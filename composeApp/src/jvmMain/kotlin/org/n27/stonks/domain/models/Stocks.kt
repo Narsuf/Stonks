@@ -10,7 +10,7 @@ data class Stocks(
         val companyName: String,
         val logo: String?,
         val price: Double?,
-        val dividendYield: Double?,
+        val dividends: Dividends?,
         val currency: String?,
         val lastUpdated: Long?,
         val isWatchlisted: Boolean,
@@ -23,11 +23,15 @@ data class Stocks(
         val computed: Computed?,
     ) {
 
+        data class Dividends(
+            val dividendYield: Double?,
+            val payoutRatio: Double?,
+        )
+
         data class Computed(
             val earningsYield: Double?,
             val peg: Double?,
             val dynamicPayback: Double?,
-            val payoutRatio: Double?,
             val cashToEarnings: Double?,
             val cashToPrice: Double?,
         )

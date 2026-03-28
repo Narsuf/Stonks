@@ -5,6 +5,7 @@ import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis
 import org.n27.stonks.domain.models.Stocks.Stock.BalanceSheet
 import org.n27.stonks.domain.models.Stocks.Stock.Computed
+import org.n27.stonks.domain.models.Stocks.Stock.Dividends
 import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
 import org.n27.stonks.domain.models.Stocks.Stock.ValuationMeasures
 
@@ -21,7 +22,7 @@ fun getStock(
     companyName: String = "Apple Inc.",
     logo: String? = "/9j/2wCEAAEBAQEBAQEBAQEBAQEB...",
     price: Double? = 259.369995117188,
-    dividendYield: Double? = 0.4,
+    dividends: Dividends? = getDividends(),
     currency: String? = "USD",
     lastUpdated: Long? = 1768064114877,
     isWatchlisted: Boolean = false,
@@ -37,7 +38,7 @@ fun getStock(
     companyName = companyName,
     logo = logo,
     price = price,
-    dividendYield = dividendYield,
+    dividends = dividends,
     currency = currency,
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
@@ -48,6 +49,14 @@ fun getStock(
     roe = roe,
     profitMargin = profitMargin,
     computed = computed,
+)
+
+fun getDividends(
+    dividendYield: Double? = 0.4,
+    payoutRatio: Double? = 0.5899,
+) = Dividends(
+    dividendYield = dividendYield,
+    payoutRatio = payoutRatio,
 )
 
 fun getIncomeStatement(
@@ -88,14 +97,12 @@ fun getComputed(
     earningsYield: Double? = 2.880055573361496,
     peg: Double? = 1.2489766987238526,
     dynamicPayback: Double? = 19.8704990310466,
-    payoutRatio: Double? = 13.888620889809264,
     cashToEarnings: Double? = 0.6100401606425704,
     cashToPrice: Double? = 1.7569495646329738,
 ) = Computed(
     earningsYield = earningsYield,
     peg = peg,
     dynamicPayback = dynamicPayback,
-    payoutRatio = payoutRatio,
     cashToEarnings = cashToEarnings,
     cashToPrice = cashToPrice,
 )

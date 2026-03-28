@@ -22,7 +22,8 @@ class StockMapperTest {
 
         val result = mapStock(
             price = raw.price,
-            dividendYield = raw.dividendYield,
+            dividendYield = raw.dividends?.dividendYield,
+            payoutRatio = raw.dividends?.payoutRatio,
             incomeStatement = getIncomeStatement(),
             analysis = getAnalysis(),
             valuationMeasures = getValuationMeasures(),
@@ -72,17 +73,6 @@ class StockMapperTest {
     }
 
     @Test
-    fun `mapToStock should return null payoutRatio when eps is zero`() {
-        val result = mapStock(
-            price = getStockRaw().price,
-            dividendYield = getStockRaw().dividendYield,
-            incomeStatement = getIncomeStatement(eps = 0.0),
-        )
-
-        assertNull(result.computed?.payoutRatio)
-    }
-
-    @Test
     fun `mapToStock should return null cashToEarnings when eps is zero`() {
         val result = mapStock(
             incomeStatement = getIncomeStatement(eps = 0.0),
@@ -105,6 +95,7 @@ class StockMapperTest {
     private fun mapStock(
         price: Double? = null,
         dividendYield: Double? = null,
+        payoutRatio: Double? = null,
         incomeStatement: IncomeStatement? = null,
         analysis: Analysis? = null,
         valuationMeasures: ValuationMeasures? = null,
@@ -121,6 +112,7 @@ class StockMapperTest {
             lastUpdated = raw.lastUpdated,
             isWatchlisted = raw.isWatchlisted,
             dividendYield = dividendYield,
+            payoutRatio = payoutRatio,
             incomeStatement = incomeStatement,
             analysis = analysis,
             valuationMeasures = valuationMeasures,

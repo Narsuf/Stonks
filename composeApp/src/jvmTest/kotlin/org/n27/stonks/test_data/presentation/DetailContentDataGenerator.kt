@@ -21,7 +21,7 @@ fun getDetailContent(
         ),
         getDetailContentCell(
             title = Res.string.payout_ratio,
-            value = "13.89 %",
+            value = "0.59 %",
             description = Res.string.payout_ratio_description
         ),
         getDetailContentCell(

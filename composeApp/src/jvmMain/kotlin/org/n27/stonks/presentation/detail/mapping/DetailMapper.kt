@@ -16,12 +16,12 @@ internal fun Stock.toDetailContent() = Content(
     price = price?.toPrice(currency),
     lastUpdated = lastUpdated?.toDateString(),
     cells = buildList {
-        dividendYield?.toDividendCell()?.let(::add)
-        computed?.payoutRatio?.toPayoutRatioCell()?.let(::add)
+        dividends?.dividendYield?.toDividendCell()?.let(::add)
+        dividends?.payoutRatio?.toPayoutRatioCell()?.let(::add)
         valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let(::add)
+        valuationMeasures?.pe?.toPeCell()?.let(::add)
         computed?.peg?.toPegCell()?.let(::add)
         computed?.dynamicPayback?.toDynamicPaybackCell()?.let(::add)
-        valuationMeasures?.pe?.toPeCell()?.let(::add)
         computed?.earningsYield?.toEarningsYieldCell()?.let(::add)
         incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let(::add)
         analysis?.earningsEstimate?.toEarningsEstimateCell()?.let(::add)
@@ -41,7 +41,7 @@ private fun Double.toDividendCell() = toFormattedPercentage().toCell(
     description = Res.string.dividend_yield_description,
 )
 
-private fun Double.toPayoutRatioCell() = toFormattedPercentage().toCell(
+private fun Double.toPayoutRatioCell() = (this * 100).toFormattedPercentage().toCell(
     title = Res.string.payout_ratio,
     description = Res.string.payout_ratio_description,
 )
