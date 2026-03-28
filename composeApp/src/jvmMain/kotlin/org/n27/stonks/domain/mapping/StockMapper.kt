@@ -42,8 +42,8 @@ internal fun mapToStock(
     profitMargin = profitMargin?.let { it * 100 },
     computed = Computed(
         earningsYield = computeEarningsYield(valuationMeasures?.pe),
-        peg = computePeg(valuationMeasures?.pe, analysis?.earningsEstimate?.growthLow),
-        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, analysis?.earningsEstimate?.growthLow),
+        peg = computePeg(valuationMeasures?.pe, analysis?.earningsEstimate?.growthHigh),
+        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, analysis?.earningsEstimate?.growthHigh),
         cashToEarnings = computeCashToEarnings(balanceSheet?.totalCashPerShare, incomeStatement?.eps),
         cashToPrice = computeCashToPrice(price, balanceSheet?.totalCashPerShare),
     ),
@@ -53,15 +53,15 @@ private fun computeEarningsYield(pe: Double?) = pe
     ?.takeIf { it != 0.0 }
     ?.let { (1.0 / it) * 100 }
 
-private fun computePeg(pe: Double?, growthLow: Double?) = pe?.let { p ->
-    growthLow
+private fun computePeg(pe: Double?, growthHigh: Double?) = pe?.let { p ->
+    growthHigh
         ?.takeIf { it > 0 }
         ?.let { p / (it * 5) }
 }
 
-private fun computeDynamicPayback(price: Double?, eps: Double?, growthLow: Double?): Double? {
-    if (price == null || eps == null || growthLow == null || eps <= 0 || growthLow <= 0) return null
-    val g = growthLow / 100
+private fun computeDynamicPayback(price: Double?, eps: Double?, growthHigh: Double?): Double? {
+    if (price == null || eps == null || growthHigh == null || eps <= 0 || growthHigh <= 0) return null
+    val g = growthHigh / 100
     val numerator = ln(1 + price * g / eps)
     val denominator = ln(1 + g)
     return (numerator / denominator).takeIf { denominator > 0 }

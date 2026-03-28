@@ -112,14 +112,12 @@ private fun Double.toDeCell() = toFormattedString().toCell(
     description = Res.string.de_description,
 )
 
-private fun EarningsEstimate.toEarningsEstimateCell(): Content.Cell? {
-    val low = growthLow ?: return null
-    val high = growthHigh ?: return null
-    return "${low.toFormattedString()} - ${high.toFormattedString()} %".toCell(
+private fun EarningsEstimate.toEarningsEstimateCell() = growthHigh
+    ?.toFormattedPercentage()
+    ?.toCell(
         title = Res.string.earnings_estimate,
         description = Res.string.earnings_estimate_description,
     )
-}
 
 private fun String.toCell(
     title: StringResource,

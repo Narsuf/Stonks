@@ -21,7 +21,7 @@ fun getDetailContent(
         ),
         getDetailContentCell(
             title = Res.string.payout_ratio,
-            value = "0.59 %",
+            value = "58.99 %",
             description = Res.string.payout_ratio_description
         ),
         getDetailContentCell(
@@ -35,19 +35,19 @@ fun getDetailContent(
             )
         ),
         getDetailContentCell(
+            title = Res.string.pe,
+            value = "34.72",
+            description = Res.string.pe_description
+        ),
+        getDetailContentCell(
             title = Res.string.peg,
-            value = "1.25",
+            value = "0.61",
             description = Res.string.peg_description
         ),
         getDetailContentCell(
             title = Res.string.dynamic_payback,
-            value = "19.87",
+            value = "14.81",
             description = Res.string.dynamic_payback_description
-        ),
-        getDetailContentCell(
-            title = Res.string.pe,
-            value = "34.72",
-            description = Res.string.pe_description
         ),
         getDetailContentCell(
             title = Res.string.earnings_yield,
@@ -61,7 +61,7 @@ getDetailContentCell(
         ),
         getDetailContentCell(
             title = Res.string.earnings_estimate,
-            value = "5.56 - 11.43 %",
+            value = "11.43 %",
             description = Res.string.earnings_estimate_description
         ),
         getDetailContentCell(
