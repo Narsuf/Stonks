@@ -40,26 +40,11 @@ fun getDetailContent(
             description = Res.string.pe_description
         ),
         getDetailContentCell(
-            title = Res.string.ps,
-            value = "8.23",
-            description = Res.string.ps_description
+            title = Res.string.earnings_yield,
+            value = "2.88 %",
+            description = Res.string.earnings_yield_description
         ),
-        getDetailContentCell(
-            title = Res.string.pb,
-            value = "51.97",
-            description = Res.string.pb_description
-        ),
-        getDetailContentCell(
-            title = Res.string.revenue_growth,
-            value = "9.70 %",
-            description = Res.string.revenue_growth_description
-        ),
-        getDetailContentCell(
-            title = Res.string.revenue_estimate,
-            value = "2.83 - 7.22 %",
-            description = Res.string.revenue_estimate_description
-        ),
-        getDetailContentCell(
+getDetailContentCell(
             title = Res.string.growth,
             value = "86.40 %",
             description = Res.string.growth_description
@@ -73,6 +58,36 @@ fun getDetailContent(
             title = Res.string.eps,
             value = "$7.47",
             description = Res.string.eps_description
+        ),
+        getDetailContentCell(
+            title = Res.string.profit_margin,
+            value = "27.04 %",
+            description = Res.string.profit_margin_description
+        ),
+        getDetailContentCell(
+            title = Res.string.roe,
+            value = "152.02 %",
+            description = Res.string.roe_description
+        ),
+        getDetailContentCell(
+            title = Res.string.total_cash_per_share,
+            value = "$4.56",
+            description = Res.string.total_cash_per_share_description
+        ),
+        getDetailContentCell(
+            title = Res.string.cash_to_earnings,
+            value = "0.61",
+            description = Res.string.cash_to_earnings_description
+        ),
+        getDetailContentCell(
+            title = Res.string.cash_to_price,
+            value = "1.76 %",
+            description = Res.string.cash_to_price_description
+        ),
+        getDetailContentCell(
+            title = Res.string.de,
+            value = "102.63",
+            description = Res.string.de_description
         )
     ),
     isWatchlisted: Boolean = false

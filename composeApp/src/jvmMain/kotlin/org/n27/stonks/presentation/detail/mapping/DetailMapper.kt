@@ -20,13 +20,16 @@ internal fun Stock.toDetailContent() = Content(
         toPayoutRatioCell()?.let(::add)
         valuationMeasures?.intrinsicValue?.toIntrinsicValue(this@toDetailContent)?.let(::add)
         valuationMeasures?.pe?.toPe()?.let(::add)
-        valuationMeasures?.ps?.toPs()?.let(::add)
-        valuationMeasures?.pb?.toPb()?.let(::add)
-        incomeStatement?.revenueQuarterlyGrowth?.toRevenueGrowth()?.let(::add)
-        analysis?.revenueEstimate?.toRevenueEstimateCell()?.let(::add)
+        valuationMeasures?.pe?.toEarningsYield()?.let(::add)
         incomeStatement?.earningsQuarterlyGrowth?.toGrowth()?.let(::add)
         analysis?.earningsEstimate?.toEarningsEstimateCell()?.let(::add)
         incomeStatement?.eps?.toEpsCell(currency)?.let(::add)
+        profitMargin?.toProfitMarginCell()?.let(::add)
+        roe?.toRoeCell()?.let(::add)
+        balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let(::add)
+        toCashToEarningsCell()?.let(::add)
+        toCashToPriceCell()?.let(::add)
+        balanceSheet?.de?.toDeCell()?.let(::add)
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
 )
@@ -56,9 +59,9 @@ private fun Double.toEpsCell(currency: String?) = toPrice(currency)?.toCell(
     description = Res.string.eps_description,
 )
 
-private fun Double.toPs() = toFormattedString().toCell(
-    title = Res.string.ps,
-    description = Res.string.ps_description,
+private fun Double.toEarningsYield() = ((1.0 / this) * 100).toFormattedPercentage().toCell(
+    title = Res.string.earnings_yield,
+    description = Res.string.earnings_yield_description,
 )
 
 private fun Double.toPe() = toFormattedString().toCell(
@@ -66,19 +69,9 @@ private fun Double.toPe() = toFormattedString().toCell(
     description = Res.string.pe_description,
 )
 
-private fun Double.toPb() = toFormattedString().toCell(
-    title = Res.string.pb,
-    description = Res.string.pb_description,
-)
-
 private fun Double.toGrowth() = toFormattedPercentage().toCell(
     title = Res.string.growth,
     description = Res.string.growth_description,
-)
-
-private fun Double.toRevenueGrowth() = toFormattedPercentage().toCell(
-    title = Res.string.revenue_growth,
-    description = Res.string.revenue_growth_description,
 )
 
 private fun Double.toIntrinsicValue(stock: Stock) = toPrice(stock.currency)?.toCell(
@@ -96,14 +89,45 @@ private fun Analysis.EarningsEstimate.toEarningsEstimateCell(): Content.Cell? {
     )
 }
 
-private fun Analysis.RevenueEstimate.toRevenueEstimateCell(): Content.Cell? {
-    val low = growthLow ?: return null
-    val high = growthHigh ?: return null
-    return "${low.toFormattedString()} - ${high.toFormattedString()} %".toCell(
-        title = Res.string.revenue_estimate,
-        description = Res.string.revenue_estimate_description,
+private fun Double.toProfitMarginCell() = toFormattedPercentage().toCell(
+    title = Res.string.profit_margin,
+    description = Res.string.profit_margin_description,
+)
+
+private fun Double.toRoeCell() = toFormattedPercentage().toCell(
+    title = Res.string.roe,
+    description = Res.string.roe_description,
+)
+
+private fun Double.toTotalCashPerShareCell(currency: String?) = toPrice(currency)?.toCell(
+    title = Res.string.total_cash_per_share,
+    description = Res.string.total_cash_per_share_description,
+)
+
+private fun Stock.toCashToEarningsCell(): Content.Cell? {
+    val cash = balanceSheet?.totalCashPerShare ?: return null
+    val eps = incomeStatement?.eps ?: return null
+    if (eps == 0.0) return null
+    return (cash / eps).toFormattedString().toCell(
+        title = Res.string.cash_to_earnings,
+        description = Res.string.cash_to_earnings_description,
     )
 }
+
+private fun Stock.toCashToPriceCell(): Content.Cell? {
+    val cash = balanceSheet?.totalCashPerShare ?: return null
+    val stockPrice = price ?: return null
+    if (stockPrice == 0.0) return null
+    return ((cash / stockPrice) * 100).toFormattedPercentage().toCell(
+        title = Res.string.cash_to_price,
+        description = Res.string.cash_to_price_description,
+    )
+}
+
+private fun Double.toDeCell() = toFormattedString().toCell(
+    title = Res.string.de,
+    description = Res.string.de_description,
+)
 
 private fun String.toCell(
     title: StringResource,

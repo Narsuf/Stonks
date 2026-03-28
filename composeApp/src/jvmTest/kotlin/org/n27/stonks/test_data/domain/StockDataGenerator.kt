@@ -21,6 +21,9 @@ fun getStock(
     incomeStatement: IncomeStatement? = getIncomeStatement(),
     analysis: Analysis? = getAnalysis(),
     valuationMeasures: ValuationMeasures? = getValuationMeasures(),
+    balanceSheet: BalanceSheet? = getBalanceSheet(),
+    roe: Double? = 1.5202099,
+    profitMargin: Double? = 0.27037,
     currency: String? = "USD",
     lastUpdated: Long? = 1768064114877,
     isWatchlisted: Boolean = false,
@@ -33,6 +36,9 @@ fun getStock(
     incomeStatement = incomeStatement,
     analysis = analysis,
     valuationMeasures = valuationMeasures,
+    balanceSheet = balanceSheet,
+    roe = roe,
+    profitMargin = profitMargin,
     currency = currency,
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
@@ -64,14 +70,18 @@ fun getAnalysis(
 
 fun getValuationMeasures(
     pe: Double? = 34.7215522245231,
-    pb: Double? = 51.967537,
-    ps: Double? = 8.23,
     valuationFloor: Double? = 12.5,
     intrinsicValue: Double? = 93.375,
 ) = ValuationMeasures(
     pe = pe,
-    pb = pb,
-    ps = ps,
     valuationFloor = valuationFloor,
     intrinsicValue = intrinsicValue,
+)
+
+fun getBalanceSheet(
+    totalCashPerShare: Double? = 4.557,
+    de: Double? = 102.63,
+) = BalanceSheet(
+    totalCashPerShare = totalCashPerShare,
+    de = de,
 )

@@ -18,6 +18,9 @@ data class Stocks(
         val incomeStatement: IncomeStatement?,
         val analysis: Analysis?,
         val valuationMeasures: ValuationMeasures?,
+        val balanceSheet: BalanceSheet?,
+        val roe: Double?,
+        val profitMargin: Double?,
         val currency: String?,
         val lastUpdated: Long?,
         val isWatchlisted: Boolean,
@@ -52,10 +55,14 @@ data class Stocks(
         @Serializable
         data class ValuationMeasures(
             val pe: Double?,
-            val pb: Double?,
-            val ps: Double?,
             val valuationFloor: Double?,
             val intrinsicValue: Double?,
+        )
+
+        @Serializable
+        data class BalanceSheet(
+            val totalCashPerShare: Double?,
+            val de: Double?,
         )
     }
 }
