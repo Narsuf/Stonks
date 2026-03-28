@@ -89,15 +89,20 @@ class HomeViewModel(
     private fun requestMoreStocks() {
         viewModelScope.launch {
             state.updateIfType { c: Content -> c.copy(isPageLoading = true) }
-            repository.getWatchlist(currentStocks.nextPage)
-                .onSuccess {
-                    currentStocks = currentStocks.copy(
-                        nextPage = it.nextPage,
-                        items = currentStocks.items + it.items
+            state.updateIfType { c: Content ->
+                repository.getWatchlist(currentStocks.nextPage)
+                    .onSuccess {
+                        currentStocks = currentStocks.copy(
+                            nextPage = it.nextPage,
+                            items = currentStocks.items + it.items
+                        )
+                    }
+                    .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
+                    .fold(
+                        onSuccess = { currentStocks.toContent() },
+                        onFailure = { c.copy(isPageLoading = false) }
                     )
-                    state.emit(currentStocks.toContent())
-                }
-                .onFailure { eventBus.emit(ShowErrorNotification(Res.string.error_generic)) }
+            }
         }
     }
 

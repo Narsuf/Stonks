@@ -1,6 +1,7 @@
 package org.n27.stonks.di
 
 import io.ktor.client.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,11 @@ val appModule = module {
 
     single {
         HttpClient {
+            install(HttpTimeout) {
+                connectTimeoutMillis = 5_000
+                socketTimeoutMillis = 20_000
+                requestTimeoutMillis = 20_000
+            }
             install(ContentNegotiation) {
                 json(
                     Json {
