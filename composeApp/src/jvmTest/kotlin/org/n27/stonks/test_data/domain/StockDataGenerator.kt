@@ -1,7 +1,7 @@
 package org.n27.stonks.test_data.domain
 
-import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.RatedValue
+import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.domain.models.Stocks.Stock.*
@@ -27,8 +27,8 @@ fun getStock(
     analysis: Analysis? = getAnalysis(),
     valuationMeasures: ValuationMeasures? = getValuationMeasures(),
     balanceSheet: BalanceSheet? = getBalanceSheet(),
-    roe: Double? = 152.02099,
-    profitMargin: Double? = 27.037,
+    roe: RatedValue? = getRatedValue(value = 152.02099, rating = Rating.POSITIVE),
+    profitMargin: RatedValue? = getRatedValue(value = 27.037, rating = Rating.POSITIVE),
     computed: Computed? = getComputed(),
 ) = Stock(
     symbol = symbol,
@@ -46,6 +46,14 @@ fun getStock(
     roe = roe,
     profitMargin = profitMargin,
     computed = computed,
+)
+
+fun getRatedValue(
+    value: Double = 0.0,
+    rating: Rating? = null,
+) = RatedValue(
+    value = value,
+    rating = rating,
 )
 
 fun getDividends(
@@ -83,7 +91,7 @@ fun getAnalysis(
 )
 
 fun getValuationMeasures(
-    pe: RatedValue? = RatedValue(value = 34.7215522245231, rating = Rating.DANGER),
+    pe: RatedValue? = getRatedValue(value = 34.7215522245231, rating = Rating.DANGER),
     valuationFloor: Double? = 12.5,
     intrinsicValue: Double? = 93.375,
 ) = ValuationMeasures(
@@ -94,8 +102,8 @@ fun getValuationMeasures(
 
 fun getComputed(
     earningsYield: Double? = 2.880055573361496,
-    peg: Double? = 0.8028104560583376,
-    dynamicPayback: Double? = 16.720372914455112,
+    peg: RatedValue? = getRatedValue(value = 4.014052280291688, rating = Rating.DANGER),
+    dynamicPayback: RatedValue? = getRatedValue(value = 16.720372914455112, rating = Rating.CAUTION),
     cashToEarnings: Double? = 0.6100401606425704,
     cashToPrice: Double? = 1.7569495646329738,
 ) = Computed(

@@ -2,13 +2,12 @@ package org.n27.stonks.data.mapping
 
 import org.n27.stonks.data.models.*
 import org.n27.stonks.domain.mapping.mapToStock
-import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.RatedValue
+import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock.*
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.RevenueEstimate
-import kotlin.times
 
 internal fun StocksRaw.toDomain() = Stocks(
     items = items.map { it.toDomain() },

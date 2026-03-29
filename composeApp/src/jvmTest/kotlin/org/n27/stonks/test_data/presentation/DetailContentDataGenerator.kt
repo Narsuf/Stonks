@@ -1,8 +1,8 @@
 package org.n27.stonks.test_data.presentation
 
+import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
-import androidx.compose.ui.graphics.Color
 import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaState
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
@@ -37,27 +37,18 @@ fun getDetailContent(
             )
         ),
         getDetailContentCell(
-            title = Res.string.pe,
-            value = "34.72",
-            description = Res.string.pe_description,
-            color = AppColors.Red,
-        ),
-        getDetailContentCell(
             title = Res.string.peg,
-            value = "0.80",
-            description = Res.string.peg_description
+            value = "4.01",
+            description = Res.string.peg_description,
+            color = AppColors.Red,  // DANGER: > 3
         ),
         getDetailContentCell(
             title = Res.string.dynamic_payback,
             value = "16.72",
-            description = Res.string.dynamic_payback_description
+            description = Res.string.dynamic_payback_description,
+            color = AppColors.Yellow,
         ),
         getDetailContentCell(
-            title = Res.string.earnings_yield,
-            value = "2.88 %",
-            description = Res.string.earnings_yield_description
-        ),
-getDetailContentCell(
             title = Res.string.growth,
             value = "86.40 %",
             description = Res.string.growth_description
@@ -68,24 +59,26 @@ getDetailContentCell(
             description = Res.string.earnings_estimate_description
         ),
         getDetailContentCell(
-            title = Res.string.eps,
-            value = "$7.47",
-            description = Res.string.eps_description
+            title = Res.string.roe,
+            value = "152.02 %",
+            description = Res.string.roe_description,
+            color = AppColors.Green,  // POSITIVE: > 15
         ),
         getDetailContentCell(
             title = Res.string.profit_margin,
             value = "27.04 %",
-            description = Res.string.profit_margin_description
+            description = Res.string.profit_margin_description,
+            color = AppColors.Green,  // POSITIVE: > 15
         ),
         getDetailContentCell(
-            title = Res.string.roe,
-            value = "152.02 %",
-            description = Res.string.roe_description
+            title = Res.string.de,
+            value = "102.63",
+            description = Res.string.de_description
         ),
         getDetailContentCell(
-            title = Res.string.total_cash_per_share,
-            value = "$4.56",
-            description = Res.string.total_cash_per_share_description
+            title = Res.string.current_ratio,
+            value = "0.96",
+            description = Res.string.current_ratio_description
         ),
         getDetailContentCell(
             title = Res.string.cash_to_earnings,
@@ -98,15 +91,21 @@ getDetailContentCell(
             description = Res.string.cash_to_price_description
         ),
         getDetailContentCell(
-            title = Res.string.de,
-            value = "102.63",
-            description = Res.string.de_description
+            title = Res.string.pe,
+            value = "34.72",
+            description = Res.string.pe_description,
+            color = AppColors.Red,
         ),
         getDetailContentCell(
-            title = Res.string.current_ratio,
-            value = "0.96",
-            description = Res.string.current_ratio_description
-        )
+            title = Res.string.eps,
+            value = "$7.47",
+            description = Res.string.eps_description
+        ),
+        getDetailContentCell(
+            title = Res.string.total_cash_per_share,
+            value = "$4.56",
+            description = Res.string.total_cash_per_share_description
+        ),
     ),
     isWatchlisted: Boolean = false
 ) = Content(

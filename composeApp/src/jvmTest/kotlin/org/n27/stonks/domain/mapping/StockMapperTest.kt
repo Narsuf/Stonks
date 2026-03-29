@@ -3,7 +3,6 @@ package org.n27.stonks.domain.mapping
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Stocks.Stock.*
 import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.test_data.domain.*
@@ -22,8 +21,8 @@ class StockMapperTest {
             analysis = getAnalysis(),
             valuationMeasures = getValuationMeasures(),
             balanceSheet = getBalanceSheet(),
-            roe = raw.roe,
-            profitMargin = raw.profitMargin,
+            roe = raw.roe?.let { it * 100 },
+            profitMargin = raw.profitMargin?.let { it * 100 },
         )
 
         assertEquals(getStock(), result)
@@ -31,7 +30,7 @@ class StockMapperTest {
 
     @Test
     fun `mapToStock should return null earningsYield when pe is zero`() {
-        val result = mapStock(valuationMeasures = getValuationMeasures(pe = RatedValue(0.0, null)))
+        val result = mapStock(valuationMeasures = getValuationMeasures(pe = getRatedValue(value = 0.0)))
 
         assertNull(result.computed?.earningsYield)
     }
