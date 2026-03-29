@@ -24,21 +24,20 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
         dividends?.dividendYield?.toDividendCell()?.let(::add)
         dividends?.payoutRatio?.toPayoutRatioCell()?.let(::add)
         valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let(::add)
-        valuationMeasures?.pe?.toPeCell()?.let(::add)
+        computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell()?.let(::add)
         computed?.peg?.toPegCell()?.let(::add)
         computed?.dynamicPayback?.toDynamicPaybackCell()?.let(::add)
-        computed?.earningsYield?.toEarningsYieldCell()?.let(::add)
-        computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell()?.let(::add)
         incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let(::add)
         analysis?.earningsEstimate?.toEarningsEstimateCell()?.let(::add)
-        incomeStatement?.eps?.toEpsCell(currency)?.let(::add)
-        profitMargin?.toProfitMarginCell()?.let(::add)
         roe?.toRoeCell()?.let(::add)
-        balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let(::add)
-        computed?.cashToEarnings?.toCashToEarningsCell()?.let(::add)
-        computed?.cashToPrice?.toCashToPriceCell()?.let(::add)
+        profitMargin?.toProfitMarginCell()?.let(::add)
         balanceSheet?.de?.toDeCell()?.let(::add)
         balanceSheet?.currentRatio?.toCurrentRatioCell()?.let(::add)
+        computed?.cashToEarnings?.toCashToEarningsCell()?.let(::add)
+        computed?.cashToPrice?.toCashToPriceCell()?.let(::add)
+        valuationMeasures?.pe?.toPeCell()?.let(::add)
+        incomeStatement?.eps?.toEpsCell(currency)?.let(::add)
+        balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let(::add)
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
 )
@@ -49,6 +48,7 @@ private fun computeEyTreasurySpread(earningsYield: Double?, treasury10Y: Double?
 private fun Double.toEyTreasurySpreadCell() = toFormattedPercentage().toCell(
     title = Res.string.ey_treasury_spread,
     description = Res.string.ey_treasury_spread_description,
+    color = takeIf { it < 2.5 }?.let { AppColors.Yellow }
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(
@@ -67,9 +67,10 @@ private fun Double.toIntrinsicValueCell(stock: Stock) = toPrice(stock.currency)?
     delta = stock.price?.getTargetPrice(this, stock.currency),
 )
 
-private fun Double.toDynamicPaybackCell() = toFormattedString().toCell(
+private fun RatedValue.toDynamicPaybackCell() = value.toFormattedString().toCell(
     title = Res.string.dynamic_payback,
     description = Res.string.dynamic_payback_description,
+    color = rating?.toColor(),
 )
 
 private fun RatedValue.toPeCell() = value.toFormattedString().toCell(
@@ -78,14 +79,10 @@ private fun RatedValue.toPeCell() = value.toFormattedString().toCell(
     color = rating?.toColor(),
 )
 
-private fun Double.toEarningsYieldCell() = toFormattedPercentage().toCell(
-    title = Res.string.earnings_yield,
-    description = Res.string.earnings_yield_description,
-)
-
-private fun Double.toPegCell() = toFormattedString().toCell(
+private fun RatedValue.toPegCell() = value.toFormattedString().toCell(
     title = Res.string.peg,
     description = Res.string.peg_description,
+    color = rating?.toColor(),
 )
 
 private fun Double.toGrowthCell() = toFormattedPercentage().toCell(
@@ -98,14 +95,16 @@ private fun Double.toEpsCell(currency: String?) = toPrice(currency)?.toCell(
     description = Res.string.eps_description,
 )
 
-private fun Double.toProfitMarginCell() = toFormattedPercentage().toCell(
+private fun RatedValue.toProfitMarginCell() = value.toFormattedPercentage().toCell(
     title = Res.string.profit_margin,
     description = Res.string.profit_margin_description,
+    color = rating?.toColor(),
 )
 
-private fun Double.toRoeCell() = toFormattedPercentage().toCell(
+private fun RatedValue.toRoeCell() = value.toFormattedPercentage().toCell(
     title = Res.string.roe,
     description = Res.string.roe_description,
+    color = rating?.toColor(),
 )
 
 private fun Double.toTotalCashPerShareCell(currency: String?) = toPrice(currency)?.toCell(

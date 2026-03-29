@@ -18,8 +18,8 @@ data class Stocks(
         val analysis: Analysis?,
         val valuationMeasures: ValuationMeasures?,
         val balanceSheet: BalanceSheet?,
-        val roe: Double?,
-        val profitMargin: Double?,
+        val roe: RatedValue?,
+        val profitMargin: RatedValue?,
         val computed: Computed?,
     ) {
 
@@ -30,8 +30,8 @@ data class Stocks(
 
         data class Computed(
             val earningsYield: Double?,
-            val peg: Double?,
-            val dynamicPayback: Double?,
+            val peg: RatedValue?,
+            val dynamicPayback: RatedValue?,
             val cashToEarnings: Double?,
             val cashToPrice: Double?,
         )

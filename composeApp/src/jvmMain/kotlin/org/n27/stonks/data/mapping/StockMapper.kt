@@ -8,6 +8,7 @@ import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock.*
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.RevenueEstimate
+import kotlin.times
 
 internal fun StocksRaw.toDomain() = Stocks(
     items = items.map { it.toDomain() },
@@ -28,8 +29,8 @@ internal fun StockRaw.toDomain() = mapToStock(
     analysis = analysis?.toDomain(),
     valuationMeasures = valuationMeasures?.toDomain(),
     balanceSheet = balanceSheet?.toDomain(),
-    roe = roe,
-    profitMargin = profitMargin,
+    roe = roe?.let { it * 100 },
+    profitMargin = profitMargin?.let { it * 100 },
 )
 
 private fun IncomeStatementRaw.toDomain() = IncomeStatement(

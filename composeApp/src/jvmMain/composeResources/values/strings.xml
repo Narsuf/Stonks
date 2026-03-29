@@ -19,11 +19,9 @@
     <string name="revenue_growth">Trailing Revenue Growth</string>
     <string name="revenue_growth_description">Quarterly revenue growth (YoY).\n\nThe company's revenue growth compared to the same quarter of the previous year.</string>
     <string name="dynamic_payback">Dynamic Payback</string>
-    <string name="dynamic_payback_description">Estimated years to recover the investment, assuming forward earnings growth.\n\nCalculated as: ln(1 + P×g / (EPS×(1+g))) / ln(1+g)</string>
+    <string name="dynamic_payback_description">Estimated years to recover the investment, assuming forward earnings growth.</string>
     <string name="peg">PEG</string>
-    <string name="peg_description">P/E ratio divided by the earnings growth rate.\n\nA PEG below 1 may indicate an undervalued stock relative to its growth.</string>
-    <string name="earnings_yield">Earnings Yield</string>
-    <string name="earnings_yield_description">The inverse of the P/E ratio (EPS ÷ price).\n\nShows the percentage of earnings generated per dollar invested.</string>
+    <string name="peg_description">P/E ratio divided by the earnings growth.</string>
     <string name="cash_to_earnings">Cash / Earnings</string>
     <string name="cash_to_earnings_description">Total cash per share divided by EPS.\n\nIndicates how many years of earnings are held in cash.</string>
     <string name="cash_to_price">Cash / Price</string>
@@ -39,11 +37,7 @@
     <string name="current_ratio">Current Ratio</string>
     <string name="current_ratio_description">Current assets divided by current liabilities.\n\nA ratio above 1 indicates the company can cover its short-term obligations.</string>
     <string name="ey_treasury_spread">EY / Treasury Spread</string>
-    <string name="ey_treasury_spread_description">Difference between the earnings yield and the 10-year Treasury yield.\n\nPositive: stocks offer more return than risk-free bonds. Negative: bonds are relatively more attractive.</string>
-    <string name="treasury_yield_10y">Treasury 10Y</string>
-    <string name="treasury_yield_10y_description">Current yield of the US 10-Year Treasury bond.\n\nA risk-free benchmark rate used to evaluate investment returns.</string>
-    <string name="corporate_bond_aaa">Corporate Bond AAA</string>
-    <string name="corporate_bond_aaa_description">Yield of Moody\'s Aaa-rated corporate bonds.\n\nThe highest investment-grade corporate bond yield, used as a benchmark for debt quality.</string>
+    <string name="ey_treasury_spread_description">Difference between the earnings yield and the 10-year Treasury yield.</string>
 
     <!-- Home -->
     <string name="search">Search</string>
