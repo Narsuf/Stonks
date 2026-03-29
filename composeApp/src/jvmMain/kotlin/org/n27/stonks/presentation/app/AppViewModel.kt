@@ -3,11 +3,13 @@ package org.n27.stonks.presentation.app
 import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import org.koin.core.context.GlobalContext
 import org.koin.core.parameter.parametersOf
+import org.n27.stonks.data.fred.FredYieldsStore
 import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState
 import org.n27.stonks.presentation.app.entities.AppState.*
@@ -19,6 +21,7 @@ import org.n27.stonks.presentation.common.broadcast.EventBus
 @OptIn(FlowPreview::class)
 class AppViewModel(
     eventBus: EventBus,
+    fredYieldsStore: FredYieldsStore,
     dispatcher: CoroutineDispatcher,
 ) : ViewModel(dispatcher) {
 
@@ -37,6 +40,7 @@ class AppViewModel(
         eventBus.events
             .onEach(::handleEvent)
             .launchIn(viewModelScope)
+        viewModelScope.launch { fredYieldsStore.refresh() }
     }
 
     private fun handleEvent(e: Event) = when (e) {

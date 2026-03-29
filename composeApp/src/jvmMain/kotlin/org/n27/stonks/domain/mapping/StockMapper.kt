@@ -53,15 +53,15 @@ private fun computeEarningsYield(pe: Double?) = pe
     ?.takeIf { it != 0.0 }
     ?.let { (1.0 / it) * 100 }
 
-private fun computePeg(pe: Double?, growthHigh: Double?) = pe?.let { p ->
-    growthHigh
+private fun computePeg(pe: Double?, growth: Double?) = pe?.let { p ->
+    growth
         ?.takeIf { it > 0 }
         ?.let { p / (it * 5) }
 }
 
-private fun computeDynamicPayback(price: Double?, eps: Double?, growthHigh: Double?): Double? {
-    if (price == null || eps == null || growthHigh == null || eps <= 0 || growthHigh <= 0) return null
-    val g = growthHigh / 100
+private fun computeDynamicPayback(price: Double?, eps: Double?, growth: Double?): Double? {
+    if (price == null || eps == null || growth == null || eps <= 0 || growth <= 0) return null
+    val g = growth / 100
     val numerator = ln(1 + price * g / eps)
     val denominator = ln(1 + g)
     return (numerator / denominator).takeIf { denominator > 0 }

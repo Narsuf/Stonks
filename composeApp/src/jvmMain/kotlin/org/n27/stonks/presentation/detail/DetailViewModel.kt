@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.n27.stonks.data.fred.FredYieldsStore
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.presentation.common.ViewModel
@@ -22,6 +23,7 @@ class DetailViewModel(
     private val symbol: String,
     private val eventBus: EventBus,
     private val repository: Repository,
+    private val fredYieldsStore: FredYieldsStore,
     dispatcher: CoroutineDispatcher,
 ) : ViewModel(dispatcher) {
 
@@ -47,7 +49,7 @@ class DetailViewModel(
                     onFailure = { Error },
                     onSuccess = {
                         internalStock = it
-                        it.toDetailContent()
+                        it.toDetailContent(fredYieldsStore.yields.value)
                     },
                 )
 

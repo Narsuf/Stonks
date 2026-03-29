@@ -11,6 +11,7 @@ import org.n27.stonks.domain.mapping.mapToStock
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis
+import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.RevenueEstimate
 import org.n27.stonks.domain.models.Stocks.Stock.BalanceSheet
 import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
@@ -47,7 +48,7 @@ private fun IncomeStatementRaw.toDomain() = IncomeStatement(
 
 private fun AnalysisRaw.toDomain() = Analysis(
     earningsEstimate = earningsEstimate?.let {
-        Analysis.EarningsEstimate(growthLow = it.growthLow, growthHigh = it.growthHigh, growthAvg = it.growthAvg)
+        EarningsEstimate(growthLow = it.growthLow, growthHigh = it.growthHigh, growthAvg = it.growthAvg)
     },
     revenueEstimate = revenueEstimate?.toDomain(),
 )

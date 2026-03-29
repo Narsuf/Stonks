@@ -3,19 +3,22 @@ package org.n27.stonks.presentation.detail.mapping
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.domain.models.Stocks.Stock
+import org.n27.stonks.domain.models.FredYields
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
 import stonks.composeapp.generated.resources.*
 
-internal fun Stock.toDetailContent() = Content(
+internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
     symbol = symbol,
     icon = logo?.toImageBitmap(),
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toPrice(currency),
     lastUpdated = lastUpdated?.toDateString(),
     cells = buildList {
+        fredYields?.treasury10Y?.toTreasuryYield10YCell()?.let(::add)
+        fredYields?.corporateAAA?.toCorporateBondAAACell()?.let(::add)
         dividends?.dividendYield?.toDividendCell()?.let(::add)
         dividends?.payoutRatio?.toPayoutRatioCell()?.let(::add)
         valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let(::add)
@@ -35,6 +38,16 @@ internal fun Stock.toDetailContent() = Content(
         balanceSheet?.currentRatio?.toCurrentRatioCell()?.let(::add)
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
+)
+
+private fun Double.toTreasuryYield10YCell() = toFormattedPercentage().toCell(
+    title = Res.string.treasury_yield_10y,
+    description = Res.string.treasury_yield_10y_description,
+)
+
+private fun Double.toCorporateBondAAACell() = toFormattedPercentage().toCell(
+    title = Res.string.corporate_bond_aaa,
+    description = Res.string.corporate_bond_aaa_description,
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(

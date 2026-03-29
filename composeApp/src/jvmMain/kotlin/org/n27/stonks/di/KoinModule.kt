@@ -8,6 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 import org.n27.stonks.data.Api
+import org.n27.stonks.data.fred.FredApi
+import org.n27.stonks.data.fred.FredYieldsCache
+import org.n27.stonks.data.fred.FredYieldsStore
 import org.n27.stonks.data.RepositoryImpl
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.app.AppViewModel
@@ -39,12 +42,15 @@ val appModule = module {
     }
 
     single { Api(System.getProperty("STONKS_URL") ?: System.getenv("STONKS_URL"), get()) }
+    single { FredApi(get()) }
+    single { FredYieldsCache() }
+    single { FredYieldsStore(get(), get()) }
     single<Repository> { RepositoryImpl(get()) }
 
     single { EventBus() }
 
-    factory { AppViewModel(get(), Dispatchers.Default) }
+    factory { AppViewModel(get(), get(), Dispatchers.Default) }
     factory { HomeViewModel(get(), get(), Dispatchers.Default) }
     factory { (origin: NavigateToSearch) -> SearchViewModel(origin, get(), get(), Dispatchers.Default) }
-    factory { (symbol: String) -> DetailViewModel(symbol, get(), get(), Dispatchers.Default) }
+    factory { (symbol: String) -> DetailViewModel(symbol, get(), get(), get(), Dispatchers.Default) }
 }
