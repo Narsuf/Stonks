@@ -42,8 +42,8 @@ internal fun mapToStock(
     profitMargin = profitMargin?.let { it * 100 },
     computed = Computed(
         earningsYield = computeEarningsYield(valuationMeasures?.pe),
-        peg = computePeg(valuationMeasures?.pe, analysis?.earningsEstimate?.growthHigh),
-        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, analysis?.earningsEstimate?.growthHigh),
+        peg = computePeg(valuationMeasures?.pe, analysis?.earningsEstimate?.growthAvg),
+        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, analysis?.earningsEstimate?.growthAvg),
         cashToEarnings = computeCashToEarnings(balanceSheet?.totalCashPerShare, incomeStatement?.eps),
         cashToPrice = computeCashToPrice(price, balanceSheet?.totalCashPerShare),
     ),

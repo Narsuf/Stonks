@@ -113,7 +113,7 @@ private fun Double.toDeCell() = toFormattedString().toCell(
     description = Res.string.de_description,
 )
 
-private fun EarningsEstimate.toEarningsEstimateCell() = growthHigh
+private fun EarningsEstimate.toEarningsEstimateCell() = growthAvg
     ?.toFormattedPercentage()
     ?.toCell(
         title = Res.string.earnings_estimate,

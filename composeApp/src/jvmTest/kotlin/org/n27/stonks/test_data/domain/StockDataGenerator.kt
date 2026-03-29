@@ -97,8 +97,8 @@ fun getValuationMeasures(
 
 fun getComputed(
     earningsYield: Double? = 2.880055573361496,
-    peg: Double? = 0.607551220026651,
-    dynamicPayback: Double? = 14.812955172783827,
+    peg: Double? = 0.8028104565742598,
+    dynamicPayback: Double? = 16.720375,
     cashToEarnings: Double? = 0.6100401606425704,
     cashToPrice: Double? = 1.7569495646329738,
 ) = Computed(
