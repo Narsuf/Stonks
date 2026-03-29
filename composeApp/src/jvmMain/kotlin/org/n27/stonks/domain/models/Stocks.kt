@@ -50,11 +50,13 @@ data class Stocks(
             data class EarningsEstimate(
                 val growthLow: Double?,
                 val growthHigh: Double?,
+                val growthAvg: Double?,
             )
 
             data class RevenueEstimate(
                 val growthLow: Double?,
                 val growthHigh: Double?,
+                val growthAvg: Double?,
             )
         }
 
@@ -67,6 +69,7 @@ data class Stocks(
         data class BalanceSheet(
             val totalCashPerShare: Double?,
             val de: Double?,
+            val currentRatio: Double?,
         )
     }
 }

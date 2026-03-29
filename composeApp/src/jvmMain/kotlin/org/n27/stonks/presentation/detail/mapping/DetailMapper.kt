@@ -32,6 +32,7 @@ internal fun Stock.toDetailContent() = Content(
         computed?.cashToEarnings?.toCashToEarningsCell()?.let(::add)
         computed?.cashToPrice?.toCashToPriceCell()?.let(::add)
         balanceSheet?.de?.toDeCell()?.let(::add)
+        balanceSheet?.currentRatio?.toCurrentRatioCell()?.let(::add)
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
 )
@@ -118,6 +119,11 @@ private fun EarningsEstimate.toEarningsEstimateCell() = growthHigh
         title = Res.string.earnings_estimate,
         description = Res.string.earnings_estimate_description,
     )
+
+private fun Double.toCurrentRatioCell() = toFormattedString().toCell(
+    title = Res.string.current_ratio,
+    description = Res.string.current_ratio_description,
+)
 
 private fun String.toCell(
     title: StringResource,

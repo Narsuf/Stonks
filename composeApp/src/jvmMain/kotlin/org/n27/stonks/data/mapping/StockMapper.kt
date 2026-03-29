@@ -47,7 +47,7 @@ private fun IncomeStatementRaw.toDomain() = IncomeStatement(
 
 private fun AnalysisRaw.toDomain() = Analysis(
     earningsEstimate = earningsEstimate?.let {
-        Analysis.EarningsEstimate(growthLow = it.growthLow, growthHigh = it.growthHigh)
+        Analysis.EarningsEstimate(growthLow = it.growthLow, growthHigh = it.growthHigh, growthAvg = it.growthAvg)
     },
     revenueEstimate = revenueEstimate?.toDomain(),
 )
@@ -55,6 +55,7 @@ private fun AnalysisRaw.toDomain() = Analysis(
 private fun RevenueEstimateRaw.toDomain() = RevenueEstimate(
     growthLow = growthLow,
     growthHigh = growthHigh,
+    growthAvg = growthAvg,
 )
 
 private fun ValuationMeasuresRaw.toDomain() = ValuationMeasures(
@@ -66,4 +67,5 @@ private fun ValuationMeasuresRaw.toDomain() = ValuationMeasures(
 private fun BalanceSheetRaw.toDomain() = BalanceSheet(
     totalCashPerShare = totalCashPerShare,
     de = de,
+    currentRatio = currentRatio,
 )

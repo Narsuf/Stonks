@@ -72,10 +72,12 @@ fun getAnalysisRaw(
     earningsEstimate: EarningsEstimateRaw? = EarningsEstimateRaw(
         growthLow = 5.56,
         growthHigh = 11.43,
+        growthAvg = 8.65,
     ),
     revenueEstimate: RevenueEstimateRaw? = RevenueEstimateRaw(
         growthLow = 2.83,
         growthHigh = 7.22,
+        growthAvg = 5.54,
     ),
 ) = AnalysisRaw(
     earningsEstimate = earningsEstimate,
@@ -95,7 +97,9 @@ fun getValuationMeasuresRaw(
 fun getBalanceSheetRaw(
     totalCashPerShare: Double? = 4.557,
     de: Double? = 102.63,
+    currentRatio: Double? = 0.955,
 ) = BalanceSheetRaw(
     totalCashPerShare = totalCashPerShare,
     de = de,
+    currentRatio = currentRatio,
 )

@@ -56,7 +56,7 @@ class StockMapperTest {
     fun `mapToStock should return null peg when growthHigh is negative`() {
         val result = mapStock(
             valuationMeasures = getValuationMeasures(),
-            analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = -1.0)),
+            analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = -1.0, growthAvg = null)),
         )
 
         assertNull(result.computed?.peg)

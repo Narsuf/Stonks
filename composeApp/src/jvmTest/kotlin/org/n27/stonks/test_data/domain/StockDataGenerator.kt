@@ -73,10 +73,12 @@ fun getAnalysis(
     earningsEstimate: Analysis.EarningsEstimate? = Analysis.EarningsEstimate(
         growthLow = 5.56,
         growthHigh = 11.43,
+        growthAvg = 8.65,
     ),
     revenueEstimate: Analysis.RevenueEstimate? = Analysis.RevenueEstimate(
         growthLow = 2.83,
         growthHigh = 7.22,
+        growthAvg = 5.54,
     ),
 ) = Analysis(
     earningsEstimate = earningsEstimate,
@@ -110,7 +112,9 @@ fun getComputed(
 fun getBalanceSheet(
     totalCashPerShare: Double? = 4.557,
     de: Double? = 102.63,
+    currentRatio: Double? = 0.955,
 ) = BalanceSheet(
     totalCashPerShare = totalCashPerShare,
     de = de,
+    currentRatio = currentRatio,
 )

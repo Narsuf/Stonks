@@ -49,12 +49,14 @@ data class AnalysisRaw(
 data class EarningsEstimateRaw(
     val growthLow: Double?,
     val growthHigh: Double?,
+    val growthAvg: Double?,
 )
 
 @Serializable
 data class RevenueEstimateRaw(
     val growthLow: Double?,
     val growthHigh: Double?,
+    val growthAvg: Double?,
 )
 
 @Serializable
@@ -68,4 +70,5 @@ data class ValuationMeasuresRaw(
 data class BalanceSheetRaw(
     val totalCashPerShare: Double?,
     val de: Double?,
+    val currentRatio: Double?,
 )

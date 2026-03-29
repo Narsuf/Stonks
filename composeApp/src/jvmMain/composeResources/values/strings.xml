@@ -36,6 +36,8 @@
     <string name="total_cash_per_share_description">Total cash and equivalents divided by shares outstanding.</string>
     <string name="de">Debt / Equity</string>
     <string name="de_description">Total liabilities divided by shareholders' equity.\n\nMeasures a company's financial leverage.</string>
+    <string name="current_ratio">Current Ratio</string>
+    <string name="current_ratio_description">Current assets divided by current liabilities.\n\nA ratio above 1 indicates the company can cover its short-term obligations.</string>
 
     <!-- Home -->
     <string name="search">Search</string>
