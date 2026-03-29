@@ -15,8 +15,8 @@ import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.DeltaText
 import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
-import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell as DetailCell
 import org.n27.stonks.presentation.detail.entities.DetailState.Content.Item
+import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell as DetailCell
 
 @Composable
 internal fun DetailContent(content: Content) {

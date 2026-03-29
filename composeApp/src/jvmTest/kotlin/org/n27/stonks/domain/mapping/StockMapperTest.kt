@@ -4,7 +4,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.n27.stonks.domain.models.Stocks.Stock.*
+import org.n27.stonks.test_data.data.getBalanceSheetRaw
 import org.n27.stonks.test_data.data.getStockRaw
+import org.n27.stonks.test_data.data.getValuationMeasuresRaw
 import org.n27.stonks.test_data.domain.*
 
 class StockMapperTest {
@@ -19,8 +21,12 @@ class StockMapperTest {
             payoutRatio = raw.dividends?.payoutRatio,
             incomeStatement = getIncomeStatement(),
             analysis = getAnalysis(),
-            valuationMeasures = getValuationMeasures(),
-            balanceSheet = getBalanceSheet(),
+            pe = raw.valuationMeasures?.pe,
+            valuationFloor = raw.valuationMeasures?.valuationFloor,
+            intrinsicValue = raw.valuationMeasures?.intrinsicValue,
+            totalCashPerShare = raw.balanceSheet?.totalCashPerShare,
+            de = raw.balanceSheet?.de?.let { it / 100 },
+            currentRatio = raw.balanceSheet?.currentRatio,
             roe = raw.roe?.let { it * 100 },
             profitMargin = raw.profitMargin?.let { it * 100 },
         )
@@ -30,7 +36,7 @@ class StockMapperTest {
 
     @Test
     fun `mapToStock should return null earningsYield when pe is zero`() {
-        val result = mapStock(valuationMeasures = getValuationMeasures(pe = getRatedValue(value = 0.0)))
+        val result = mapStock(pe = 0.0)
 
         assertNull(result.computed?.earningsYield)
     }
@@ -38,7 +44,7 @@ class StockMapperTest {
     @Test
     fun `mapToStock should return null peg when growth is null`() {
         val result = mapStock(
-            valuationMeasures = getValuationMeasures(),
+            pe = getValuationMeasuresRaw().pe,
             analysis = getAnalysis(earningsEstimate = null),
         )
 
@@ -48,7 +54,7 @@ class StockMapperTest {
     @Test
     fun `mapToStock should return null peg when growth is negative`() {
         val result = mapStock(
-            valuationMeasures = getValuationMeasures(),
+            pe = getValuationMeasuresRaw().pe,
             analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = -1.0, growthAvg = null)),
         )
 
@@ -69,7 +75,7 @@ class StockMapperTest {
     fun `mapToStock should return null cashToEarnings when eps is zero`() {
         val result = mapStock(
             incomeStatement = getIncomeStatement(eps = 0.0),
-            balanceSheet = getBalanceSheet(),
+            totalCashPerShare = getBalanceSheetRaw().totalCashPerShare,
         )
 
         assertNull(result.computed?.cashToEarnings)
@@ -81,8 +87,12 @@ class StockMapperTest {
         payoutRatio: Double? = null,
         incomeStatement: IncomeStatement? = null,
         analysis: Analysis? = null,
-        valuationMeasures: ValuationMeasures? = null,
-        balanceSheet: BalanceSheet? = null,
+        pe: Double? = null,
+        valuationFloor: Double? = null,
+        intrinsicValue: Double? = null,
+        totalCashPerShare: Double? = null,
+        de: Double? = null,
+        currentRatio: Double? = null,
         roe: Double? = null,
         profitMargin: Double? = null,
     ) = getStockRaw().let { raw ->
@@ -98,8 +108,12 @@ class StockMapperTest {
             payoutRatio = payoutRatio,
             incomeStatement = incomeStatement,
             analysis = analysis,
-            valuationMeasures = valuationMeasures,
-            balanceSheet = balanceSheet,
+            pe = pe,
+            valuationFloor = valuationFloor,
+            intrinsicValue = intrinsicValue,
+            totalCashPerShare = totalCashPerShare,
+            de = de,
+            currentRatio = currentRatio,
             roe = roe,
             profitMargin = profitMargin,
         )
