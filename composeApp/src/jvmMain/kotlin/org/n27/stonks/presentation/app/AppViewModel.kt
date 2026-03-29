@@ -3,10 +3,10 @@ package org.n27.stonks.presentation.app
 import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext
 import org.koin.core.parameter.parametersOf
 import org.n27.stonks.data.fred.FredYieldsStore

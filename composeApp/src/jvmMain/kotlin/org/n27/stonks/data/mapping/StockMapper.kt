@@ -1,21 +1,11 @@
 package org.n27.stonks.data.mapping
 
-import org.n27.stonks.data.models.AnalysisRaw
-import org.n27.stonks.data.models.BalanceSheetRaw
-import org.n27.stonks.data.models.IncomeStatementRaw
-import org.n27.stonks.data.models.RevenueEstimateRaw
-import org.n27.stonks.data.models.StockRaw
-import org.n27.stonks.data.models.StocksRaw
-import org.n27.stonks.data.models.ValuationMeasuresRaw
+import org.n27.stonks.data.models.*
 import org.n27.stonks.domain.mapping.mapToStock
 import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.Analysis
+import org.n27.stonks.domain.models.Stocks.Stock.*
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.RevenueEstimate
-import org.n27.stonks.domain.models.Stocks.Stock.BalanceSheet
-import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
-import org.n27.stonks.domain.models.Stocks.Stock.ValuationMeasures
 
 internal fun StocksRaw.toDomain() = Stocks(
     items = items.map { it.toDomain() },

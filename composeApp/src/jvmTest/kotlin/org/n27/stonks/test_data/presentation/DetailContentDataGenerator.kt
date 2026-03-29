@@ -41,12 +41,12 @@ fun getDetailContent(
         ),
         getDetailContentCell(
             title = Res.string.peg,
-            value = "0.61",
+            value = "0.80",
             description = Res.string.peg_description
         ),
         getDetailContentCell(
             title = Res.string.dynamic_payback,
-            value = "14.81",
+            value = "16.72",
             description = Res.string.dynamic_payback_description
         ),
         getDetailContentCell(
@@ -61,7 +61,7 @@ getDetailContentCell(
         ),
         getDetailContentCell(
             title = Res.string.earnings_estimate,
-            value = "11.43 %",
+            value = "8.65 %",
             description = Res.string.earnings_estimate_description
         ),
         getDetailContentCell(
@@ -98,6 +98,11 @@ getDetailContentCell(
             title = Res.string.de,
             value = "102.63",
             description = Res.string.de_description
+        ),
+        getDetailContentCell(
+            title = Res.string.current_ratio,
+            value = "0.96",
+            description = Res.string.current_ratio_description
         )
     ),
     isWatchlisted: Boolean = false

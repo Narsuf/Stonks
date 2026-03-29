@@ -1,13 +1,8 @@
 package org.n27.stonks.domain.mapping
 
-import kotlin.math.ln
 import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.Analysis
-import org.n27.stonks.domain.models.Stocks.Stock.BalanceSheet
-import org.n27.stonks.domain.models.Stocks.Stock.Computed
-import org.n27.stonks.domain.models.Stocks.Stock.Dividends
-import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
-import org.n27.stonks.domain.models.Stocks.Stock.ValuationMeasures
+import org.n27.stonks.domain.models.Stocks.Stock.*
+import kotlin.math.ln
 
 internal fun mapToStock(
     symbol: String,

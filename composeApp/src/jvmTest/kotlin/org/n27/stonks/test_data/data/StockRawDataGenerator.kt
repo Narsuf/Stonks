@@ -1,14 +1,6 @@
 package org.n27.stonks.test_data.data
 
-import org.n27.stonks.data.models.AnalysisRaw
-import org.n27.stonks.data.models.BalanceSheetRaw
-import org.n27.stonks.data.models.DividendsRaw
-import org.n27.stonks.data.models.EarningsEstimateRaw
-import org.n27.stonks.data.models.IncomeStatementRaw
-import org.n27.stonks.data.models.RevenueEstimateRaw
-import org.n27.stonks.data.models.StockRaw
-import org.n27.stonks.data.models.StocksRaw
-import org.n27.stonks.data.models.ValuationMeasuresRaw
+import org.n27.stonks.data.models.*
 
 fun getStocksRaw(
     items: List<StockRaw> = listOf(getStockRaw()),

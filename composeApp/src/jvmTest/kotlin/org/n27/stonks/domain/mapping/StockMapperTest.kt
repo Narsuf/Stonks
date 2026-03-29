@@ -3,16 +3,9 @@ package org.n27.stonks.domain.mapping
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import org.n27.stonks.domain.models.Stocks.Stock.Analysis
-import org.n27.stonks.domain.models.Stocks.Stock.BalanceSheet
-import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
-import org.n27.stonks.domain.models.Stocks.Stock.ValuationMeasures
+import org.n27.stonks.domain.models.Stocks.Stock.*
 import org.n27.stonks.test_data.data.getStockRaw
-import org.n27.stonks.test_data.domain.getAnalysis
-import org.n27.stonks.test_data.domain.getBalanceSheet
-import org.n27.stonks.test_data.domain.getIncomeStatement
-import org.n27.stonks.test_data.domain.getStock
-import org.n27.stonks.test_data.domain.getValuationMeasures
+import org.n27.stonks.test_data.domain.*
 
 class StockMapperTest {
 

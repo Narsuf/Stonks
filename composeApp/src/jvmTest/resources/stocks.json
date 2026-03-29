@@ -17,11 +17,13 @@
       "analysis": {
         "earningsEstimate": {
           "growthLow": 5.56,
-          "growthHigh": 11.43
+          "growthHigh": 11.43,
+          "growthAvg": 8.65
         },
         "revenueEstimate": {
           "growthLow": 2.83,
-          "growthHigh": 7.22
+          "growthHigh": 7.22,
+          "growthAvg": 5.54
         }
       },
       "valuationMeasures": {
@@ -31,7 +33,8 @@
       },
       "balanceSheet": {
         "totalCashPerShare": 4.557,
-        "de": 102.63
+        "de": 102.63,
+        "currentRatio": 0.955
       },
       "roe": 1.5202099,
       "profitMargin": 0.27037,

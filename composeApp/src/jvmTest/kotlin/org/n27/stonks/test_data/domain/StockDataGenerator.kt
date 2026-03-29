@@ -2,12 +2,7 @@ package org.n27.stonks.test_data.domain
 
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.Analysis
-import org.n27.stonks.domain.models.Stocks.Stock.BalanceSheet
-import org.n27.stonks.domain.models.Stocks.Stock.Computed
-import org.n27.stonks.domain.models.Stocks.Stock.Dividends
-import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
-import org.n27.stonks.domain.models.Stocks.Stock.ValuationMeasures
+import org.n27.stonks.domain.models.Stocks.Stock.*
 
 fun getStocks(
     items: List<Stock> = listOf(getStock()),
@@ -97,8 +92,8 @@ fun getValuationMeasures(
 
 fun getComputed(
     earningsYield: Double? = 2.880055573361496,
-    peg: Double? = 0.8028104565742598,
-    dynamicPayback: Double? = 16.720375,
+    peg: Double? = 0.8028104560583376,
+    dynamicPayback: Double? = 16.720372914455112,
     cashToEarnings: Double? = 0.6100401606425704,
     cashToPrice: Double? = 1.7569495646329738,
 ) = Computed(

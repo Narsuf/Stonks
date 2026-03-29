@@ -2,8 +2,8 @@ package org.n27.stonks.presentation.detail.mapping
 
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
-import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.domain.models.FredYields
+import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
