@@ -15,6 +15,8 @@ import org.n27.stonks.presentation.common.composables.Cell
 import org.n27.stonks.presentation.common.composables.DeltaText
 import org.n27.stonks.presentation.common.composables.RoundIcon
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
+import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell as DetailCell
+import org.n27.stonks.presentation.detail.entities.DetailState.Content.Item
 
 @Composable
 internal fun DetailContent(content: Content) {
@@ -58,21 +60,20 @@ internal fun DetailContent(content: Content) {
             contentPadding = PaddingValues(bottom = Spacing.smaller),
             verticalArrangement = Arrangement.spacedBy(Spacing.default),
         ) {
-            items(content.cells.chunked(2)) { rowItems ->
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.default),
-                    modifier = Modifier.height(IntrinsicSize.Max)
-                ) {
-                    rowItems.forEach { cell ->
-                        InfoCell(
-                            cell = cell,
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight()
-                        )
-                    }
+            items(content.items) { item ->
+                when (item) {
+                    is Item.Header -> SectionHeader(stringResource(item.title))
+                    is Item.CellPair -> Row(
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.default),
+                        modifier = Modifier.height(IntrinsicSize.Max)
+                    ) {
+                        InfoCell(item.first, Modifier.weight(1f).fillMaxHeight())
 
-                    if (rowItems.size == 1) Spacer(modifier = Modifier.weight(1f))
+                        if (item.second != null)
+                            InfoCell(item.second, Modifier.weight(1f).fillMaxHeight())
+                        else
+                            Spacer(Modifier.weight(1f))
+                    }
                 }
             }
         }
@@ -80,10 +81,17 @@ internal fun DetailContent(content: Content) {
 }
 
 @Composable
-private fun InfoCell(
-    cell: Content.Cell,
-    modifier: Modifier = Modifier
-) {
+private fun SectionHeader(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.labelMedium,
+        color = Color.Gray,
+        modifier = Modifier.padding(top = Spacing.small, bottom = Spacing.smallest),
+    )
+}
+
+@Composable
+private fun InfoCell(cell: DetailCell, modifier: Modifier = Modifier) {
     Cell(
         center = {
             Column {

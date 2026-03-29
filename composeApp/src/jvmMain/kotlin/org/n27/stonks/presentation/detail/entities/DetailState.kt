@@ -18,9 +18,14 @@ sealed class DetailState {
         val name: String,
         val price: String?,
         val lastUpdated: String?,
-        val cells: ImmutableList<Cell>,
+        val items: ImmutableList<Item>,
         val isWatchlisted: Boolean = false,
     ) : DetailState() {
+
+        sealed class Item {
+            data class Header(val title: StringResource) : Item()
+            data class CellPair(val first: Cell, val second: Cell? = null) : Item()
+        }
 
         data class Cell(
             val title: StringResource,

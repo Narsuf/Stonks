@@ -12,6 +12,8 @@ import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
+import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell
+import org.n27.stonks.presentation.detail.entities.DetailState.Content.Item
 import stonks.composeapp.generated.resources.*
 
 internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
@@ -20,30 +22,39 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
     name = companyName.truncateAfterDoubleSpace(),
     price = price?.toPrice(currency),
     lastUpdated = lastUpdated?.toDateString(),
-    cells = buildList {
-        // Seccion dividendos
-        dividends?.dividendYield?.toDividendCell()?.let(::add)
-        dividends?.payoutRatio?.toPayoutRatioCell()?.let(::add)
+    items = buildList {
+        fun addSection(title: StringResource, cells: List<Cell>) {
+            if (cells.isEmpty()) return
+            add(Item.Header(title))
+            cells.chunked(2).forEach { pair ->
+                add(Item.CellPair(first = pair[0], second = pair.getOrNull(1)))
+            }
+        }
 
-        // Snapshot de la empresa para saber si se debe entrar ahora o no
-        valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let(::add)
-        computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell()?.let(::add)
-        computed?.peg?.toPegCell()?.let(::add)
-        computed?.dynamicPayback?.toDynamicPaybackCell()?.let(::add)
-        incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let(::add)
-        analysis?.earningsEstimate?.toEarningsEstimateCell()?.let(::add)
+        addSection(Res.string.section_dividends, buildList {
+            dividends?.dividendYield?.toDividendCell()?.let(::add)
+            dividends?.payoutRatio?.toPayoutRatioCell()?.let(::add)
+        })
 
-        // Informacion util para valorar la empresa
-        roe?.toRoeCell()?.let(::add)
-        profitMargin?.toProfitMarginCell()?.let(::add)
-        balanceSheet?.de?.toDeCell()?.let(::add)
-        balanceSheet?.currentRatio?.toCurrentRatioCell()?.let(::add)
-        computed?.cashToEarnings?.toCashToEarningsCell()?.let(::add)
+        addSection(Res.string.section_valuation, buildList {
+            incomeStatement?.eps?.toEpsCell(currency)?.let(::add)
+            valuationMeasures?.pe?.toPeCell()?.let(::add)
+            valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let(::add)
+            computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell()?.let(::add)
+            computed?.peg?.toPegCell()?.let(::add)
+            computed?.dynamicPayback?.toDynamicPaybackCell()?.let(::add)
+            incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let(::add)
+            analysis?.earningsEstimate?.toEarningsEstimateCell()?.let(::add)
+        })
 
-        // Valores que no dicen nada de por si, pero sirven para calcular el resto de cosas, esta bien mostrarlos supongo
-        valuationMeasures?.pe?.toPeCell()?.let(::add)
-        incomeStatement?.eps?.toEpsCell(currency)?.let(::add)
-        balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let(::add)
+        addSection(Res.string.section_fundamentals, buildList {
+            roe?.toRoeCell()?.let(::add)
+            profitMargin?.toProfitMarginCell()?.let(::add)
+            balanceSheet?.de?.toDeCell()?.let(::add)
+            balanceSheet?.currentRatio?.toCurrentRatioCell()?.let(::add)
+            balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let(::add)
+            computed?.cashToEarnings?.toCashToEarningsCell()?.let(::add)
+        })
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
 )
@@ -155,7 +166,7 @@ private fun String.toCell(
     description: StringResource,
     delta: DeltaTextEntity? = null,
     color: Color? = null,
-) = Content.Cell(
+) = Cell(
     title = title,
     value = this,
     description = description,
