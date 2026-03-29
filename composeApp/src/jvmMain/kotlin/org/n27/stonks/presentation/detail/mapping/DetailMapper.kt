@@ -1,10 +1,14 @@
 package org.n27.stonks.presentation.detail.mapping
 
+import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.domain.models.FredYields
+import org.n27.stonks.domain.models.Rating
+import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
+import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
@@ -17,8 +21,6 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
     price = price?.toPrice(currency),
     lastUpdated = lastUpdated?.toDateString(),
     cells = buildList {
-        fredYields?.treasury10Y?.toTreasuryYield10YCell()?.let(::add)
-        fredYields?.corporateAAA?.toCorporateBondAAACell()?.let(::add)
         dividends?.dividendYield?.toDividendCell()?.let(::add)
         dividends?.payoutRatio?.toPayoutRatioCell()?.let(::add)
         valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let(::add)
@@ -26,6 +28,7 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
         computed?.peg?.toPegCell()?.let(::add)
         computed?.dynamicPayback?.toDynamicPaybackCell()?.let(::add)
         computed?.earningsYield?.toEarningsYieldCell()?.let(::add)
+        computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell()?.let(::add)
         incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let(::add)
         analysis?.earningsEstimate?.toEarningsEstimateCell()?.let(::add)
         incomeStatement?.eps?.toEpsCell(currency)?.let(::add)
@@ -40,14 +43,12 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
     isWatchlisted = isWatchlisted,
 )
 
-private fun Double.toTreasuryYield10YCell() = toFormattedPercentage().toCell(
-    title = Res.string.treasury_yield_10y,
-    description = Res.string.treasury_yield_10y_description,
-)
+private fun computeEyTreasurySpread(earningsYield: Double?, treasury10Y: Double?) =
+    if (earningsYield != null && treasury10Y != null) earningsYield - treasury10Y else null
 
-private fun Double.toCorporateBondAAACell() = toFormattedPercentage().toCell(
-    title = Res.string.corporate_bond_aaa,
-    description = Res.string.corporate_bond_aaa_description,
+private fun Double.toEyTreasurySpreadCell() = toFormattedPercentage().toCell(
+    title = Res.string.ey_treasury_spread,
+    description = Res.string.ey_treasury_spread_description,
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(
@@ -71,9 +72,10 @@ private fun Double.toDynamicPaybackCell() = toFormattedString().toCell(
     description = Res.string.dynamic_payback_description,
 )
 
-private fun Double.toPeCell() = toFormattedString().toCell(
+private fun RatedValue.toPeCell() = value.toFormattedString().toCell(
     title = Res.string.pe,
     description = Res.string.pe_description,
+    color = rating?.toColor(),
 )
 
 private fun Double.toEarningsYieldCell() = toFormattedPercentage().toCell(
@@ -138,13 +140,22 @@ private fun Double.toCurrentRatioCell() = toFormattedString().toCell(
     description = Res.string.current_ratio_description,
 )
 
+private fun Rating.toColor(): Color = when (this) {
+    Rating.POSITIVE -> AppColors.Green
+    Rating.CAUTION -> AppColors.Yellow
+    Rating.WARNING -> AppColors.Orange
+    Rating.DANGER -> AppColors.Red
+}
+
 private fun String.toCell(
     title: StringResource,
     description: StringResource,
     delta: DeltaTextEntity? = null,
+    color: Color? = null,
 ) = Content.Cell(
     title = title,
     value = this,
     description = description,
     delta = delta,
+    color = color,
 )

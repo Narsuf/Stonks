@@ -2,6 +2,8 @@ package org.n27.stonks.test_data.presentation
 
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
+import androidx.compose.ui.graphics.Color
+import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaState
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
@@ -37,7 +39,8 @@ fun getDetailContent(
         getDetailContentCell(
             title = Res.string.pe,
             value = "34.72",
-            description = Res.string.pe_description
+            description = Res.string.pe_description,
+            color = AppColors.Red,
         ),
         getDetailContentCell(
             title = Res.string.peg,
@@ -120,10 +123,12 @@ fun getDetailContentCell(
     title: StringResource = Res.string.dividend_yield,
     value: String = "0.40 %",
     description: StringResource = Res.string.dividend_yield_description,
-    delta: DeltaTextEntity? = null
+    delta: DeltaTextEntity? = null,
+    color: Color? = null,
 ) = Cell(
     title = title,
     value = value,
     description = description,
-    delta = delta
+    delta = delta,
+    color = color,
 )

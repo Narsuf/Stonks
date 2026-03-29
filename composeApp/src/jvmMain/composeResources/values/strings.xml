@@ -38,6 +38,8 @@
     <string name="de_description">Total liabilities divided by shareholders' equity.\n\nMeasures a company's financial leverage.</string>
     <string name="current_ratio">Current Ratio</string>
     <string name="current_ratio_description">Current assets divided by current liabilities.\n\nA ratio above 1 indicates the company can cover its short-term obligations.</string>
+    <string name="ey_treasury_spread">EY / Treasury Spread</string>
+    <string name="ey_treasury_spread_description">Difference between the earnings yield and the 10-year Treasury yield.\n\nPositive: stocks offer more return than risk-free bonds. Negative: bonds are relatively more attractive.</string>
     <string name="treasury_yield_10y">Treasury 10Y</string>
     <string name="treasury_yield_10y_description">Current yield of the US 10-Year Treasury bond.\n\nA risk-free benchmark rate used to evaluate investment returns.</string>
     <string name="corporate_bond_aaa">Corporate Bond AAA</string>

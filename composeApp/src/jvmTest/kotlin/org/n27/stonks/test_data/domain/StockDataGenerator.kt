@@ -1,5 +1,7 @@
 package org.n27.stonks.test_data.domain
 
+import org.n27.stonks.domain.models.Rating
+import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.domain.models.Stocks.Stock.*
@@ -81,7 +83,7 @@ fun getAnalysis(
 )
 
 fun getValuationMeasures(
-    pe: Double? = 34.7215522245231,
+    pe: RatedValue? = RatedValue(value = 34.7215522245231, rating = Rating.DANGER),
     valuationFloor: Double? = 12.5,
     intrinsicValue: Double? = 93.375,
 ) = ValuationMeasures(

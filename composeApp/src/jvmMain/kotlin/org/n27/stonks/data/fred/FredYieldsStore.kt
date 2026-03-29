@@ -5,6 +5,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.n27.stonks.domain.models.FredYields
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 
 class FredYieldsStore(
     private val fredApi: FredApi,
@@ -15,10 +18,12 @@ class FredYieldsStore(
     val yields = _yields.asStateFlow()
 
     suspend fun refresh() {
-        cache.loadIfToday()?.let {
-            _yields.emit(it)
-            return
-        }
+        cache.load()
+            ?.takeIf { (savedAt, _) -> savedAt.isToday() }
+            ?.let { (_, cachedYields) ->
+                _yields.emit(cachedYields)
+                return
+            }
 
         runCatching {
             coroutineScope {
@@ -31,4 +36,11 @@ class FredYieldsStore(
             _yields.emit(yields)
         }
     }
+
+    private fun Long.isToday(): Boolean {
+        val zone = ZoneId.systemDefault()
+        val savedDate = Instant.ofEpochMilli(this).atZone(zone).toLocalDate()
+        return savedDate.isEqual(LocalDate.now(zone))
+    }
+
 }

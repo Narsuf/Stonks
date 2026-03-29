@@ -61,7 +61,7 @@ data class Stocks(
         }
 
         data class ValuationMeasures(
-            val pe: Double?,
+            val pe: RatedValue?,
             val valuationFloor: Double?,
             val intrinsicValue: Double?,
         )

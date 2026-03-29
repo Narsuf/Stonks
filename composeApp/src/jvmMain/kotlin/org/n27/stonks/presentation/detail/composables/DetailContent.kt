@@ -100,6 +100,7 @@ private fun InfoCell(
                     Text(
                         text = cell.value,
                         style = MaterialTheme.typography.titleMedium,
+                        color = cell.color ?: Color.Unspecified,
                         modifier = Modifier
                             .padding(horizontal = Spacing.smaller)
                             .padding(start = Spacing.big)

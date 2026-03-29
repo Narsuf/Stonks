@@ -2,6 +2,8 @@ package org.n27.stonks.data.mapping
 
 import org.n27.stonks.data.models.*
 import org.n27.stonks.domain.mapping.mapToStock
+import org.n27.stonks.domain.models.Rating
+import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock.*
 import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
@@ -50,10 +52,19 @@ private fun RevenueEstimateRaw.toDomain() = RevenueEstimate(
 )
 
 private fun ValuationMeasuresRaw.toDomain() = ValuationMeasures(
-    pe = pe,
+    pe = pe?.let { RatedValue(value = it, rating = it.toPeRating()) },
     valuationFloor = valuationFloor,
     intrinsicValue = intrinsicValue,
 )
+
+private fun Double.toPeRating(): Rating? = when {
+    this < 0 -> Rating.DANGER
+    this > 0 && this < 5 -> Rating.CAUTION
+    this > 20 && this <= 25 -> Rating.CAUTION
+    this > 25 && this <= 30 -> Rating.WARNING
+    this > 30 -> Rating.DANGER
+    else -> null
+}
 
 private fun BalanceSheetRaw.toDomain() = BalanceSheet(
     totalCashPerShare = totalCashPerShare,

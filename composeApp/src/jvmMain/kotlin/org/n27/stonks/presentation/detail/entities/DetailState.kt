@@ -1,5 +1,6 @@
 package org.n27.stonks.presentation.detail.entities
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.StringResource
@@ -26,6 +27,7 @@ sealed class DetailState {
             val value: String,
             val description: StringResource,
             val delta: DeltaTextEntity?,
+            val color: Color? = null,
         )
     }
 }
