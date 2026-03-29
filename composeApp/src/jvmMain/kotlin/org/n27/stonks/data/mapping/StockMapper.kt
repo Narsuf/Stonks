@@ -68,6 +68,31 @@ private fun Double.toPeRating(): Rating? = when {
 
 private fun BalanceSheetRaw.toDomain() = BalanceSheet(
     totalCashPerShare = totalCashPerShare,
-    de = de,
-    currentRatio = currentRatio,
+    de = de?.let {
+        val result = it / 100
+        RatedValue(
+            value = result,
+            rating = result.toDeRating(),
+        )
+    },
+    currentRatio = currentRatio?.let {
+        RatedValue(
+            value = it,
+            rating = it.toCurrentRatioRating(),
+        )
+    },
 )
+
+private fun Double.toDeRating(): Rating? = when {
+    this < 0 -> Rating.DANGER
+    this < 1 -> Rating.POSITIVE
+    this > 2 && this <= 3 -> Rating.CAUTION
+    this > 3  -> Rating.DANGER
+    else -> null
+}
+
+private fun Double.toCurrentRatioRating(): Rating? = when {
+    this < 0.5 -> Rating.CAUTION
+    this > 1 -> Rating.POSITIVE
+    else -> null
+}

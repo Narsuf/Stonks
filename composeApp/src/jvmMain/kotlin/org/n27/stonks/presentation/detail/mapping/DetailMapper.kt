@@ -21,20 +21,26 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
     price = price?.toPrice(currency),
     lastUpdated = lastUpdated?.toDateString(),
     cells = buildList {
+        // Seccion dividendos
         dividends?.dividendYield?.toDividendCell()?.let(::add)
         dividends?.payoutRatio?.toPayoutRatioCell()?.let(::add)
+
+        // Snapshot de la empresa para saber si se debe entrar ahora o no
         valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let(::add)
         computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell()?.let(::add)
         computed?.peg?.toPegCell()?.let(::add)
         computed?.dynamicPayback?.toDynamicPaybackCell()?.let(::add)
         incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let(::add)
         analysis?.earningsEstimate?.toEarningsEstimateCell()?.let(::add)
+
+        // Informacion util para valorar la empresa
         roe?.toRoeCell()?.let(::add)
         profitMargin?.toProfitMarginCell()?.let(::add)
         balanceSheet?.de?.toDeCell()?.let(::add)
         balanceSheet?.currentRatio?.toCurrentRatioCell()?.let(::add)
         computed?.cashToEarnings?.toCashToEarningsCell()?.let(::add)
-        computed?.cashToPrice?.toCashToPriceCell()?.let(::add)
+
+        // Valores que no dicen nada de por si, pero sirven para calcular el resto de cosas, esta bien mostrarlos supongo
         valuationMeasures?.pe?.toPeCell()?.let(::add)
         incomeStatement?.eps?.toEpsCell(currency)?.let(::add)
         balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let(::add)
@@ -112,19 +118,16 @@ private fun Double.toTotalCashPerShareCell(currency: String?) = toPrice(currency
     description = Res.string.total_cash_per_share_description,
 )
 
-private fun Double.toCashToEarningsCell() = toFormattedString().toCell(
+private fun RatedValue.toCashToEarningsCell() = value.toFormattedString().toCell(
     title = Res.string.cash_to_earnings,
     description = Res.string.cash_to_earnings_description,
+    color = rating?.toColor(),
 )
 
-private fun Double.toCashToPriceCell() = toFormattedPercentage().toCell(
-    title = Res.string.cash_to_price,
-    description = Res.string.cash_to_price_description,
-)
-
-private fun Double.toDeCell() = toFormattedString().toCell(
+private fun RatedValue.toDeCell() = value.toFormattedString().toCell(
     title = Res.string.de,
     description = Res.string.de_description,
+    color = rating?.toColor(),
 )
 
 private fun EarningsEstimate.toEarningsEstimateCell() = growthAvg
@@ -134,9 +137,10 @@ private fun EarningsEstimate.toEarningsEstimateCell() = growthAvg
         description = Res.string.earnings_estimate_description,
     )
 
-private fun Double.toCurrentRatioCell() = toFormattedString().toCell(
+private fun RatedValue.toCurrentRatioCell() = value.toFormattedString().toCell(
     title = Res.string.current_ratio,
     description = Res.string.current_ratio_description,
+    color = rating?.toColor(),
 )
 
 private fun Rating.toColor(): Color = when (this) {

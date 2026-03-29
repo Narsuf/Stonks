@@ -75,16 +75,6 @@ class StockMapperTest {
         assertNull(result.computed?.cashToEarnings)
     }
 
-    @Test
-    fun `mapToStock should return null cashToPrice when price is zero`() {
-        val result = mapStock(
-            price = 0.0,
-            balanceSheet = getBalanceSheet(),
-        )
-
-        assertNull(result.computed?.cashToPrice)
-    }
-
     private fun mapStock(
         price: Double? = null,
         dividendYield: Double? = null,

@@ -72,7 +72,7 @@ fun getDetailContent(
         ),
         getDetailContentCell(
             title = Res.string.de,
-            value = "102.63",
+            value = "1.03",
             description = Res.string.de_description
         ),
         getDetailContentCell(
@@ -83,12 +83,8 @@ fun getDetailContent(
         getDetailContentCell(
             title = Res.string.cash_to_earnings,
             value = "0.61",
-            description = Res.string.cash_to_earnings_description
-        ),
-        getDetailContentCell(
-            title = Res.string.cash_to_price,
-            value = "1.76 %",
-            description = Res.string.cash_to_price_description
+            description = Res.string.cash_to_earnings_description,
+            color = AppColors.Yellow,
         ),
         getDetailContentCell(
             title = Res.string.pe,

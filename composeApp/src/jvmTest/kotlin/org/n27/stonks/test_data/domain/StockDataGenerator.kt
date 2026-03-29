@@ -104,20 +104,18 @@ fun getComputed(
     earningsYield: Double? = 2.880055573361496,
     peg: RatedValue? = getRatedValue(value = 4.014052280291688, rating = Rating.DANGER),
     dynamicPayback: RatedValue? = getRatedValue(value = 16.720372914455112, rating = Rating.CAUTION),
-    cashToEarnings: Double? = 0.6100401606425704,
-    cashToPrice: Double? = 1.7569495646329738,
+    cashToEarnings: RatedValue? = getRatedValue(value = 0.6100401606425704, rating = Rating.CAUTION),
 ) = Computed(
     earningsYield = earningsYield,
     peg = peg,
     dynamicPayback = dynamicPayback,
     cashToEarnings = cashToEarnings,
-    cashToPrice = cashToPrice,
 )
 
 fun getBalanceSheet(
     totalCashPerShare: Double? = 4.557,
-    de: Double? = 102.63,
-    currentRatio: Double? = 0.955,
+    de: RatedValue? = getRatedValue(value = 1.0263, rating = null),
+    currentRatio: RatedValue? = getRatedValue(value = 0.955, rating = null),
 ) = BalanceSheet(
     totalCashPerShare = totalCashPerShare,
     de = de,

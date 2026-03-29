@@ -32,8 +32,7 @@ data class Stocks(
             val earningsYield: Double?,
             val peg: RatedValue?,
             val dynamicPayback: RatedValue?,
-            val cashToEarnings: Double?,
-            val cashToPrice: Double?,
+            val cashToEarnings: RatedValue?,
         )
 
         data class IncomeStatement(
@@ -68,8 +67,8 @@ data class Stocks(
 
         data class BalanceSheet(
             val totalCashPerShare: Double?,
-            val de: Double?,
-            val currentRatio: Double?,
+            val de: RatedValue?,
+            val currentRatio: RatedValue?,
         )
     }
 }

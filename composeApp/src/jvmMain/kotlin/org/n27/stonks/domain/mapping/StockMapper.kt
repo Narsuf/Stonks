@@ -42,7 +42,6 @@ internal fun mapToStock(
         peg = computePeg(valuationMeasures?.pe?.value, analysis?.earningsEstimate?.growthAvg),
         dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, analysis?.earningsEstimate?.growthAvg),
         cashToEarnings = computeCashToEarnings(balanceSheet?.totalCashPerShare, incomeStatement?.eps),
-        cashToPrice = computeCashToPrice(price, balanceSheet?.totalCashPerShare),
     ),
 )
 
@@ -107,10 +106,17 @@ private fun Double.toDynamicPaybackRating(): Rating? = when {
 private fun computeCashToEarnings(cash: Double?, eps: Double?) = cash?.let { c ->
     eps
         ?.takeIf { it != 0.0 }
-        ?.let { c / it }
+        ?.let {
+            val ce = c / it
+            RatedValue(
+                value = ce,
+                rating = ce.toCashToEarningsRating(),
+            )
+        }
 }
 
-private fun computeCashToPrice(price: Double?, cash: Double?) = price?.takeIf { it != 0.0 }
-    ?.let { p ->
-        cash?.let { (it / p) * 100 }
-    }
+private fun Double.toCashToEarningsRating(): Rating? = when {
+    this < 1 -> Rating.CAUTION
+    else -> null
+}
+
