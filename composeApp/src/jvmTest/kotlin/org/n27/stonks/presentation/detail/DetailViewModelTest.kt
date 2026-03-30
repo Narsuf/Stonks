@@ -2,17 +2,20 @@ package org.n27.stonks.presentation.detail
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.*
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
+import org.n27.stonks.data.fred.FredYieldsStore
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.common.broadcast.Event.GoBack
 import org.n27.stonks.presentation.common.broadcast.Event.WatchlistEvent
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.detail.entities.DetailInteraction.*
 import org.n27.stonks.presentation.detail.entities.DetailState.*
+import org.n27.stonks.test_data.domain.getFredYields
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.presentation.getDetailContent
 import org.n27.stonks.utils.test
@@ -24,6 +27,7 @@ import kotlin.Result.Companion.success
 class DetailViewModelTest {
 
     private val repository: Repository = mock()
+    private val fredYieldsStore: FredYieldsStore = mock()
     private val eventBus = EventBus()
     private val symbol = "AAPL"
 
@@ -33,6 +37,7 @@ class DetailViewModelTest {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
         Dispatchers.setMain(StandardTestDispatcher())
         `when`(repository.getStock(symbol)).thenReturn(success(getStock()))
+        `when`(fredYieldsStore.yields).thenReturn(MutableStateFlow(getFredYields()))
     }
 
     @Test
@@ -128,6 +133,7 @@ class DetailViewModelTest {
         symbol = symbol,
         eventBus = eventBus,
         repository = repository,
+        fredYieldsStore = fredYieldsStore,
         dispatcher = StandardTestDispatcher(testScheduler),
     )
 }

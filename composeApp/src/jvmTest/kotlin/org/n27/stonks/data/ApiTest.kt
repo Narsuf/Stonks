@@ -9,8 +9,8 @@ import io.ktor.utils.io.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import org.n27.stonks.test_data.domain.getStock
-import org.n27.stonks.test_data.domain.getStocks
+import org.n27.stonks.test_data.data.getStockRaw
+import org.n27.stonks.test_data.data.getStocksRaw
 import org.n27.stonks.utils.getJson
 import kotlin.test.assertEquals
 
@@ -59,21 +59,21 @@ class ApiTest {
     fun `getStock should return a stock`() = runTest {
         val actual = api.getStock("AAPL")
 
-        assertEquals(getStock(), actual)
+        assertEquals(getStockRaw(), actual)
     }
 
     @Test
     fun `getStocks should return stocks`() = runTest {
         val actual = api.getStocks(false, null, null, null)
 
-        assertEquals(getStocks(), actual)
+        assertEquals(getStocksRaw(), actual)
     }
 
     @Test
     fun `getWatchlist should return stocks`() = runTest {
         val actual = api.getWatchlist(null, null)
 
-        assertEquals(getStocks(), actual)
+        assertEquals(getStocksRaw(), actual)
     }
 
     @Test

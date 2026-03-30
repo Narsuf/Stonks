@@ -26,6 +26,7 @@ import org.n27.stonks.utils.test
 import stonks.composeapp.generated.resources.Res
 import stonks.composeapp.generated.resources.error_generic
 import java.math.BigDecimal
+import java.util.*
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
@@ -37,6 +38,7 @@ class HomeViewModelTest {
 
     @Before
     fun init() = runTest {
+        Locale.setDefault(Locale.US)
         Dispatchers.setMain(StandardTestDispatcher())
         `when`(repository.getWatchlist())
             .thenReturn(success(getStocks()))
@@ -143,7 +145,10 @@ class HomeViewModelTest {
         viewModel.handleInteraction(LoadNextPage)
         runCurrent()
 
-        stateObserver.assertValues(getHomeContent().copy(isPageLoading = true))
+        stateObserver.assertValues(
+            getHomeContent().copy(isPageLoading = true),
+            getHomeContent(),
+        )
         eventObserver.assertValues(ShowErrorNotification(Res.string.error_generic))
         stateObserver.close()
         eventObserver.close()

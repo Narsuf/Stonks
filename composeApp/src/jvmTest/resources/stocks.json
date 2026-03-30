@@ -5,29 +5,30 @@
       "companyName": "Apple Inc.",
       "logo": "/9j/2wCEAAEBAQEBAQEBAQEBAQEB...",
       "price": 259.369995117188,
-      "dividendYield": 0.4,
+      "dividends": {
+        "dividendYield": 0.4,
+        "payoutRatio": 0.5899
+      },
       "incomeStatement": {
         "eps": 7.47,
-        "earningsQuarterlyGrowth": 86.4,
-        "revenueQuarterlyGrowth": 9.7
+        "earningsQuarterlyGrowth": 86.4
       },
-      "analysis": {
-        "earningsEstimate": {
-          "growthLow": 5.56,
-          "growthHigh": 11.43
-        },
-        "revenueEstimate": {
-          "growthLow": 2.83,
-          "growthHigh": 7.22
-        }
+      "earningsEstimate": {
+        "growthHigh": 11.43,
+        "growthAvg": 8.65
       },
       "valuationMeasures": {
         "pe": 34.7215522245231,
-        "pb": 51.967537,
-        "ps": 8.23,
         "valuationFloor": 12.5,
         "intrinsicValue": 93.375
       },
+      "balanceSheet": {
+        "totalCashPerShare": 4.557,
+        "de": 102.63,
+        "currentRatio": 0.955
+      },
+      "roe": 1.5202099,
+      "profitMargin": 0.27037,
       "currency": "USD",
       "lastUpdated": 1768064114877,
       "isWatchlisted": false

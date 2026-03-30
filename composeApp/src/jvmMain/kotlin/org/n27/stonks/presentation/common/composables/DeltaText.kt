@@ -4,12 +4,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import org.n27.stonks.presentation.common.AppColors
 
 @Composable
 fun DeltaText(deltaTextEntity: DeltaTextEntity) = with(deltaTextEntity) {
     val color = when (state) {
-        DeltaState.POSITIVE -> Color(0xFF37A931)
-        DeltaState.NEGATIVE -> Color(0xFFD13D3D)
+        DeltaState.POSITIVE -> AppColors.Green
+        DeltaState.NEGATIVE -> AppColors.Red
         DeltaState.NEUTRAL  -> Color.Gray
     }
 

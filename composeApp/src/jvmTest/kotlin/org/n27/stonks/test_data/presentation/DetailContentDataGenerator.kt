@@ -1,11 +1,14 @@
 package org.n27.stonks.test_data.presentation
 
+import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
+import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaState
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
 import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell
+import org.n27.stonks.presentation.detail.entities.DetailState.Content.Item
 import stonks.composeapp.generated.resources.*
 
 fun getDetailContent(
@@ -13,76 +16,56 @@ fun getDetailContent(
     name: String = "Apple Inc.",
     price: String = "$259.37",
     lastUpdated: String? = "10. Jan 16:55",
-    cells: List<Cell> = listOf(
-        getDetailContentCell(
-            title = Res.string.dividend_yield,
-            value = "0.40 %",
-            description = Res.string.dividend_yield_description
+    items: List<Item> = listOf(
+        Item.Header(Res.string.section_dividends),
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.dividend_yield, "0.40 %", Res.string.dividend_yield_description),
+            second = getDetailContentCell(Res.string.payout_ratio, "58.99 %", Res.string.payout_ratio_description),
         ),
-        getDetailContentCell(
-            title = Res.string.payout_ratio,
-            value = "13.89 %",
-            description = Res.string.payout_ratio_description
+        Item.Header(Res.string.section_valuation),
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.eps, "$7.47", Res.string.eps_description),
+            second = getDetailContentCell(Res.string.pe, "34.72", Res.string.pe_description, color = AppColors.Red),
         ),
-        getDetailContentCell(
-            title = Res.string.intrinsic_value,
-            value = "$93.38",
-            description = Res.string.intrinsic_value_description,
-            delta = DeltaTextEntity(
-                value = "$165.99",
-                percentage = "64.00 %",
-                state = DeltaState.NEGATIVE
-            )
+        Item.CellPair(
+            first = getDetailContentCell(
+                title = Res.string.intrinsic_value,
+                value = "$93.38",
+                description = Res.string.intrinsic_value_description,
+                delta = DeltaTextEntity(value = "$165.99", percentage = "64.00 %", state = DeltaState.NEGATIVE),
+            ),
+            second = getDetailContentCell(Res.string.ey_treasury_spread, "1.38 %", Res.string.ey_treasury_spread_description, color = AppColors.Yellow),
         ),
-        getDetailContentCell(
-            title = Res.string.pe,
-            value = "34.72",
-            description = Res.string.pe_description
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.peg, "4.01", Res.string.peg_description, color = AppColors.Red),
+            second = getDetailContentCell(Res.string.dynamic_payback, "16.72", Res.string.dynamic_payback_description, color = AppColors.Yellow),
         ),
-        getDetailContentCell(
-            title = Res.string.ps,
-            value = "8.23",
-            description = Res.string.ps_description
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.growth, "86.40 %", Res.string.growth_description),
+            second = getDetailContentCell(Res.string.earnings_estimate, "8.65 %", Res.string.earnings_estimate_description),
         ),
-        getDetailContentCell(
-            title = Res.string.pb,
-            value = "51.97",
-            description = Res.string.pb_description
+        Item.Header(Res.string.section_fundamentals),
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.roe, "1.52 %", Res.string.roe_description, color = AppColors.Yellow),
+            second = getDetailContentCell(Res.string.profit_margin, "0.27 %", Res.string.profit_margin_description, color = AppColors.Yellow),
         ),
-        getDetailContentCell(
-            title = Res.string.revenue_growth,
-            value = "9.70 %",
-            description = Res.string.revenue_growth_description
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.de, "102.63", Res.string.de_description, color = AppColors.Red),
+            second = getDetailContentCell(Res.string.current_ratio, "0.96", Res.string.current_ratio_description),
         ),
-        getDetailContentCell(
-            title = Res.string.revenue_estimate,
-            value = "2.83 - 7.22 %",
-            description = Res.string.revenue_estimate_description
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.total_cash_per_share, "$4.56", Res.string.total_cash_per_share_description),
+            second = getDetailContentCell(Res.string.cash_to_earnings, "0.61", Res.string.cash_to_earnings_description, color = AppColors.Yellow),
         ),
-        getDetailContentCell(
-            title = Res.string.growth,
-            value = "86.40 %",
-            description = Res.string.growth_description
-        ),
-        getDetailContentCell(
-            title = Res.string.earnings_estimate,
-            value = "5.56 - 11.43 %",
-            description = Res.string.earnings_estimate_description
-        ),
-        getDetailContentCell(
-            title = Res.string.eps,
-            value = "$7.47",
-            description = Res.string.eps_description
-        )
     ),
-    isWatchlisted: Boolean = false
+    isWatchlisted: Boolean = false,
 ) = Content(
     symbol = symbol,
     icon = null,
     name = name,
     price = price,
     lastUpdated = lastUpdated,
-    cells = cells.toPersistentList(),
+    items = items.toPersistentList(),
     isWatchlisted = isWatchlisted,
 )
 
@@ -90,10 +73,12 @@ fun getDetailContentCell(
     title: StringResource = Res.string.dividend_yield,
     value: String = "0.40 %",
     description: StringResource = Res.string.dividend_yield_description,
-    delta: DeltaTextEntity? = null
+    delta: DeltaTextEntity? = null,
+    color: Color? = null,
 ) = Cell(
     title = title,
     value = value,
     description = description,
-    delta = delta
+    delta = delta,
+    color = color,
 )

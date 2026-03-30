@@ -13,7 +13,12 @@ import org.n27.stonks.presentation.common.composables.shimmer.ShimmerBone
 
 @Composable
 internal fun DetailLoading() {
-    Column(modifier = Modifier.fillMaxWidth().padding(Spacing.default)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Spacing.default)
+            .padding(top = Spacing.default)
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
@@ -35,7 +40,7 @@ internal fun DetailLoading() {
         ShimmerBone(width = 120.dp, height = 28.dp)
         Spacer(Modifier.height(Spacing.default))
 
-        val placeholderCells = List(6) { it }
+        val placeholderCells = List(12) { it }
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Spacing.default),
@@ -49,7 +54,7 @@ internal fun DetailLoading() {
                     rowItems.forEach { _ ->
                         ShimmerBone(
                             modifier = Modifier.weight(1f),
-                            height = 60.dp
+                            height = 120.dp
                         )
                     }
                 }

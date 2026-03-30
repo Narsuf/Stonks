@@ -1,24 +1,25 @@
 package org.n27.stonks.data
 
+import org.n27.stonks.data.mapping.toDomain
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.models.Stocks
 import org.n27.stonks.domain.models.Stocks.Stock
 
 class RepositoryImpl(private val api: Api) : Repository {
 
-    override suspend fun getStock(symbol: String): Result<Stock> = runCatching { api.getStock(symbol) }
+    override suspend fun getStock(symbol: String): Result<Stock> = runCatching { api.getStock(symbol).toDomain() }
 
     override suspend fun getStocks(
         filterWatchlist: Boolean,
         symbol: String?,
         from: Int?,
         pageSize: Int?,
-    ): Result<Stocks> = runCatching { api.getStocks(filterWatchlist, symbol, from, pageSize) }
+    ): Result<Stocks> = runCatching { api.getStocks(filterWatchlist, symbol, from, pageSize).toDomain() }
 
     override suspend fun getWatchlist(
         from: Int?,
         pageSize: Int?,
-    ): Result<Stocks> = runCatching { api.getWatchlist(from, pageSize) }
+    ): Result<Stocks> = runCatching { api.getWatchlist(from, pageSize).toDomain() }
 
     override suspend fun addToWatchlist(symbol: String): Result<Unit> = runCatching { api.addToWatchlist(symbol) }
 
