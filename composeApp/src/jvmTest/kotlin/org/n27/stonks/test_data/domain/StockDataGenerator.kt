@@ -24,7 +24,7 @@ fun getStock(
     lastUpdated: Long? = 1768064114877,
     isWatchlisted: Boolean = false,
     incomeStatement: IncomeStatement? = getIncomeStatement(),
-    analysis: Analysis? = getAnalysis(),
+    earningsEstimate: EarningsEstimate? = getEarningsEstimate(),
     valuationMeasures: ValuationMeasures? = getValuationMeasures(),
     balanceSheet: BalanceSheet? = getBalanceSheet(),
     roe: RatedValue? = getRatedValue(value = 152.02099, rating = Rating.POSITIVE),
@@ -40,7 +40,7 @@ fun getStock(
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
     incomeStatement = incomeStatement,
-    analysis = analysis,
+    earningsEstimate = earningsEstimate,
     valuationMeasures = valuationMeasures,
     balanceSheet = balanceSheet,
     roe = roe,
@@ -67,27 +67,17 @@ fun getDividends(
 fun getIncomeStatement(
     eps: Double? = 7.47,
     earningsQuarterlyGrowth: Double? = 86.4,
-    revenueQuarterlyGrowth: Double? = 9.7,
 ) = IncomeStatement(
     eps = eps,
     earningsQuarterlyGrowth = earningsQuarterlyGrowth,
-    revenueQuarterlyGrowth = revenueQuarterlyGrowth,
 )
 
-fun getAnalysis(
-    earningsEstimate: Analysis.EarningsEstimate? = Analysis.EarningsEstimate(
-        growthLow = 5.56,
-        growthHigh = 11.43,
-        growthAvg = 8.65,
-    ),
-    revenueEstimate: Analysis.RevenueEstimate? = Analysis.RevenueEstimate(
-        growthLow = 2.83,
-        growthHigh = 7.22,
-        growthAvg = 5.54,
-    ),
-) = Analysis(
-    earningsEstimate = earningsEstimate,
-    revenueEstimate = revenueEstimate,
+fun getEarningsEstimate(
+    growthHigh: Double? = 11.43,
+    growthAvg: Double? = 8.65,
+) = EarningsEstimate(
+    growthHigh = growthHigh,
+    growthAvg = growthAvg,
 )
 
 fun getValuationMeasures(

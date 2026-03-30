@@ -17,7 +17,7 @@ internal fun mapToStock(
     dividendYield: Double?,
     payoutRatio: Double?,
     incomeStatement: IncomeStatement?,
-    analysis: Analysis?,
+    earningsEstimate: EarningsEstimate?,
     pe: Double?,
     valuationFloor: Double?,
     intrinsicValue: Double?,
@@ -36,7 +36,7 @@ internal fun mapToStock(
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
     incomeStatement = incomeStatement,
-    analysis = analysis,
+    earningsEstimate = earningsEstimate,
     valuationMeasures = ValuationMeasures(
         pe = pe.toRatedValue { toPeRating() },
         valuationFloor = valuationFloor,
@@ -51,8 +51,8 @@ internal fun mapToStock(
     profitMargin = profitMargin.toRatedValue { toProfitMarginRating() },
     computed = Computed(
         earningsYield = computeEarningsYield(pe),
-        peg = computePeg(pe, analysis?.earningsEstimate?.growthAvg),
-        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, analysis?.earningsEstimate?.growthAvg),
+        peg = computePeg(pe, earningsEstimate?.growthAvg),
+        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, earningsEstimate?.growthAvg),
         cashToEarnings = computeCashToEarnings(totalCashPerShare, incomeStatement?.eps),
     ),
 )

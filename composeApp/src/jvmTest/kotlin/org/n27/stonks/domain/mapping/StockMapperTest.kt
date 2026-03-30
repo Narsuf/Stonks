@@ -4,11 +4,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.n27.stonks.domain.models.Rating
-import org.n27.stonks.domain.models.Stocks.Stock.*
+import org.n27.stonks.domain.models.Stocks.Stock.EarningsEstimate
+import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
 import org.n27.stonks.test_data.data.getBalanceSheetRaw
 import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.test_data.data.getValuationMeasuresRaw
-import org.n27.stonks.test_data.domain.*
+import org.n27.stonks.test_data.domain.getEarningsEstimate
+import org.n27.stonks.test_data.domain.getIncomeStatement
+import org.n27.stonks.test_data.domain.getStock
 
 class StockMapperTest {
 
@@ -21,7 +24,7 @@ class StockMapperTest {
             dividendYield = raw.dividends?.dividendYield,
             payoutRatio = raw.dividends?.payoutRatio,
             incomeStatement = getIncomeStatement(),
-            analysis = getAnalysis(),
+            earningsEstimate = getEarningsEstimate(),
             pe = raw.valuationMeasures?.pe,
             valuationFloor = raw.valuationMeasures?.valuationFloor,
             intrinsicValue = raw.valuationMeasures?.intrinsicValue,
@@ -169,22 +172,22 @@ class StockMapperTest {
 
     @Test
     fun `peg rating should be null when below 1_5`() {
-        assertNull(mapStock(pe = 10.0, analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = null, growthAvg = 10.0))).computed?.peg?.rating)
+        assertNull(mapStock(pe = 10.0, earningsEstimate = EarningsEstimate(growthHigh = null, growthAvg = 10.0)).computed?.peg?.rating)
     }
 
     @Test
     fun `peg rating should be CAUTION when between 1_5 and 2`() {
-        assertEquals(Rating.CAUTION, mapStock(pe = 17.5, analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = null, growthAvg = 10.0))).computed?.peg?.rating)
+        assertEquals(Rating.CAUTION, mapStock(pe = 17.5, earningsEstimate = EarningsEstimate(growthHigh = null, growthAvg = 10.0)).computed?.peg?.rating)
     }
 
     @Test
     fun `peg rating should be WARNING when between 2 and 3`() {
-        assertEquals(Rating.WARNING, mapStock(pe = 25.0, analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = null, growthAvg = 10.0))).computed?.peg?.rating)
+        assertEquals(Rating.WARNING, mapStock(pe = 25.0, earningsEstimate = EarningsEstimate(growthHigh = null, growthAvg = 10.0)).computed?.peg?.rating)
     }
 
     @Test
     fun `peg rating should be DANGER when above 3`() {
-        assertEquals(Rating.DANGER, mapStock(pe = 40.0, analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = null, growthAvg = 10.0))).computed?.peg?.rating)
+        assertEquals(Rating.DANGER, mapStock(pe = 40.0, earningsEstimate = EarningsEstimate(growthHigh = null, growthAvg = 10.0)).computed?.peg?.rating)
     }
 
     // endregion
@@ -193,22 +196,22 @@ class StockMapperTest {
 
     @Test
     fun `dynamicPayback rating should be null when below 15`() {
-        assertNull(mapStock(price = 100.0, incomeStatement = getIncomeStatement(eps = 10.0), analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = null, growthAvg = 10.0))).computed?.dynamicPayback?.rating)
+        assertNull(mapStock(price = 100.0, incomeStatement = getIncomeStatement(eps = 10.0), earningsEstimate = EarningsEstimate(growthHigh = null, growthAvg = 10.0)).computed?.dynamicPayback?.rating)
     }
 
     @Test
     fun `dynamicPayback rating should be CAUTION when between 15 and 20`() {
-        assertEquals(Rating.CAUTION, mapStock(price = 259.37, incomeStatement = getIncomeStatement(eps = 7.47), analysis = getAnalysis()).computed?.dynamicPayback?.rating)
+        assertEquals(Rating.CAUTION, mapStock(price = 259.37, incomeStatement = getIncomeStatement(eps = 7.47), earningsEstimate = getEarningsEstimate()).computed?.dynamicPayback?.rating)
     }
 
     @Test
     fun `dynamicPayback rating should be WARNING when between 20 and 25`() {
-        assertEquals(Rating.WARNING, mapStock(price = 500.0, incomeStatement = getIncomeStatement(eps = 7.47), analysis = getAnalysis()).computed?.dynamicPayback?.rating)
+        assertEquals(Rating.WARNING, mapStock(price = 500.0, incomeStatement = getIncomeStatement(eps = 7.47), earningsEstimate = getEarningsEstimate()).computed?.dynamicPayback?.rating)
     }
 
     @Test
     fun `dynamicPayback rating should be DANGER when above 25`() {
-        assertEquals(Rating.DANGER, mapStock(price = 700.0, incomeStatement = getIncomeStatement(eps = 7.47), analysis = getAnalysis()).computed?.dynamicPayback?.rating)
+        assertEquals(Rating.DANGER, mapStock(price = 700.0, incomeStatement = getIncomeStatement(eps = 7.47), earningsEstimate = getEarningsEstimate()).computed?.dynamicPayback?.rating)
     }
 
     // endregion
@@ -238,7 +241,7 @@ class StockMapperTest {
     fun `mapToStock should return null peg when growth is null`() {
         val result = mapStock(
             pe = getValuationMeasuresRaw().pe,
-            analysis = getAnalysis(earningsEstimate = null),
+            earningsEstimate = null,
         )
 
         assertNull(result.computed?.peg)
@@ -248,7 +251,7 @@ class StockMapperTest {
     fun `mapToStock should return null peg when growth is negative`() {
         val result = mapStock(
             pe = getValuationMeasuresRaw().pe,
-            analysis = getAnalysis(earningsEstimate = Analysis.EarningsEstimate(growthLow = null, growthHigh = -1.0, growthAvg = null)),
+            earningsEstimate = EarningsEstimate(growthHigh = -1.0, growthAvg = null),
         )
 
         assertNull(result.computed?.peg)
@@ -258,7 +261,7 @@ class StockMapperTest {
     fun `mapToStock should return null dynamicPayback when eps is zero`() {
         val result = mapStock(
             incomeStatement = getIncomeStatement(eps = 0.0),
-            analysis = getAnalysis(),
+            earningsEstimate = getEarningsEstimate(),
         )
 
         assertNull(result.computed?.dynamicPayback)
@@ -279,7 +282,7 @@ class StockMapperTest {
         dividendYield: Double? = null,
         payoutRatio: Double? = null,
         incomeStatement: IncomeStatement? = null,
-        analysis: Analysis? = null,
+        earningsEstimate: EarningsEstimate? = null,
         pe: Double? = null,
         valuationFloor: Double? = null,
         intrinsicValue: Double? = null,
@@ -300,7 +303,7 @@ class StockMapperTest {
             dividendYield = dividendYield,
             payoutRatio = payoutRatio,
             incomeStatement = incomeStatement,
-            analysis = analysis,
+            earningsEstimate = earningsEstimate,
             pe = pe,
             valuationFloor = valuationFloor,
             intrinsicValue = intrinsicValue,

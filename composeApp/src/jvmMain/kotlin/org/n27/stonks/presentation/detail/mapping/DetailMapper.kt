@@ -7,7 +7,7 @@ import org.n27.stonks.domain.models.FredYields
 import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
+import org.n27.stonks.domain.models.Stocks.Stock.EarningsEstimate
 import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.extensions.*
@@ -44,7 +44,7 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
             computed?.peg?.toPegCell()?.let(::add)
             computed?.dynamicPayback?.toDynamicPaybackCell()?.let(::add)
             incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let(::add)
-            analysis?.earningsEstimate?.toEarningsEstimateCell()?.let(::add)
+            earningsEstimate?.toEarningsEstimateCell()?.let(::add)
         })
 
         addSection(Res.string.section_fundamentals, buildList {

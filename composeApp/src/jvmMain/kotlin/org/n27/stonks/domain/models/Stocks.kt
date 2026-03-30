@@ -15,7 +15,7 @@ data class Stocks(
         val lastUpdated: Long?,
         val isWatchlisted: Boolean,
         val incomeStatement: IncomeStatement?,
-        val analysis: Analysis?,
+        val earningsEstimate: EarningsEstimate?,
         val valuationMeasures: ValuationMeasures?,
         val balanceSheet: BalanceSheet?,
         val roe: RatedValue?,
@@ -38,26 +38,12 @@ data class Stocks(
         data class IncomeStatement(
             val eps: Double?,
             val earningsQuarterlyGrowth: Double?,
-            val revenueQuarterlyGrowth: Double?,
         )
 
-        data class Analysis(
-            val earningsEstimate: EarningsEstimate?,
-            val revenueEstimate: RevenueEstimate?,
-        ) {
-
-            data class EarningsEstimate(
-                val growthLow: Double?,
-                val growthHigh: Double?,
-                val growthAvg: Double?,
-            )
-
-            data class RevenueEstimate(
-                val growthLow: Double?,
-                val growthHigh: Double?,
-                val growthAvg: Double?,
-            )
-        }
+        data class EarningsEstimate(
+            val growthHigh: Double?,
+            val growthAvg: Double?,
+        )
 
         data class ValuationMeasures(
             val pe: RatedValue?,

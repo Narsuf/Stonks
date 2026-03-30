@@ -1,11 +1,12 @@
 package org.n27.stonks.data.mapping
 
-import org.n27.stonks.data.models.*
+import org.n27.stonks.data.models.EarningsEstimateRaw
+import org.n27.stonks.data.models.IncomeStatementRaw
+import org.n27.stonks.data.models.StockRaw
+import org.n27.stonks.data.models.StocksRaw
 import org.n27.stonks.domain.mapping.mapToStock
 import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.domain.models.Stocks.Stock.Analysis
-import org.n27.stonks.domain.models.Stocks.Stock.Analysis.EarningsEstimate
-import org.n27.stonks.domain.models.Stocks.Stock.Analysis.RevenueEstimate
+import org.n27.stonks.domain.models.Stocks.Stock.EarningsEstimate
 import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
 
 internal fun StocksRaw.toDomain() = Stocks(
@@ -24,7 +25,7 @@ internal fun StockRaw.toDomain() = mapToStock(
     dividendYield = dividends?.dividendYield,
     payoutRatio = dividends?.payoutRatio,
     incomeStatement = incomeStatement?.toDomain(),
-    analysis = analysis?.toDomain(),
+    earningsEstimate = earningsEstimate?.toDomain(),
     pe = valuationMeasures?.pe,
     valuationFloor = valuationMeasures?.valuationFloor,
     intrinsicValue = valuationMeasures?.intrinsicValue,
@@ -38,19 +39,9 @@ internal fun StockRaw.toDomain() = mapToStock(
 private fun IncomeStatementRaw.toDomain() = IncomeStatement(
     eps = eps,
     earningsQuarterlyGrowth = earningsQuarterlyGrowth,
-    revenueQuarterlyGrowth = revenueQuarterlyGrowth,
 )
 
-private fun AnalysisRaw.toDomain() = Analysis(
-    earningsEstimate = earningsEstimate?.let {
-        EarningsEstimate(growthLow = it.growthLow, growthHigh = it.growthHigh, growthAvg = it.growthAvg)
-    },
-    revenueEstimate = revenueEstimate?.toDomain(),
-)
-
-private fun RevenueEstimateRaw.toDomain() = RevenueEstimate(
-    growthLow = growthLow,
+private fun EarningsEstimateRaw.toDomain() = EarningsEstimate(
     growthHigh = growthHigh,
     growthAvg = growthAvg,
 )
-

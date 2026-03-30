@@ -17,7 +17,7 @@ fun getStockRaw(
     price: Double? = 259.369995117188,
     dividends: DividendsRaw? = getDividendsRaw(),
     incomeStatement: IncomeStatementRaw? = getIncomeStatementRaw(),
-    analysis: AnalysisRaw? = getAnalysisRaw(),
+    earningsEstimate: EarningsEstimateRaw? = getEarningsEstimateRaw(),
     valuationMeasures: ValuationMeasuresRaw? = getValuationMeasuresRaw(),
     balanceSheet: BalanceSheetRaw? = getBalanceSheetRaw(),
     roe: Double? = 1.5202099,
@@ -32,7 +32,7 @@ fun getStockRaw(
     price = price,
     dividends = dividends,
     incomeStatement = incomeStatement,
-    analysis = analysis,
+    earningsEstimate = earningsEstimate,
     valuationMeasures = valuationMeasures,
     balanceSheet = balanceSheet,
     roe = roe,
@@ -53,27 +53,17 @@ fun getDividendsRaw(
 fun getIncomeStatementRaw(
     eps: Double? = 7.47,
     earningsQuarterlyGrowth: Double? = 86.4,
-    revenueQuarterlyGrowth: Double? = 9.7,
 ) = IncomeStatementRaw(
     eps = eps,
     earningsQuarterlyGrowth = earningsQuarterlyGrowth,
-    revenueQuarterlyGrowth = revenueQuarterlyGrowth,
 )
 
-fun getAnalysisRaw(
-    earningsEstimate: EarningsEstimateRaw? = EarningsEstimateRaw(
-        growthLow = 5.56,
-        growthHigh = 11.43,
-        growthAvg = 8.65,
-    ),
-    revenueEstimate: RevenueEstimateRaw? = RevenueEstimateRaw(
-        growthLow = 2.83,
-        growthHigh = 7.22,
-        growthAvg = 5.54,
-    ),
-) = AnalysisRaw(
-    earningsEstimate = earningsEstimate,
-    revenueEstimate = revenueEstimate,
+fun getEarningsEstimateRaw(
+    growthHigh: Double? = 11.43,
+    growthAvg: Double? = 8.65,
+) = EarningsEstimateRaw(
+    growthHigh = growthHigh,
+    growthAvg = growthAvg,
 )
 
 fun getValuationMeasuresRaw(

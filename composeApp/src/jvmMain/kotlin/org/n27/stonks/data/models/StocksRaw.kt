@@ -16,7 +16,7 @@ data class StockRaw(
     val price: Double?,
     val dividends: DividendsRaw?,
     val incomeStatement: IncomeStatementRaw?,
-    val analysis: AnalysisRaw?,
+    val earningsEstimate: EarningsEstimateRaw?,
     val valuationMeasures: ValuationMeasuresRaw?,
     val balanceSheet: BalanceSheetRaw?,
     val roe: Double?,
@@ -36,25 +36,10 @@ data class DividendsRaw(
 data class IncomeStatementRaw(
     val eps: Double?,
     val earningsQuarterlyGrowth: Double?,
-    val revenueQuarterlyGrowth: Double?,
-)
-
-@Serializable
-data class AnalysisRaw(
-    val earningsEstimate: EarningsEstimateRaw?,
-    val revenueEstimate: RevenueEstimateRaw?,
 )
 
 @Serializable
 data class EarningsEstimateRaw(
-    val growthLow: Double?,
-    val growthHigh: Double?,
-    val growthAvg: Double?,
-)
-
-@Serializable
-data class RevenueEstimateRaw(
-    val growthLow: Double?,
     val growthHigh: Double?,
     val growthAvg: Double?,
 )

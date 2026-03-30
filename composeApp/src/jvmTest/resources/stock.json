@@ -9,20 +9,11 @@
   },
   "incomeStatement": {
     "eps": 7.47,
-    "earningsQuarterlyGrowth": 86.4,
-    "revenueQuarterlyGrowth": 9.7
+    "earningsQuarterlyGrowth": 86.4
   },
-  "analysis": {
-    "earningsEstimate": {
-      "growthLow": 5.56,
-      "growthHigh": 11.43,
-      "growthAvg": 8.65
-    },
-    "revenueEstimate": {
-      "growthLow": 2.83,
-      "growthHigh": 7.22,
-      "growthAvg": 5.54
-    }
+  "earningsEstimate": {
+    "growthHigh": 11.43,
+    "growthAvg": 8.65
   },
   "valuationMeasures": {
     "pe": 34.7215522245231,
