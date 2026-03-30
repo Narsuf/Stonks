@@ -42,15 +42,6 @@ class DetailMapperTest {
             earningsEstimate = null,
         ).toDetailContent()
 
-        assertEquals(
-            getDetailContent(
-                items = listOf(
-                    Item.Header(Res.string.section_dividends),
-                    Item.Header(Res.string.section_valuation),
-                    Item.Header(Res.string.section_fundamentals),
-                )
-            ),
-            result,
-        )
+        assertEquals(getDetailContent(items = emptyList()), result)
     }
 }

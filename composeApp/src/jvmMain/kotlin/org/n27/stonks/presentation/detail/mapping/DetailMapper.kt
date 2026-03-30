@@ -23,42 +23,56 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
     price = price?.toPrice(currency),
     lastUpdated = lastUpdated?.toDateString(),
     items = buildList {
-        add(Item.Header(Res.string.section_dividends))
-        dividends?.dividendYield?.toDividendCell()?.let {
-            add(Item.CellPair(it, dividends.payoutRatio?.toPayoutRatioCell()))
+        fun addSection(title: StringResource, build: MutableList<Item>.() -> Unit) {
+            val items = buildList(build)
+            if (items.isEmpty()) return
+            add(Item.Header(title))
+            addAll(items)
         }
 
-        add(Item.Header(Res.string.section_valuation))
-        incomeStatement?.eps?.toEpsCell(currency)?.let {
-            add(Item.CellPair(it, valuationMeasures?.pe?.toPeCell()))
+        fun MutableList<Item>.addPair(first: Cell?, second: Cell? = null) {
+            first?.let { add(Item.CellPair(it, second)) }
         }
-        valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let {
-            add(
-                Item.CellPair(
-                    first = it,
-                    second = computeEyTreasurySpread(
-                        computed?.earningsYield,
-                        fredYields?.treasury10Y
-                    )?.toEyTreasurySpreadCell(),
-                )
+
+        addSection(Res.string.section_dividends) {
+            addPair(
+                first = dividends?.dividendYield?.toDividendCell(),
+                second = dividends?.payoutRatio?.toPayoutRatioCell(),
             )
         }
-        computed?.peg?.toPegCell()?.let {
-            add(Item.CellPair(it, computed.dynamicPayback?.toDynamicPaybackCell()))
-        }
-        incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let {
-            add(Item.CellPair(it, earningsEstimate?.toEarningsEstimateCell()))
+
+        addSection(Res.string.section_valuation) {
+            addPair(
+                first = incomeStatement?.eps?.toEpsCell(currency),
+                second = valuationMeasures?.pe?.toPeCell(),
+            )
+            addPair(
+                first = valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent),
+                second = computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell(),
+            )
+            addPair(
+                first = computed?.peg?.toPegCell(),
+                second = computed?.dynamicPayback?.toDynamicPaybackCell(),
+            )
+            addPair(
+                first = incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell(),
+                second = earningsEstimate?.toEarningsEstimateCell(),
+            )
         }
 
-        add(Item.Header(Res.string.section_fundamentals))
-        roe?.toRoeCell()?.let {
-            add(Item.CellPair(it, profitMargin?.toProfitMarginCell()))
-        }
-        balanceSheet?.de?.toDeCell()?.let {
-            add(Item.CellPair(it, balanceSheet.currentRatio?.toCurrentRatioCell()))
-        }
-        balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let {
-            add(Item.CellPair(it, computed?.cashToEarnings?.toCashToEarningsCell()))
+        addSection(Res.string.section_fundamentals) {
+            addPair(
+                first = roe?.toRoeCell(),
+                second = profitMargin?.toProfitMarginCell(),
+            )
+            addPair(
+                first = balanceSheet?.de?.toDeCell(),
+                second = balanceSheet?.currentRatio?.toCurrentRatioCell(),
+            )
+            addPair(
+                first = balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency),
+                second = computed?.cashToEarnings?.toCashToEarningsCell(),
+            )
         }
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
