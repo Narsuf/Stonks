@@ -30,7 +30,7 @@ class DetailMapperTest {
     }
 
     @Test
-    fun `toDetailContent should map Stock to Content with only headers when all optional fields are null`() {
+    fun `toDetailContent should map Stock to Content when all optional fields are null`() {
         val result = getStock(
             dividends = null,
             incomeStatement = null,
