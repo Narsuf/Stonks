@@ -45,11 +45,11 @@ fun getDetailContent(
         ),
         Item.Header(Res.string.section_fundamentals),
         Item.CellPair(
-            first = getDetailContentCell(Res.string.roe, "152.02 %", Res.string.roe_description, color = AppColors.Green),
-            second = getDetailContentCell(Res.string.profit_margin, "27.04 %", Res.string.profit_margin_description, color = AppColors.Green),
+            first = getDetailContentCell(Res.string.roe, "1.52 %", Res.string.roe_description, color = AppColors.Yellow),
+            second = getDetailContentCell(Res.string.profit_margin, "0.27 %", Res.string.profit_margin_description, color = AppColors.Yellow),
         ),
         Item.CellPair(
-            first = getDetailContentCell(Res.string.de, "1.03", Res.string.de_description),
+            first = getDetailContentCell(Res.string.de, "102.63", Res.string.de_description, color = AppColors.Red),
             second = getDetailContentCell(Res.string.current_ratio, "0.96", Res.string.current_ratio_description),
         ),
         Item.CellPair(

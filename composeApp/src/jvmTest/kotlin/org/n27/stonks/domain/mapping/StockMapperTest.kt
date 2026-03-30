@@ -29,10 +29,10 @@ class StockMapperTest {
             valuationFloor = raw.valuationMeasures?.valuationFloor,
             intrinsicValue = raw.valuationMeasures?.intrinsicValue,
             totalCashPerShare = raw.balanceSheet?.totalCashPerShare,
-            de = raw.balanceSheet?.de?.let { it / 100 },
+            de = raw.balanceSheet?.de,
             currentRatio = raw.balanceSheet?.currentRatio,
-            roe = raw.roe?.let { it * 100 },
-            profitMargin = raw.profitMargin?.let { it * 100 },
+            roe = raw.roe,
+            profitMargin = raw.profitMargin,
         )
 
         assertEquals(getStock(), result)

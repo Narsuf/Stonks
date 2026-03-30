@@ -27,8 +27,8 @@ fun getStock(
     earningsEstimate: EarningsEstimate? = getEarningsEstimate(),
     valuationMeasures: ValuationMeasures? = getValuationMeasures(),
     balanceSheet: BalanceSheet? = getBalanceSheet(),
-    roe: RatedValue? = getRatedValue(value = 152.02099, rating = Rating.POSITIVE),
-    profitMargin: RatedValue? = getRatedValue(value = 27.037, rating = Rating.POSITIVE),
+    roe: RatedValue? = getRatedValue(value = 1.5202099, rating = Rating.CAUTION),
+    profitMargin: RatedValue? = getRatedValue(value = 0.27037, rating = Rating.CAUTION),
     computed: Computed? = getComputed(),
 ) = Stock(
     symbol = symbol,
@@ -104,7 +104,7 @@ fun getComputed(
 
 fun getBalanceSheet(
     totalCashPerShare: Double? = 4.557,
-    de: RatedValue? = getRatedValue(value = 1.0263, rating = null),
+    de: RatedValue? = getRatedValue(value = 102.63, rating = Rating.DANGER),
     currentRatio: RatedValue? = getRatedValue(value = 0.955, rating = null),
 ) = BalanceSheet(
     totalCashPerShare = totalCashPerShare,

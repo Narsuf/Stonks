@@ -30,10 +30,10 @@ internal fun StockRaw.toDomain() = mapToStock(
     valuationFloor = valuationMeasures?.valuationFloor,
     intrinsicValue = valuationMeasures?.intrinsicValue,
     totalCashPerShare = balanceSheet?.totalCashPerShare,
-    de = balanceSheet?.de?.let { it / 100 },
+    de = balanceSheet?.de,
     currentRatio = balanceSheet?.currentRatio,
-    roe = roe?.let { it * 100 },
-    profitMargin = profitMargin?.let { it * 100 },
+    roe = roe,
+    profitMargin = profitMargin,
 )
 
 private fun IncomeStatementRaw.toDomain() = IncomeStatement(
