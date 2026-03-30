@@ -3,15 +3,9 @@ package org.n27.stonks.presentation.detail.mapping
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.n27.stonks.presentation.common.AppColors
-import org.n27.stonks.presentation.common.composables.DeltaState
-import org.n27.stonks.presentation.common.composables.DeltaTextEntity
-import org.n27.stonks.presentation.detail.entities.DetailState.Content.Item
 import org.n27.stonks.test_data.domain.getFredYields
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.presentation.getDetailContent
-import org.n27.stonks.test_data.presentation.getDetailContentCell
-import stonks.composeapp.generated.resources.*
 import java.util.*
 
 class DetailMapperTest {
