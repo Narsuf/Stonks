@@ -43,5 +43,4 @@ private fun IncomeStatementRaw.toDomain() = IncomeStatement(
 
 private fun EarningsEstimateRaw.toDomain() = EarningsEstimate(
     growthHigh = growthHigh,
-    growthAvg = growthAvg,
 )

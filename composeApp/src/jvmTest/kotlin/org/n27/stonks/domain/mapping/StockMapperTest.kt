@@ -76,17 +76,17 @@ class StockMapperTest {
     @ParameterizedTest(name = "pe={0} → peg={1}")
     @MethodSource("pegRatingCases")
     fun `peg rating`(pe: Double, expected: Rating?) {
-        val result = mapStock(pe = pe, earningsEstimate = EarningsEstimate(growthHigh = null, growthAvg = 10.0))
+        val result = mapStock(pe = pe, earningsEstimate = EarningsEstimate(growthHigh = 10.0))
         assertEquals(expected, result.computed?.peg?.rating)
     }
 
     @ParameterizedTest(name = "price={0}, eps={1} → dynamicPayback={3}")
     @MethodSource("dynamicPaybackRatingCases")
-    fun `dynamicPayback rating`(price: Double, eps: Double, growthAvg: Double, expected: Rating?) {
+    fun `dynamicPayback rating`(price: Double, eps: Double, growthHigh: Double, expected: Rating?) {
         val result = mapStock(
             price = price,
             incomeStatement = getIncomeStatement(eps = eps),
-            earningsEstimate = EarningsEstimate(growthHigh = null, growthAvg = growthAvg),
+            earningsEstimate = EarningsEstimate(growthHigh = growthHigh),
         )
         assertEquals(expected, result.computed?.dynamicPayback?.rating)
     }
@@ -112,7 +112,7 @@ class StockMapperTest {
 
     @Test
     fun `mapToStock should return null peg when growth is negative`() {
-        assertNull(mapStock(pe = getValuationMeasuresRaw().pe, earningsEstimate = EarningsEstimate(growthHigh = -1.0, growthAvg = null)).computed?.peg)
+        assertNull(mapStock(pe = getValuationMeasuresRaw().pe, earningsEstimate = EarningsEstimate(growthHigh = -1.0)).computed?.peg)
     }
 
     @Test

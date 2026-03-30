@@ -42,7 +42,6 @@ data class Stocks(
 
         data class EarningsEstimate(
             val growthHigh: Double?,
-            val growthAvg: Double?,
         )
 
         data class ValuationMeasures(

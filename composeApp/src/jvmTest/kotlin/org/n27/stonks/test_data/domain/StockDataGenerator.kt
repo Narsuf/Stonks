@@ -75,10 +75,8 @@ fun getIncomeStatement(
 
 fun getEarningsEstimate(
     growthHigh: Double? = 11.43,
-    growthAvg: Double? = 8.65,
 ) = EarningsEstimate(
     growthHigh = growthHigh,
-    growthAvg = growthAvg,
 )
 
 fun getValuationMeasures(
@@ -93,8 +91,8 @@ fun getValuationMeasures(
 
 fun getComputed(
     earningsYield: Double? = 2.880055573361496,
-    peg: RatedValue? = getRatedValue(value = 4.014052280291688, rating = Rating.DANGER),
-    dynamicPayback: RatedValue? = getRatedValue(value = 16.720372914455112, rating = Rating.CAUTION),
+    peg: RatedValue? = getRatedValue(value = 3.037756100133255, rating = Rating.DANGER),
+    dynamicPayback: RatedValue? = getRatedValue(value = 14.812955172783827, rating = null),
     cashToEarnings: RatedValue? = getRatedValue(value = 0.6100401606425704, rating = Rating.CAUTION),
 ) = Computed(
     earningsYield = earningsYield,

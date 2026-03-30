@@ -51,8 +51,8 @@ internal fun mapToStock(
     profitMargin = profitMargin.toRatedValue { toProfitMarginRating() },
     computed = Computed(
         earningsYield = computeEarningsYield(pe),
-        peg = computePeg(pe, earningsEstimate?.growthAvg),
-        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, earningsEstimate?.growthAvg),
+        peg = computePeg(pe, earningsEstimate?.growthHigh),
+        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, earningsEstimate?.growthHigh),
         cashToEarnings = computeCashToEarnings(totalCashPerShare, incomeStatement?.eps),
     ),
 )

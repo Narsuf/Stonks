@@ -160,7 +160,7 @@ private fun RatedValue.toDeCell() = value.toFormattedString().toCell(
     color = rating?.toColor(),
 )
 
-private fun EarningsEstimate.toEarningsEstimateCell() = growthAvg
+private fun EarningsEstimate.toEarningsEstimateCell() = growthHigh
     ?.toFormattedPercentage()
     ?.toCell(
         title = Res.string.earnings_estimate,

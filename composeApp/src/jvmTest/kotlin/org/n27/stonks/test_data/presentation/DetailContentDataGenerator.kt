@@ -37,12 +37,12 @@ fun getDetailContent(
             second = getDetailContentCell(Res.string.ey_treasury_spread, "1.38 %", Res.string.ey_treasury_spread_description, color = AppColors.Yellow),
         ),
         Item.CellPair(
-            first = getDetailContentCell(Res.string.peg, "4.01", Res.string.peg_description, color = AppColors.Red),
-            second = getDetailContentCell(Res.string.dynamic_payback, "16.72", Res.string.dynamic_payback_description, color = AppColors.Yellow),
+            first = getDetailContentCell(Res.string.peg, "3.04", Res.string.peg_description, color = AppColors.Red),
+            second = getDetailContentCell(Res.string.dynamic_payback, "14.81", Res.string.dynamic_payback_description, color = null),
         ),
         Item.CellPair(
             first = getDetailContentCell(Res.string.growth, "86.40 %", Res.string.growth_description),
-            second = getDetailContentCell(Res.string.earnings_estimate, "8.65 %", Res.string.earnings_estimate_description),
+            second = getDetailContentCell(Res.string.earnings_estimate, "11.43 %", Res.string.earnings_estimate_description),
         ),
         Item.Header(Res.string.section_fundamentals),
         Item.CellPair(
