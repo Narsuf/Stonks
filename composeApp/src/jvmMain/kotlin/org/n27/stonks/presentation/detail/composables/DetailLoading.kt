@@ -1,8 +1,6 @@
 package org.n27.stonks.presentation.detail.composables
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,11 +40,11 @@ internal fun DetailLoading() {
 
         val placeholderCells = List(12) { it }
 
-        LazyColumn(
+        Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.default),
             modifier = Modifier.fillMaxWidth()
         ) {
-            items(placeholderCells.chunked(2)) { rowItems ->
+            placeholderCells.chunked(2).forEach { rowItems ->
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.default),
                     modifier = Modifier.fillMaxWidth()
