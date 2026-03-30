@@ -2,9 +2,8 @@ package org.n27.stonks.presentation.home.mapping
 
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Resource
 import org.n27.stonks.test_data.domain.getStock
@@ -15,10 +14,11 @@ import stonks.composeapp.generated.resources.Res
 import stonks.composeapp.generated.resources.default_value
 import stonks.composeapp.generated.resources.valuation_and_growth
 import java.util.*
+import kotlin.test.assertEquals
 
 class HomeMapperTest {
 
-    @Before
+    @BeforeEach
     fun setup() {
         Locale.setDefault(Locale.US)
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))

@@ -1,12 +1,12 @@
 package org.n27.stonks.data.fred
 
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.n27.stonks.domain.models.FredYields
 import java.util.prefs.Preferences
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class FredYieldsCacheTest {
 
@@ -14,10 +14,10 @@ class FredYieldsCacheTest {
     private val cache = FredYieldsCache()
     private val fredYields = FredYields(treasury10Y = 4.5, corporateAAA = 5.2)
 
-    @Before
+    @BeforeEach
     fun setUp() = prefs.clear()
 
-    @After
+    @AfterEach
     fun tearDown() = prefs.clear()
 
     @Test

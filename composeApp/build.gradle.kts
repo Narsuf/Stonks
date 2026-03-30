@@ -44,6 +44,10 @@ kotlin {
         jvmTest.dependencies {
             implementation(libs.mockito.core)
             implementation(libs.mockito.kotlin)
+            implementation(libs.kotlin.testJunit5)
+            implementation(libs.junit.jupiter.api)
+            implementation(libs.junit.jupiter.params)
+            runtimeOnly(libs.junit.jupiter.engine)
         }
     }
 }
@@ -87,5 +91,6 @@ tasks.register("jacocoJvmTestReport", JacocoReport::class) {
 }
 
 tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
     finalizedBy("jacocoJvmTestReport")
 }

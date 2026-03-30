@@ -1,11 +1,11 @@
 package org.n27.stonks.utils
 
-import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.io.Closeable
+import kotlin.test.assertEquals
 
 fun <T> Flow<T>.test(scope: CoroutineScope): FlowTestObserver<T> {
     return FlowTestObserver(scope, this)

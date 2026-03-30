@@ -1,8 +1,7 @@
 package org.n27.stonks.data.fred
 
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
@@ -10,6 +9,7 @@ import org.mockito.kotlin.whenever
 import org.n27.stonks.domain.models.FredYields
 import java.time.LocalDate
 import java.time.ZoneId
+import kotlin.test.assertEquals
 
 class FredYieldsStoreTest {
 

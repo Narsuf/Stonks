@@ -4,8 +4,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.*
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
@@ -31,7 +31,7 @@ class AppViewModelTest {
     private val mockDetailViewModel: DetailViewModel = mock()
     private val mockFredYieldsStore: FredYieldsStore = mock()
 
-    @Before
+    @BeforeEach
     fun init() = runTest {
         Dispatchers.setMain(StandardTestDispatcher())
         stopKoin()

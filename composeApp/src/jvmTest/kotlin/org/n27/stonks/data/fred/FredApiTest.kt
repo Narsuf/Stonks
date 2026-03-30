@@ -5,8 +5,8 @@ import io.ktor.client.engine.mock.*
 import io.ktor.http.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class FredApiTest {
@@ -14,7 +14,7 @@ class FredApiTest {
     private lateinit var api: FredApi
     private lateinit var mockEngine: MockEngine
 
-    @Before
+    @BeforeEach
     fun setup() {
         mockEngine = MockEngine { request ->
             when (request.url.parameters["id"]) {
@@ -35,11 +35,11 @@ class FredApiTest {
 
     @Test
     fun `getTreasuryYield10Y should return the latest available value`() = runTest {
-        assertEquals(4.5, api.getTreasuryYield10Y(), 0.0)
+        assertEquals(4.5, api.getTreasuryYield10Y())
     }
 
     @Test
     fun `getCorporateBondYieldAAA should return the latest available value`() = runTest {
-        assertEquals(5.2, api.getCorporateBondYieldAAA(), 0.0)
+        assertEquals(5.2, api.getCorporateBondYieldAAA())
     }
 }

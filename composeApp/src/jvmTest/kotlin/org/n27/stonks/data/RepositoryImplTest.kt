@@ -1,9 +1,8 @@
 package org.n27.stonks.data
 
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.*
 import org.mockito.Mockito.*
 import org.n27.stonks.domain.Repository
@@ -11,13 +10,14 @@ import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.test_data.data.getStocksRaw
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.domain.getStocks
+import kotlin.test.assertEquals
 
 class RepositoryImplTest {
 
     private lateinit var repository: Repository
     private lateinit var api: Api
 
-    @Before
+    @BeforeEach
     fun setUp() {
         api = mock(Api::class.java)
         repository = RepositoryImpl(api)

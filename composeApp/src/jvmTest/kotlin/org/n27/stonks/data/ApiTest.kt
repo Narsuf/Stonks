@@ -7,8 +7,8 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.test_data.data.getStocksRaw
 import org.n27.stonks.utils.getJson
@@ -19,7 +19,7 @@ class ApiTest {
     private lateinit var api: Api
     private lateinit var mockEngine: MockEngine
 
-    @Before
+    @BeforeEach
     fun setup() {
         mockEngine = MockEngine { request ->
             when (request.url.encodedPath) {

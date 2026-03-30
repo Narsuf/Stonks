@@ -5,8 +5,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.*
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import org.n27.stonks.data.fred.FredYieldsStore
 import org.n27.stonks.domain.Repository
@@ -31,7 +31,7 @@ class DetailViewModelTest {
     private val eventBus = EventBus()
     private val symbol = "AAPL"
 
-    @Before
+    @BeforeEach
     fun init() = runTest {
         Locale.setDefault(Locale.US)
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))

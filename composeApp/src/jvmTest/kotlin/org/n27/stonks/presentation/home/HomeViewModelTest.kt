@@ -5,8 +5,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.*
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.n27.stonks.SYMBOL
@@ -36,7 +36,7 @@ class HomeViewModelTest {
     private val repository: Repository = mock()
     private val eventBus = EventBus()
 
-    @Before
+    @BeforeEach
     fun init() = runTest {
         Locale.setDefault(Locale.US)
         Dispatchers.setMain(StandardTestDispatcher())
