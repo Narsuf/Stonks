@@ -12,7 +12,7 @@ For the Back-End I use a service I created myself [KtStonks](https://github.com/
 
 | Home | Edit |
 |:-:|:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/fc51fb5e-ad76-43a6-bc62-2aead435071a"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/20773a2c-588f-4782-aaa0-9061d21bf612"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/4a4ecf56-7992-4ef0-919c-641eac8a725b"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/20773a2c-588f-4782-aaa0-9061d21bf612"> |
 
 | Search |
 |:-:|
@@ -20,4 +20,4 @@ For the Back-End I use a service I created myself [KtStonks](https://github.com/
 
 | Detail | Fundamentals |
 |:-:|:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/46520351-c50f-4054-a4f9-f97cf9c0c48e"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/36912f7c-ceaf-4139-a83e-bdd1cfc66e9f"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/c18a16ad-de12-4da6-9f0e-ea3fa36aeefd"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/ecad87e4-6560-481e-b4ae-7084b5dbd8ba"> |
