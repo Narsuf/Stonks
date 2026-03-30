@@ -1,5 +1,6 @@
 package org.n27.stonks.test_data.domain
 
+import org.n27.stonks.domain.models.FredYields
 import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks
@@ -100,6 +101,14 @@ fun getComputed(
     peg = peg,
     dynamicPayback = dynamicPayback,
     cashToEarnings = cashToEarnings,
+)
+
+fun getFredYields(
+    treasury10Y: Double = 1.5,
+    corporateAAA: Double = 3.0,
+) = FredYields(
+    treasury10Y = treasury10Y,
+    corporateAAA = corporateAAA,
 )
 
 fun getBalanceSheet(

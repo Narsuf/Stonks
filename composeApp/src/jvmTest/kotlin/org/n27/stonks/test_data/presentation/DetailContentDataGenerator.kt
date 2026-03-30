@@ -34,14 +34,15 @@ fun getDetailContent(
                 description = Res.string.intrinsic_value_description,
                 delta = DeltaTextEntity(value = "$165.99", percentage = "64.00 %", state = DeltaState.NEGATIVE),
             ),
-            second = getDetailContentCell(Res.string.peg, "4.01", Res.string.peg_description, color = AppColors.Red),
+            second = getDetailContentCell(Res.string.ey_treasury_spread, "1.38 %", Res.string.ey_treasury_spread_description, color = AppColors.Yellow),
         ),
         Item.CellPair(
-            first = getDetailContentCell(Res.string.dynamic_payback, "16.72", Res.string.dynamic_payback_description, color = AppColors.Yellow),
-            second = getDetailContentCell(Res.string.growth, "86.40 %", Res.string.growth_description),
+            first = getDetailContentCell(Res.string.peg, "4.01", Res.string.peg_description, color = AppColors.Red),
+            second = getDetailContentCell(Res.string.dynamic_payback, "16.72", Res.string.dynamic_payback_description, color = AppColors.Yellow),
         ),
         Item.CellPair(
-            first = getDetailContentCell(Res.string.earnings_estimate, "8.65 %", Res.string.earnings_estimate_description),
+            first = getDetailContentCell(Res.string.growth, "86.40 %", Res.string.growth_description),
+            second = getDetailContentCell(Res.string.earnings_estimate, "8.65 %", Res.string.earnings_estimate_description),
         ),
         Item.Header(Res.string.section_fundamentals),
         Item.CellPair(

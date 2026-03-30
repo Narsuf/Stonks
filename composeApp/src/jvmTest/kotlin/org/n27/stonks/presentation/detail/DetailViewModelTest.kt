@@ -15,6 +15,7 @@ import org.n27.stonks.presentation.common.broadcast.Event.WatchlistEvent
 import org.n27.stonks.presentation.common.broadcast.EventBus
 import org.n27.stonks.presentation.detail.entities.DetailInteraction.*
 import org.n27.stonks.presentation.detail.entities.DetailState.*
+import org.n27.stonks.test_data.domain.getFredYields
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.presentation.getDetailContent
 import org.n27.stonks.utils.test
@@ -36,7 +37,7 @@ class DetailViewModelTest {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
         Dispatchers.setMain(StandardTestDispatcher())
         `when`(repository.getStock(symbol)).thenReturn(success(getStock()))
-        `when`(fredYieldsStore.yields).thenReturn(MutableStateFlow(null))
+        `when`(fredYieldsStore.yields).thenReturn(MutableStateFlow(getFredYields()))
     }
 
     @Test

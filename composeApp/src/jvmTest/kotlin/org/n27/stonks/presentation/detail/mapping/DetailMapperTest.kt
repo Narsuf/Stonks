@@ -3,6 +3,7 @@ package org.n27.stonks.presentation.detail.mapping
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.n27.stonks.test_data.domain.getFredYields
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.presentation.getDetailContent
 import java.util.*
@@ -17,7 +18,7 @@ class DetailMapperTest {
 
     @Test
     fun `toDetailContent should map Stock to Content correctly`() {
-        val result = getStock().toDetailContent()
+        val result = getStock().toDetailContent(fredYields = getFredYields())
 
         assertEquals(getDetailContent(), result)
     }

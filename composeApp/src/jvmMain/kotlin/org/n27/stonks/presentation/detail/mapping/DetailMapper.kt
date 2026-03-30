@@ -23,38 +23,43 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
     price = price?.toPrice(currency),
     lastUpdated = lastUpdated?.toDateString(),
     items = buildList {
-        fun addSection(title: StringResource, cells: List<Cell>) {
-            if (cells.isEmpty()) return
-            add(Item.Header(title))
-            cells.chunked(2).forEach { pair ->
-                add(Item.CellPair(first = pair[0], second = pair.getOrNull(1)))
-            }
+        add(Item.Header(Res.string.section_dividends))
+        dividends?.dividendYield?.toDividendCell()?.let {
+            add(Item.CellPair(it, dividends.payoutRatio?.toPayoutRatioCell()))
         }
 
-        addSection(Res.string.section_dividends, buildList {
-            dividends?.dividendYield?.toDividendCell()?.let(::add)
-            dividends?.payoutRatio?.toPayoutRatioCell()?.let(::add)
-        })
+        add(Item.Header(Res.string.section_valuation))
+        incomeStatement?.eps?.toEpsCell(currency)?.let {
+            add(Item.CellPair(it, valuationMeasures?.pe?.toPeCell()))
+        }
+        valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let {
+            add(
+                Item.CellPair(
+                    first = it,
+                    second = computeEyTreasurySpread(
+                        computed?.earningsYield,
+                        fredYields?.treasury10Y
+                    )?.toEyTreasurySpreadCell(),
+                )
+            )
+        }
+        computed?.peg?.toPegCell()?.let {
+            add(Item.CellPair(it, computed.dynamicPayback?.toDynamicPaybackCell()))
+        }
+        incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let {
+            add(Item.CellPair(it, earningsEstimate?.toEarningsEstimateCell()))
+        }
 
-        addSection(Res.string.section_valuation, buildList {
-            incomeStatement?.eps?.toEpsCell(currency)?.let(::add)
-            valuationMeasures?.pe?.toPeCell()?.let(::add)
-            valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent)?.let(::add)
-            computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell()?.let(::add)
-            computed?.peg?.toPegCell()?.let(::add)
-            computed?.dynamicPayback?.toDynamicPaybackCell()?.let(::add)
-            incomeStatement?.earningsQuarterlyGrowth?.toGrowthCell()?.let(::add)
-            earningsEstimate?.toEarningsEstimateCell()?.let(::add)
-        })
-
-        addSection(Res.string.section_fundamentals, buildList {
-            roe?.toRoeCell()?.let(::add)
-            profitMargin?.toProfitMarginCell()?.let(::add)
-            balanceSheet?.de?.toDeCell()?.let(::add)
-            balanceSheet?.currentRatio?.toCurrentRatioCell()?.let(::add)
-            balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let(::add)
-            computed?.cashToEarnings?.toCashToEarningsCell()?.let(::add)
-        })
+        add(Item.Header(Res.string.section_fundamentals))
+        roe?.toRoeCell()?.let {
+            add(Item.CellPair(it, profitMargin?.toProfitMarginCell()))
+        }
+        balanceSheet?.de?.toDeCell()?.let {
+            add(Item.CellPair(it, balanceSheet.currentRatio?.toCurrentRatioCell()))
+        }
+        balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency)?.let {
+            add(Item.CellPair(it, computed?.cashToEarnings?.toCashToEarningsCell()))
+        }
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
 )

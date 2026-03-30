@@ -84,14 +84,16 @@ internal fun DetailContent(content: Content) {
 private fun SectionHeader(title: String) {
     Text(
         text = title,
-        style = MaterialTheme.typography.labelMedium,
-        color = Color.Gray,
-        modifier = Modifier.padding(top = Spacing.small, bottom = Spacing.smallest),
+        style = MaterialTheme.typography.titleSmall,
+        modifier = Modifier.padding(top = Spacing.smaller),
     )
 }
 
 @Composable
-private fun InfoCell(cell: DetailCell, modifier: Modifier = Modifier) {
+private fun InfoCell(
+    cell: DetailCell,
+    modifier: Modifier = Modifier,
+) {
     Cell(
         center = {
             Column {
