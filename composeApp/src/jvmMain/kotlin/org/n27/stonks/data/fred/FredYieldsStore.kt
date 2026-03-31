@@ -28,8 +28,13 @@ class FredYieldsStore(
         runCatching {
             coroutineScope {
                 val treasury = async { fredApi.getTreasuryYield10Y() }
+                val europeanTreasury = async { fredApi.getEuropeanTreasuryYield10Y() }
                 val corporate = async { fredApi.getCorporateBondYieldAAA() }
-                FredYields(treasury10Y = treasury.await(), corporateAAA = corporate.await())
+                FredYields(
+                    treasury10Y = treasury.await(),
+                    europeanTreasury10Y = europeanTreasury.await(),
+                    corporateAAA = corporate.await(),
+                )
             }
         }.onSuccess { yields ->
             cache.save(yields)

@@ -57,6 +57,11 @@ fun getDetailContent(
             first = getDetailContentCell(Res.string.total_cash_per_share, "$4.56", Res.string.total_cash_per_share_description),
             second = getDetailContentCell(Res.string.cash_to_earnings, "0.61", Res.string.cash_to_earnings_description, color = AppColors.Yellow),
         ),
+        Item.Header(Res.string.section_bond_yields),
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.treasury_10y_us, "1.50 %", Res.string.treasury_10y_us_description),
+            second = getDetailContentCell(Res.string.treasury_10y_eu, "2.50 %", Res.string.treasury_10y_eu_description),
+        ),
     ),
     isWatchlisted: Boolean = false,
 ) = Content(

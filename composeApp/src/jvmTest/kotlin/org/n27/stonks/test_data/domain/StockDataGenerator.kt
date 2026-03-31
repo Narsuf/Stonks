@@ -103,9 +103,11 @@ fun getComputed(
 
 fun getFredYields(
     treasury10Y: Double = 1.5,
+    europeanTreasury10Y: Double = 2.5,
     corporateAAA: Double = 3.0,
 ) = FredYields(
     treasury10Y = treasury10Y,
+    europeanTreasury10Y = europeanTreasury10Y,
     corporateAAA = corporateAAA,
 )
 

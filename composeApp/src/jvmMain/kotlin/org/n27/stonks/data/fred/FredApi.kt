@@ -10,6 +10,8 @@ class FredApi(private val httpClient: HttpClient) {
 
     suspend fun getTreasuryYield10Y(): Double = fetchYield("DGS10")
 
+    suspend fun getEuropeanTreasuryYield10Y(): Double = fetchYield("IRLTLT01EZM156N")
+
     suspend fun getCorporateBondYieldAAA(): Double = fetchYield("AAA")
 
     private suspend fun fetchYield(id: String): Double {

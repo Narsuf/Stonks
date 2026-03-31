@@ -74,6 +74,13 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
                 second = computed?.cashToEarnings?.toCashToEarningsCell(),
             )
         }
+
+        addSection(Res.string.section_bond_yields) {
+            addPair(
+                first = fredYields?.treasury10Y?.toUsTreasuryCell(),
+                second = fredYields?.europeanTreasury10Y?.toEuTreasuryCell(),
+            )
+        }
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
 )
@@ -85,6 +92,16 @@ private fun Double.toEyTreasurySpreadCell() = toFormattedPercentage().toCell(
     title = Res.string.ey_treasury_spread,
     description = Res.string.ey_treasury_spread_description,
     color = takeIf { it < 2.5 }?.let { AppColors.Yellow }
+)
+
+private fun Double.toUsTreasuryCell() = toFormattedPercentage().toCell(
+    title = Res.string.treasury_10y_us,
+    description = Res.string.treasury_10y_us_description,
+)
+
+private fun Double.toEuTreasuryCell() = toFormattedPercentage().toCell(
+    title = Res.string.treasury_10y_eu,
+    description = Res.string.treasury_10y_eu_description,
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(

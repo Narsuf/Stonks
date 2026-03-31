@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 
 class FredYieldsStoreTest {
 
-    private val fredYields = FredYields(treasury10Y = 4.5, corporateAAA = 5.2)
+    private val fredYields = FredYields(treasury10Y = 4.5, europeanTreasury10Y = 3.1, corporateAAA = 5.2)
     private val fredApi = mock<FredApi>()
     private val cache = mock<FredYieldsCache>()
     private val store = FredYieldsStore(fredApi, cache)
@@ -26,6 +26,7 @@ class FredYieldsStoreTest {
 
         assertEquals(fredYields, store.yields.value)
         verify(fredApi, never()).getTreasuryYield10Y()
+        verify(fredApi, never()).getEuropeanTreasuryYield10Y()
         verify(fredApi, never()).getCorporateBondYieldAAA()
     }
 
@@ -38,12 +39,14 @@ class FredYieldsStoreTest {
             .toEpochMilli()
         whenever(cache.load()).thenReturn(yesterday to fredYields)
         whenever(fredApi.getTreasuryYield10Y()).thenReturn(fredYields.treasury10Y)
+        whenever(fredApi.getEuropeanTreasuryYield10Y()).thenReturn(fredYields.europeanTreasury10Y)
         whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(fredYields.corporateAAA)
 
         store.refresh()
 
         assertEquals(fredYields, store.yields.value)
         verify(fredApi).getTreasuryYield10Y()
+        verify(fredApi).getEuropeanTreasuryYield10Y()
         verify(fredApi).getCorporateBondYieldAAA()
         verify(cache).save(fredYields)
     }
@@ -52,12 +55,14 @@ class FredYieldsStoreTest {
     fun `refresh should call api and save when cache is empty`() = runTest {
         whenever(cache.load()).thenReturn(null)
         whenever(fredApi.getTreasuryYield10Y()).thenReturn(fredYields.treasury10Y)
+        whenever(fredApi.getEuropeanTreasuryYield10Y()).thenReturn(fredYields.europeanTreasury10Y)
         whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(fredYields.corporateAAA)
 
         store.refresh()
 
         assertEquals(fredYields, store.yields.value)
         verify(fredApi).getTreasuryYield10Y()
+        verify(fredApi).getEuropeanTreasuryYield10Y()
         verify(fredApi).getCorporateBondYieldAAA()
         verify(cache).save(fredYields)
     }

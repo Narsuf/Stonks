@@ -12,7 +12,7 @@ class FredYieldsCacheTest {
 
     private val prefs = Preferences.userNodeForPackage(FredYieldsCache::class.java)
     private val cache = FredYieldsCache()
-    private val fredYields = FredYields(treasury10Y = 4.5, corporateAAA = 5.2)
+    private val fredYields = FredYields(treasury10Y = 4.5, europeanTreasury10Y = 3.1, corporateAAA = 5.2)
 
     @BeforeEach
     fun setUp() = prefs.clear()
