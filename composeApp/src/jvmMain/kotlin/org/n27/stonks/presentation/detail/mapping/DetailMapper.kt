@@ -5,6 +5,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.domain.models.MacroIndicators
+import org.n27.stonks.domain.models.MacroIndicators.MacroIndicator
 import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks.Stock
@@ -52,7 +53,7 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
             )
             addPair(
                 first = valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent),
-                second = computeEyTreasurySpread(computed?.earningsYield, indicators?.treasury10Y)?.toEyTreasurySpreadCell(),
+                second = computeEyTreasurySpread(computed?.earningsYield, indicators?.treasury10Y?.value)?.toEyTreasurySpreadCell(),
             )
             addPair(
                 first = computed?.peg?.toPegCell(),
@@ -81,11 +82,11 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
 
         addSection(Res.string.section_bond_yields) {
             addPair(
-                first = indicators?.treasury10Y?.toUsTreasuryCell(indicators.treasury10YDate),
-                second = indicators?.europeanTreasury10Y?.toEuTreasuryCell(indicators.europeanTreasury10YDate),
+                first = indicators?.treasury10Y?.toUsTreasuryCell(),
+                second = indicators?.europeanTreasury10Y?.toEuTreasuryCell(),
             )
             addPair(
-                first = indicators?.germanCpi?.toGermanCpiCell(indicators.germanCpiDate),
+                first = indicators?.germanCpi?.toGermanCpiCell(),
             )
         }
     }.toPersistentList(),
@@ -101,19 +102,19 @@ private fun Double.toEyTreasurySpreadCell() = toFormattedPercentage().toCell(
     color = takeIf { it < 2.5 }?.let { AppColors.Yellow },
 )
 
-private fun Double.toUsTreasuryCell(date: String?) = toFormattedPercentage().toCell(
+private fun MacroIndicator.toUsTreasuryCell() = value.toFormattedPercentage().toCell(
     title = Res.string.treasury_10y_us,
-    description = StringResourceWithArgs(Res.string.treasury_10y_us_description, persistentListOf(Arg.Text(date?.toFormattedDate() ?: "-"))),
+    description = StringResourceWithArgs(Res.string.treasury_10y_us_description, persistentListOf(Arg.Text(date.toFormattedDate()))),
 )
 
-private fun Double.toEuTreasuryCell(date: String?) = toFormattedPercentage().toCell(
+private fun MacroIndicator.toEuTreasuryCell() = value.toFormattedPercentage().toCell(
     title = Res.string.treasury_10y_eu,
-    description = StringResourceWithArgs(Res.string.treasury_10y_eu_description, persistentListOf(Arg.Text(date?.toFormattedDate() ?: "-"))),
+    description = StringResourceWithArgs(Res.string.treasury_10y_eu_description, persistentListOf(Arg.Text(date.toFormattedDate()))),
 )
 
-private fun Double.toGermanCpiCell(date: String?) = toFormattedPercentage().toCell(
+private fun MacroIndicator.toGermanCpiCell() = value.toFormattedPercentage().toCell(
     title = Res.string.german_cpi,
-    description = StringResourceWithArgs(Res.string.german_cpi_description, persistentListOf(Arg.Text(date?.toFormattedDate() ?: "-"))),
+    description = StringResourceWithArgs(Res.string.german_cpi_description, persistentListOf(Arg.Text(date.toFormattedDate()))),
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(

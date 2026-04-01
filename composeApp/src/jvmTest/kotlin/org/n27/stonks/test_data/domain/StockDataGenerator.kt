@@ -1,6 +1,7 @@
 package org.n27.stonks.test_data.domain
 
 import org.n27.stonks.domain.models.MacroIndicators
+import org.n27.stonks.domain.models.MacroIndicators.MacroIndicator
 import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks
@@ -101,22 +102,21 @@ fun getComputed(
     cashToEarnings = cashToEarnings,
 )
 
+fun getMacroIndicator(
+    value: Double = 1.5,
+    date: String = "2026-01-01",
+) = MacroIndicator(value, date)
+
 fun getMacroIndicators(
-    treasury10Y: Double = 1.5,
-    treasury10YDate: String? = "2026-03-30",
-    europeanTreasury10Y: Double = 2.5,
-    europeanTreasury10YDate: String? = "2026-01-01",
-    corporateAAA: Double = 3.0,
-    germanCpi: Double? = 1.9,
-    germanCpiDate: String? = "2025-12",
+    treasury10Y: MacroIndicator = getMacroIndicator(value = 1.5, date = "2026-03-30"),
+    europeanTreasury10Y: MacroIndicator = getMacroIndicator(value = 2.5),
+    corporateAAA: MacroIndicator = getMacroIndicator(value = 3.0),
+    germanCpi: MacroIndicator = getMacroIndicator(value = 1.9, date = "2025-12"),
 ) = MacroIndicators(
     treasury10Y = treasury10Y,
-    treasury10YDate = treasury10YDate,
     europeanTreasury10Y = europeanTreasury10Y,
-    europeanTreasury10YDate = europeanTreasury10YDate,
     corporateAAA = corporateAAA,
     germanCpi = germanCpi,
-    germanCpiDate = germanCpiDate,
 )
 
 fun getBalanceSheet(

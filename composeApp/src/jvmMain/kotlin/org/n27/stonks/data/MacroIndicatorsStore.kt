@@ -5,7 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.n27.stonks.data.eurostat.EurostatApi
-import org.n27.stonks.domain.models.MacroIndicators
+import org.n27.stonks.data.mapping.mapToMacroIndicators
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -32,19 +32,12 @@ class MacroIndicatorsStore(
                 val treasury = async { fredApi.getTreasuryYield10Y() }
                 val europeanTreasury = async { fredApi.getEuropeanTreasuryYield10Y() }
                 val corporate = async { fredApi.getCorporateBondYieldAAA() }
-                val germanCpi = async { runCatching { eurostatApi.getGermanCpiYoY() }.getOrNull() }
-                val treasury = treasury.await()
-                val europeanTreasury = europeanTreasury.await()
-                val corporateAAA = corporate.await()
-                val germanCpiResult = germanCpi.await()
-                MacroIndicators(
-                    treasury10Y = treasury.value,
-                    treasury10YDate = treasury.date,
-                    europeanTreasury10Y = europeanTreasury.value,
-                    europeanTreasury10YDate = europeanTreasury.date,
-                    corporateAAA = corporateAAA.value,
-                    germanCpi = germanCpiResult?.value,
-                    germanCpiDate = germanCpiResult?.date,
+                val germanCpi = async { eurostatApi.getGermanCpiYoY() }
+                mapToMacroIndicators(
+                    treasury = treasury.await(),
+                    europeanTreasury = europeanTreasury.await(),
+                    corporate = corporate.await(),
+                    germanCpi = germanCpi.await(),
                 )
             }
         }.onSuccess { indicators ->
