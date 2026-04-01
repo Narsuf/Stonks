@@ -5,7 +5,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
-import org.mockito.kotlin.description
 import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaState
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
