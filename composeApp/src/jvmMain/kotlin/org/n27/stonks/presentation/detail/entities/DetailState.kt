@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
+import org.n27.stonks.presentation.common.entities.StringResourceWithArgs
 
 sealed class DetailState {
 
@@ -30,7 +31,7 @@ sealed class DetailState {
         data class Cell(
             val title: StringResource,
             val value: String,
-            val description: StringResource,
+            val description: StringResourceWithArgs,
             val delta: DeltaTextEntity?,
             val color: Color? = null,
         )

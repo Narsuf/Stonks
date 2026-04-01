@@ -103,14 +103,20 @@ fun getComputed(
 
 fun getMacroIndicators(
     treasury10Y: Double = 1.5,
+    treasury10YDate: String? = "2026-03-30",
     europeanTreasury10Y: Double = 2.5,
+    europeanTreasury10YDate: String? = "2026-01-01",
     corporateAAA: Double = 3.0,
     germanCpi: Double? = 1.9,
+    germanCpiDate: String? = "2025-12",
 ) = MacroIndicators(
     treasury10Y = treasury10Y,
+    treasury10YDate = treasury10YDate,
     europeanTreasury10Y = europeanTreasury10Y,
+    europeanTreasury10YDate = europeanTreasury10YDate,
     corporateAAA = corporateAAA,
     germanCpi = germanCpi,
+    germanCpiDate = germanCpiDate,
 )
 
 fun getBalanceSheet(

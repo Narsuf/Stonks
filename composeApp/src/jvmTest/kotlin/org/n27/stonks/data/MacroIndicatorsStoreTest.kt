@@ -6,6 +6,8 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import org.n27.stonks.data.eurostat.EurostatApi
+import org.n27.stonks.data.models.MacroIndicatorRaw
 import org.n27.stonks.domain.models.MacroIndicators
 import java.time.LocalDate
 import java.time.ZoneId
@@ -13,7 +15,15 @@ import kotlin.test.assertEquals
 
 class MacroIndicatorsStoreTest {
 
-    private val indicators = MacroIndicators(treasury10Y = 4.5, europeanTreasury10Y = 3.1, corporateAAA = 5.2, germanCpi = 2.0)
+    private val indicators = MacroIndicators(
+        treasury10Y = 4.5,
+        treasury10YDate = "2026-03-30",
+        europeanTreasury10Y = 3.1,
+        europeanTreasury10YDate = "2026-01-01",
+        corporateAAA = 5.2,
+        germanCpi = 2.0,
+        germanCpiDate = "2025-12",
+    )
     private val fredApi = mock<FredApi>()
     private val eurostatApi = mock<EurostatApi>()
     private val cache = mock<MacroIndicatorsCache>()
@@ -40,10 +50,10 @@ class MacroIndicatorsStoreTest {
             .toInstant()
             .toEpochMilli()
         whenever(cache.load()).thenReturn(yesterday to indicators)
-        whenever(fredApi.getTreasuryYield10Y()).thenReturn(indicators.treasury10Y)
-        whenever(fredApi.getEuropeanTreasuryYield10Y()).thenReturn(indicators.europeanTreasury10Y)
-        whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(indicators.corporateAAA)
-        whenever(eurostatApi.getGermanCpiYoY()).thenReturn(indicators.germanCpi!!)
+        whenever(fredApi.getTreasuryYield10Y()).thenReturn(MacroIndicatorRaw(indicators.treasury10Y, indicators.treasury10YDate!!))
+        whenever(fredApi.getEuropeanTreasuryYield10Y()).thenReturn(MacroIndicatorRaw(indicators.europeanTreasury10Y, indicators.europeanTreasury10YDate!!))
+        whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(MacroIndicatorRaw(indicators.corporateAAA, "2026-01-01"))
+        whenever(eurostatApi.getGermanCpiYoY()).thenReturn(MacroIndicatorRaw(indicators.germanCpi!!, indicators.germanCpiDate!!))
 
         store.refresh()
 
@@ -58,10 +68,10 @@ class MacroIndicatorsStoreTest {
     @Test
     fun `refresh should call api and save when cache is empty`() = runTest {
         whenever(cache.load()).thenReturn(null)
-        whenever(fredApi.getTreasuryYield10Y()).thenReturn(indicators.treasury10Y)
-        whenever(fredApi.getEuropeanTreasuryYield10Y()).thenReturn(indicators.europeanTreasury10Y)
-        whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(indicators.corporateAAA)
-        whenever(eurostatApi.getGermanCpiYoY()).thenReturn(indicators.germanCpi!!)
+        whenever(fredApi.getTreasuryYield10Y()).thenReturn(MacroIndicatorRaw(indicators.treasury10Y, indicators.treasury10YDate!!))
+        whenever(fredApi.getEuropeanTreasuryYield10Y()).thenReturn(MacroIndicatorRaw(indicators.europeanTreasury10Y, indicators.europeanTreasury10YDate!!))
+        whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(MacroIndicatorRaw(indicators.corporateAAA, "2026-01-01"))
+        whenever(eurostatApi.getGermanCpiYoY()).thenReturn(MacroIndicatorRaw(indicators.germanCpi!!, indicators.germanCpiDate!!))
 
         store.refresh()
 

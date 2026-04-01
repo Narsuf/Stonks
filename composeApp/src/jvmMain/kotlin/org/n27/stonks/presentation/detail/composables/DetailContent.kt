@@ -123,7 +123,7 @@ private fun InfoCell(
                 ) { cell.delta?.let { DeltaText(it) } }
 
                 Text(
-                    text = stringResource(cell.description),
+                    text = cell.description.asString(),
                     color = Color.Gray,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier

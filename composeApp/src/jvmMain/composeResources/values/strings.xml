@@ -33,15 +33,15 @@
     <string name="ey_treasury_spread">EY / Treasury Spread</string>
     <string name="ey_treasury_spread_description">Difference between the earnings yield and the 10-year Treasury yield.\n\nA positive spread suggests equities offer better expected returns than bonds.</string>
     <string name="treasury_10y_us">US Treasury 10Y</string>
-    <string name="treasury_10y_us_description">Yield on 10-year U.S. Treasury bonds.\n\nUsed as the risk-free rate benchmark for U.S. markets.</string>
+    <string name="treasury_10y_us_description">Yield on 10-year U.S. Treasury bonds.\n\nUsed as the risk-free rate benchmark for U.S. markets.\n\nData as of: %1$s</string>
     <string name="treasury_10y_eu">EU Treasury 10Y</string>
-    <string name="treasury_10y_eu_description">Average yield on 10-year Euro Area government bonds.\n\nUsed as the risk-free rate benchmark for European markets.</string>
+    <string name="treasury_10y_eu_description">Average yield on 10-year Euro Area government bonds.\n\nUsed as the risk-free rate benchmark for European markets.\n\nData as of: %1$s</string>
     <string name="german_cpi">Germany CPI YoY</string>
-    <string name="german_cpi_description">Year-over-year change in the Consumer Price Index for Germany.\n\nMeasures annual inflation in Germany. Used as an inflation reference for the Eurozone.</string>
+    <string name="german_cpi_description">Year-over-year change in the Consumer Price Index for Germany.\n\nMeasures annual inflation in Germany. Used as an inflation reference for the Eurozone.\n\nData as of: %1$s</string>
     <string name="section_dividends">Dividends</string>
     <string name="section_valuation">Valuation</string>
     <string name="section_fundamentals">Fundamentals</string>
-    <string name="section_bond_yields">Bond Yields</string>
+    <string name="section_bond_yields">Rates &amp; Inflation</string>
 
     <!-- Home -->
     <string name="search">Search</string>

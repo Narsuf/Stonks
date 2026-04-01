@@ -6,7 +6,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-internal data class StringResourceWithArgs(
+data class StringResourceWithArgs(
     val resource: StringResource,
     val args: ImmutableList<Arg> = persistentListOf(),
 ) {

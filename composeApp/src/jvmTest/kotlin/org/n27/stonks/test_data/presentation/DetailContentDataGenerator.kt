@@ -6,6 +6,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaState
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
+import org.n27.stonks.presentation.common.entities.StringResourceWithArgs
 import org.n27.stonks.presentation.detail.entities.DetailState.Content
 import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell
 import org.n27.stonks.presentation.detail.entities.DetailState.Content.Item
@@ -59,11 +60,11 @@ fun getDetailContent(
         ),
         Item.Header(Res.string.section_bond_yields),
         Item.CellPair(
-            first = getDetailContentCell(Res.string.treasury_10y_us, "1.50 %", Res.string.treasury_10y_us_description),
-            second = getDetailContentCell(Res.string.treasury_10y_eu, "2.50 %", Res.string.treasury_10y_eu_description),
+            first = getDetailContentCell(Res.string.treasury_10y_us, "1.50 %", Res.string.treasury_10y_us_description, descriptionArgs = listOf("30 Mar 2026")),
+            second = getDetailContentCell(Res.string.treasury_10y_eu, "2.50 %", Res.string.treasury_10y_eu_description, descriptionArgs = listOf("Jan 2026")),
         ),
         Item.CellPair(
-            first = getDetailContentCell(Res.string.german_cpi, "1.90 %", Res.string.german_cpi_description),
+            first = getDetailContentCell(Res.string.german_cpi, "1.90 %", Res.string.german_cpi_description, descriptionArgs = listOf("Dec 2025")),
         ),
     ),
     isWatchlisted: Boolean = false,
@@ -81,12 +82,16 @@ fun getDetailContentCell(
     title: StringResource = Res.string.dividend_yield,
     value: String = "0.40 %",
     description: StringResource = Res.string.dividend_yield_description,
+    descriptionArgs: List<String> = emptyList(),
     delta: DeltaTextEntity? = null,
     color: Color? = null,
 ) = Cell(
     title = title,
     value = value,
-    description = description,
+    description = StringResourceWithArgs(
+        resource = description,
+        args = kotlinx.collections.immutable.persistentListOf(*descriptionArgs.map { StringResourceWithArgs.Arg.Text(it) }.toTypedArray()),
+    ),
     delta = delta,
     color = color,
 )
