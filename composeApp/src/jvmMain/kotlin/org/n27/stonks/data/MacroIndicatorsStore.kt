@@ -4,6 +4,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import org.n27.stonks.data.eurostat.EurostatApi
+import org.n27.stonks.data.mapping.mapToMacroIndicators
 import org.n27.stonks.domain.models.MacroIndicators
 import java.time.Instant
 import java.time.LocalDate
@@ -31,11 +33,11 @@ class MacroIndicatorsStore(
                 val treasury = async { fredApi.getTreasuryYield10Y() }
                 val europeanTreasury = async { fredApi.getEuropeanTreasuryYield10Y() }
                 val corporate = async { fredApi.getCorporateBondYieldAAA() }
-                val germanCpi = async { runCatching { eurostatApi.getGermanCpiYoY() }.getOrNull() }
-                MacroIndicators(
-                    treasury10Y = treasury.await(),
-                    europeanTreasury10Y = europeanTreasury.await(),
-                    corporateAAA = corporate.await(),
+                val germanCpi = async { eurostatApi.getGermanCpiYoY() }
+                mapToMacroIndicators(
+                    treasury = treasury.await(),
+                    europeanTreasury = europeanTreasury.await(),
+                    corporate = corporate.await(),
                     germanCpi = germanCpi.await(),
                 )
             }

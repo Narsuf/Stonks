@@ -3,7 +3,7 @@ package org.n27.stonks.data
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.n27.stonks.domain.models.MacroIndicators
+import org.n27.stonks.test_data.domain.getMacroIndicators
 import java.util.prefs.Preferences
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -12,7 +12,7 @@ class MacroIndicatorsCacheTest {
 
     private val prefs = Preferences.userNodeForPackage(MacroIndicatorsCache::class.java)
     private val cache = MacroIndicatorsCache()
-    private val indicators = MacroIndicators(treasury10Y = 4.5, europeanTreasury10Y = 3.1, corporateAAA = 5.2, germanCpi = 1.9)
+    private val indicators = getMacroIndicators()
 
     @BeforeEach
     fun setUp() = prefs.clear()

@@ -7,6 +7,7 @@ import io.ktor.utils.io.*
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.n27.stonks.data.models.MacroIndicatorRaw
 import kotlin.test.assertEquals
 
 class FredApiTest {
@@ -38,17 +39,17 @@ class FredApiTest {
     }
 
     @Test
-    fun `getTreasuryYield10Y should return the latest available value`() = runTest {
-        assertEquals(4.5, api.getTreasuryYield10Y())
+    fun `getTreasuryYield10Y should return the latest available value and date`() = runTest {
+        assertEquals(MacroIndicatorRaw(4.5, "2024-01-01"), api.getTreasuryYield10Y())
     }
 
     @Test
-    fun `getEuropeanTreasuryYield10Y should return the latest available value`() = runTest {
-        assertEquals(3.1, api.getEuropeanTreasuryYield10Y())
+    fun `getEuropeanTreasuryYield10Y should return the latest available value and date`() = runTest {
+        assertEquals(MacroIndicatorRaw(3.1, "2024-01-01"), api.getEuropeanTreasuryYield10Y())
     }
 
     @Test
-    fun `getCorporateBondYieldAAA should return the latest available value`() = runTest {
-        assertEquals(5.2, api.getCorporateBondYieldAAA())
+    fun `getCorporateBondYieldAAA should return the latest available value and date`() = runTest {
+        assertEquals(MacroIndicatorRaw(5.2, "2024-01-01"), api.getCorporateBondYieldAAA())
     }
 }
