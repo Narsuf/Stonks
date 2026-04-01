@@ -2,7 +2,7 @@ package org.n27.stonks.presentation.detail.mapping
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.n27.stonks.test_data.domain.getFredYields
+import org.n27.stonks.test_data.domain.getMacroIndicators
 import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.presentation.getDetailContent
 import java.util.*
@@ -18,7 +18,7 @@ class DetailMapperTest {
 
     @Test
     fun `toDetailContent should map Stock to Content correctly`() {
-        val result = getStock().toDetailContent(fredYields = getFredYields())
+        val result = getStock().toDetailContent(indicators = getMacroIndicators())
 
         assertEquals(getDetailContent(), result)
     }

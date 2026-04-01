@@ -10,7 +10,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.mockito.Mockito.mock
-import org.n27.stonks.data.fred.FredYieldsStore
+import org.n27.stonks.data.MacroIndicatorsStore
 import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState.*
 import org.n27.stonks.presentation.common.broadcast.Event.*
@@ -29,7 +29,7 @@ class AppViewModelTest {
     private val mockHomeViewModel: HomeViewModel = mock()
     private val mockSearchViewModel: SearchViewModel = mock()
     private val mockDetailViewModel: DetailViewModel = mock()
-    private val mockFredYieldsStore: FredYieldsStore = mock()
+    private val mockMacroIndicatorsStore: MacroIndicatorsStore = mock()
 
     @BeforeEach
     fun init() = runTest {
@@ -128,7 +128,7 @@ class AppViewModelTest {
 
     private fun TestScope.getViewModel() = AppViewModel(
         eventBus = eventBus,
-        fredYieldsStore = mockFredYieldsStore,
+        macroIndicatorsStore = mockMacroIndicatorsStore,
         dispatcher = StandardTestDispatcher(testScheduler),
     )
 }

@@ -1,4 +1,4 @@
-package org.n27.stonks.data.fred
+package org.n27.stonks.data
 
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*

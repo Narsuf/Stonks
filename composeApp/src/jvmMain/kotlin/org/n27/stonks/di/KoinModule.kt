@@ -7,11 +7,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
-import org.n27.stonks.data.Api
-import org.n27.stonks.data.RepositoryImpl
-import org.n27.stonks.data.fred.FredApi
-import org.n27.stonks.data.fred.FredYieldsCache
-import org.n27.stonks.data.fred.FredYieldsStore
+import org.n27.stonks.data.*
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.app.AppViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch
@@ -43,8 +39,9 @@ val appModule = module {
 
     single { Api(System.getProperty("STONKS_URL") ?: System.getenv("STONKS_URL"), get()) }
     single { FredApi(get()) }
-    single { FredYieldsCache() }
-    single { FredYieldsStore(get(), get()) }
+    single { EurostatApi(get()) }
+    single { MacroIndicatorsCache() }
+    single { MacroIndicatorsStore(get(), get(), get()) }
     single<Repository> { RepositoryImpl(get()) }
 
     single { EventBus() }

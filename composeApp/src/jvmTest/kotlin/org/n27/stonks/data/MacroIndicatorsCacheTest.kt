@@ -1,18 +1,18 @@
-package org.n27.stonks.data.fred
+package org.n27.stonks.data
 
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.n27.stonks.domain.models.FredYields
+import org.n27.stonks.domain.models.MacroIndicators
 import java.util.prefs.Preferences
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class FredYieldsCacheTest {
+class MacroIndicatorsCacheTest {
 
-    private val prefs = Preferences.userNodeForPackage(FredYieldsCache::class.java)
-    private val cache = FredYieldsCache()
-    private val fredYields = FredYields(treasury10Y = 4.5, europeanTreasury10Y = 3.1, corporateAAA = 5.2)
+    private val prefs = Preferences.userNodeForPackage(MacroIndicatorsCache::class.java)
+    private val cache = MacroIndicatorsCache()
+    private val indicators = MacroIndicators(treasury10Y = 4.5, europeanTreasury10Y = 3.1, corporateAAA = 5.2, germanCpi = 1.9)
 
     @BeforeEach
     fun setUp() = prefs.clear()
@@ -26,14 +26,14 @@ class FredYieldsCacheTest {
     }
 
     @Test
-    fun `load should return saved yields after save`() {
+    fun `load should return saved indicators after save`() {
         val beforeSave = System.currentTimeMillis()
-        cache.save(fredYields)
+        cache.save(indicators)
         val afterSave = System.currentTimeMillis()
 
-        val (timestamp, yields) = cache.load()!!
+        val (timestamp, loaded) = cache.load()!!
 
-        assertEquals(fredYields, yields)
+        assertEquals(indicators, loaded)
         assert(timestamp in beforeSave..afterSave)
     }
 }

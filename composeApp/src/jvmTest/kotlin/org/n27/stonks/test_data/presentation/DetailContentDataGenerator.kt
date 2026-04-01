@@ -62,6 +62,9 @@ fun getDetailContent(
             first = getDetailContentCell(Res.string.treasury_10y_us, "1.50 %", Res.string.treasury_10y_us_description),
             second = getDetailContentCell(Res.string.treasury_10y_eu, "2.50 %", Res.string.treasury_10y_eu_description),
         ),
+        Item.CellPair(
+            first = getDetailContentCell(Res.string.german_cpi, "1.90 %", Res.string.german_cpi_description),
+        ),
     ),
     isWatchlisted: Boolean = false,
 ) = Content(

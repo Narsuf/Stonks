@@ -3,7 +3,7 @@ package org.n27.stonks.presentation.detail.mapping
 import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
-import org.n27.stonks.domain.models.FredYields
+import org.n27.stonks.domain.models.MacroIndicators
 import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks.Stock
@@ -16,7 +16,7 @@ import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell
 import org.n27.stonks.presentation.detail.entities.DetailState.Content.Item
 import stonks.composeapp.generated.resources.*
 
-internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
+internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Content(
     symbol = symbol,
     icon = logo?.toImageBitmap(),
     name = companyName.truncateAfterDoubleSpace(),
@@ -48,7 +48,7 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
             )
             addPair(
                 first = valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent),
-                second = computeEyTreasurySpread(computed?.earningsYield, fredYields?.treasury10Y)?.toEyTreasurySpreadCell(),
+                second = computeEyTreasurySpread(computed?.earningsYield, indicators?.treasury10Y)?.toEyTreasurySpreadCell(),
             )
             addPair(
                 first = computed?.peg?.toPegCell(),
@@ -77,8 +77,11 @@ internal fun Stock.toDetailContent(fredYields: FredYields? = null) = Content(
 
         addSection(Res.string.section_bond_yields) {
             addPair(
-                first = fredYields?.treasury10Y?.toUsTreasuryCell(),
-                second = fredYields?.europeanTreasury10Y?.toEuTreasuryCell(),
+                first = indicators?.treasury10Y?.toUsTreasuryCell(),
+                second = indicators?.europeanTreasury10Y?.toEuTreasuryCell(),
+            )
+            addPair(
+                first = indicators?.germanCpi?.toGermanCpiCell(),
             )
         }
     }.toPersistentList(),
@@ -102,6 +105,11 @@ private fun Double.toUsTreasuryCell() = toFormattedPercentage().toCell(
 private fun Double.toEuTreasuryCell() = toFormattedPercentage().toCell(
     title = Res.string.treasury_10y_eu,
     description = Res.string.treasury_10y_eu_description,
+)
+
+private fun Double.toGermanCpiCell() = toFormattedPercentage().toCell(
+    title = Res.string.german_cpi,
+    description = Res.string.german_cpi_description,
 )
 
 private fun Double.toDividendCell() = toFormattedPercentage().toCell(

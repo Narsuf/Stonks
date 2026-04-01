@@ -1,27 +1,28 @@
-package org.n27.stonks.data.fred
+package org.n27.stonks.data
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.n27.stonks.domain.models.FredYields
+import org.n27.stonks.domain.models.MacroIndicators
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
-class FredYieldsStore(
+class MacroIndicatorsStore(
     private val fredApi: FredApi,
-    private val cache: FredYieldsCache,
+    private val eurostatApi: EurostatApi,
+    private val cache: MacroIndicatorsCache,
 ) {
 
-    private val _yields = MutableStateFlow<FredYields?>(null)
-    val yields = _yields.asStateFlow()
+    private val _indicators = MutableStateFlow<MacroIndicators?>(null)
+    val indicators = _indicators.asStateFlow()
 
     suspend fun refresh() {
         cache.load()
             ?.takeIf { (savedAt, _) -> savedAt.isToday() }
-            ?.let { (_, cachedYields) ->
-                _yields.emit(cachedYields)
+            ?.let { (_, cached) ->
+                _indicators.emit(cached)
                 return
             }
 
@@ -30,15 +31,17 @@ class FredYieldsStore(
                 val treasury = async { fredApi.getTreasuryYield10Y() }
                 val europeanTreasury = async { fredApi.getEuropeanTreasuryYield10Y() }
                 val corporate = async { fredApi.getCorporateBondYieldAAA() }
-                FredYields(
+                val germanCpi = async { runCatching { eurostatApi.getGermanCpiYoY() }.getOrNull() }
+                MacroIndicators(
                     treasury10Y = treasury.await(),
                     europeanTreasury10Y = europeanTreasury.await(),
                     corporateAAA = corporate.await(),
+                    germanCpi = germanCpi.await(),
                 )
             }
-        }.onSuccess { yields ->
-            cache.save(yields)
-            _yields.emit(yields)
+        }.onSuccess { indicators ->
+            cache.save(indicators)
+            _indicators.emit(indicators)
         }
     }
 

@@ -1,6 +1,6 @@
 package org.n27.stonks.test_data.domain
 
-import org.n27.stonks.domain.models.FredYields
+import org.n27.stonks.domain.models.MacroIndicators
 import org.n27.stonks.domain.models.RatedValue
 import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks
@@ -101,14 +101,16 @@ fun getComputed(
     cashToEarnings = cashToEarnings,
 )
 
-fun getFredYields(
+fun getMacroIndicators(
     treasury10Y: Double = 1.5,
     europeanTreasury10Y: Double = 2.5,
     corporateAAA: Double = 3.0,
-) = FredYields(
+    germanCpi: Double? = 1.9,
+) = MacroIndicators(
     treasury10Y = treasury10Y,
     europeanTreasury10Y = europeanTreasury10Y,
     corporateAAA = corporateAAA,
+    germanCpi = germanCpi,
 )
 
 fun getBalanceSheet(

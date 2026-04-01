@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext
 import org.koin.core.parameter.parametersOf
-import org.n27.stonks.data.fred.FredYieldsStore
+import org.n27.stonks.data.MacroIndicatorsStore
 import org.n27.stonks.presentation.app.entities.AppEvent
 import org.n27.stonks.presentation.app.entities.AppState
 import org.n27.stonks.presentation.app.entities.AppState.*
@@ -21,7 +21,7 @@ import org.n27.stonks.presentation.common.broadcast.EventBus
 @OptIn(FlowPreview::class)
 class AppViewModel(
     eventBus: EventBus,
-    fredYieldsStore: FredYieldsStore,
+    macroIndicatorsStore: MacroIndicatorsStore,
     dispatcher: CoroutineDispatcher,
 ) : ViewModel(dispatcher) {
 
@@ -40,7 +40,7 @@ class AppViewModel(
         eventBus.events
             .onEach(::handleEvent)
             .launchIn(viewModelScope)
-        viewModelScope.launch { fredYieldsStore.refresh() }
+        viewModelScope.launch { macroIndicatorsStore.refresh() }
     }
 
     private fun handleEvent(e: Event) = when (e) {
