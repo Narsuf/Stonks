@@ -7,7 +7,6 @@ import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.domain.models.MacroIndicators
 import org.n27.stonks.domain.models.MacroIndicators.MacroIndicator
 import org.n27.stonks.domain.models.RatedValue
-import org.n27.stonks.domain.models.Rating
 import org.n27.stonks.domain.models.Stocks.Stock
 import org.n27.stonks.domain.models.Stocks.Stock.EarningsEstimate
 import org.n27.stonks.presentation.common.AppColors

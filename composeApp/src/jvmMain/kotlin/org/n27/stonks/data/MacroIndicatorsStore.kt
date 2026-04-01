@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.n27.stonks.data.eurostat.EurostatApi
 import org.n27.stonks.data.mapping.mapToMacroIndicators
+import org.n27.stonks.domain.models.MacroIndicators
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId

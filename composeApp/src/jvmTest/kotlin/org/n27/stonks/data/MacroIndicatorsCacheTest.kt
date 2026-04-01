@@ -3,11 +3,11 @@ package org.n27.stonks.data
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.n27.stonks.test_data.domain.getMacroIndicator
+import org.n27.stonks.test_data.domain.getMacroIndicators
 import java.util.prefs.Preferences
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import org.n27.stonks.test_data.domain.getMacroIndicator
-import org.n27.stonks.test_data.domain.getMacroIndicators
 
 class MacroIndicatorsCacheTest {
 
