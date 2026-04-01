@@ -8,7 +8,6 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.n27.stonks.data.eurostat.EurostatApi
 import org.n27.stonks.test_data.data.getMacroIndicatorRaw
-import org.n27.stonks.test_data.domain.getMacroIndicator
 import org.n27.stonks.test_data.domain.getMacroIndicators
 import java.time.LocalDate
 import java.time.ZoneId
@@ -16,12 +15,7 @@ import kotlin.test.assertEquals
 
 class MacroIndicatorsStoreTest {
 
-    private val indicators = getMacroIndicators(
-        treasury10Y = getMacroIndicator(4.5, "2026-03-30"),
-        europeanTreasury10Y = getMacroIndicator(3.1, "2026-01-01"),
-        corporateAAA = getMacroIndicator(5.2, "2026-01-01"),
-        germanCpi = getMacroIndicator(2.0, "2025-12"),
-    )
+    private val indicators = getMacroIndicators()
     private val fredApi = mock<FredApi>()
     private val eurostatApi = mock<EurostatApi>()
     private val cache = mock<MacroIndicatorsCache>()
