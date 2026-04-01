@@ -61,7 +61,7 @@ fun getDetailContent(
         Item.Header(Res.string.section_bond_yields),
         Item.CellPair(
             first = getDetailContentCell(Res.string.treasury_10y_us, "1.50 %", Res.string.treasury_10y_us_description, descriptionArgs = listOf("30 Mar 2026")),
-            second = getDetailContentCell(Res.string.treasury_10y_eu, "2.50 %", Res.string.treasury_10y_eu_description, descriptionArgs = listOf("Jan 2026")),
+            second = getDetailContentCell(Res.string.treasury_10y_eu, "1.50 %", Res.string.treasury_10y_eu_description, descriptionArgs = listOf("Jan 2026")),
         ),
         Item.CellPair(
             first = getDetailContentCell(Res.string.german_cpi, "1.90 %", Res.string.german_cpi_description, descriptionArgs = listOf("Dec 2025")),

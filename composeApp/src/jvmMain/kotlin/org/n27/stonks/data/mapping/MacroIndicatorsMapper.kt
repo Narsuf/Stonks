@@ -2,8 +2,9 @@ package org.n27.stonks.data.mapping
 
 import org.n27.stonks.data.models.MacroIndicatorRaw
 import org.n27.stonks.domain.models.MacroIndicators
+import org.n27.stonks.domain.models.MacroIndicators.MacroIndicator
 
-internal fun MacroIndicatorRaw.toDomain() = MacroIndicators.MacroIndicator(value, date)
+internal fun MacroIndicatorRaw.toDomain() = MacroIndicator(value, date)
 
 internal fun mapToMacroIndicators(
     treasury: MacroIndicatorRaw,
