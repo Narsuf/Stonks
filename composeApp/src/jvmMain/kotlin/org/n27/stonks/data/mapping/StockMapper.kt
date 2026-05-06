@@ -1,13 +1,13 @@
 package org.n27.stonks.data.mapping
 
-import org.n27.stonks.data.models.EarningsEstimateRaw
-import org.n27.stonks.data.models.IncomeStatementRaw
-import org.n27.stonks.data.models.StockRaw
-import org.n27.stonks.data.models.StocksRaw
+import org.n27.stonks.data.model.EarningsEstimateRaw
+import org.n27.stonks.data.model.IncomeStatementRaw
+import org.n27.stonks.data.model.StockRaw
+import org.n27.stonks.data.model.StocksRaw
 import org.n27.stonks.domain.mapping.mapToStock
-import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.domain.models.Stocks.Stock.EarningsEstimate
-import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
+import org.n27.stonks.domain.model.Stocks
+import org.n27.stonks.domain.model.Stocks.Stock.EarningsEstimate
+import org.n27.stonks.domain.model.Stocks.Stock.IncomeStatement
 
 internal fun StocksRaw.toDomain() = Stocks(
     items = items.map { it.toDomain() },

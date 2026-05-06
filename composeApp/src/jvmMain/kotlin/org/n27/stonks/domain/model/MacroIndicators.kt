@@ -1,4 +1,4 @@
-package org.n27.stonks.domain.models
+package org.n27.stonks.domain.model
 
 data class MacroIndicators(
     val treasury10Y: MacroIndicator,

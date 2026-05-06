@@ -1,7 +1,7 @@
 package org.n27.stonks.presentation.common.mapping
 
 import org.junit.jupiter.api.Test
-import org.n27.stonks.domain.models.Rating
+import org.n27.stonks.domain.model.Rating
 import org.n27.stonks.presentation.common.AppColors
 import kotlin.test.assertEquals
 

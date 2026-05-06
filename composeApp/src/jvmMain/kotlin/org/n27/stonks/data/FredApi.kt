@@ -3,7 +3,7 @@ package org.n27.stonks.data
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import org.n27.stonks.data.models.MacroIndicatorRaw
+import org.n27.stonks.data.model.MacroIndicatorRaw
 
 private const val FRED_BASE_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
 

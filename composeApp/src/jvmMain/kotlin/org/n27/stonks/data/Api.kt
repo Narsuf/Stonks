@@ -3,60 +3,49 @@ package org.n27.stonks.data
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import org.n27.stonks.data.models.StockRaw
-import org.n27.stonks.data.models.StocksRaw
-
+import org.n27.stonks.data.model.StockRaw
+import org.n27.stonks.data.model.StocksRaw
+import org.slf4j.LoggerFactory
 
 class Api(private val url: String, private val httpClient: HttpClient) {
 
-    suspend fun getStock(symbol: String): StockRaw {
-        val url = "$url/stock/$symbol"
-        println("getStock request triggered")
-        val response: StockRaw = httpClient.get(url).body()
-        return response
-    }
+    private val logger = LoggerFactory.getLogger(Api::class.java)
 
-    suspend fun addCustomValues(symbol: String, valuationFloor: Double) {
-        val url = "$url/stock/$symbol/valuation"
-        println("addCustomValues request triggered for symbol: $symbol")
-        httpClient.post(url) {
-            parameter("valuationFloor", valuationFloor)
-        }
+    suspend fun getStock(symbol: String): StockRaw {
+        logger.info("getStock request triggered")
+        return httpClient.get("$url/stock/$symbol").body()
     }
 
     suspend fun getStocks(filterWatchlist: Boolean, symbol: String?, page: Int?, pageSize: Int?): StocksRaw {
-        val url = "$url/stocks"
-        println("getStocks request triggered")
-        val response: StocksRaw = httpClient.get(url) {
+        logger.info("getStocks request triggered")
+        return httpClient.get("$url/stocks") {
             parameter("filterWatchlist", filterWatchlist)
             parameter("symbol", symbol)
             parameter("page", page)
             parameter("pageSize", pageSize)
         }.body()
+    }
 
-        return response
+    suspend fun addCustomValues(symbol: String, valuationFloor: Double) {
+        logger.info("addCustomValues request triggered for symbol: $symbol")
+        httpClient.post("$url/stock/$symbol/valuation") { parameter("valuationFloor", valuationFloor) }
     }
 
     suspend fun getWatchlist(page: Int?, pageSize: Int?): StocksRaw {
-        val url = "$url/watchlist"
-        println("getWatchlist request triggered")
-        val response: StocksRaw = httpClient.get(url) {
+        logger.info("getWatchlist request triggered")
+        return httpClient.get("$url/watchlist") {
             parameter("page", page)
             parameter("pageSize", pageSize)
         }.body()
-
-        return response
     }
 
     suspend fun addToWatchlist(symbol: String) {
-        val url = "$url/watchlist/$symbol"
-        println("addToWatchlist request triggered for symbol: $symbol")
-        httpClient.post(url)
+        logger.info("addToWatchlist request triggered for symbol: $symbol")
+        httpClient.post("$url/watchlist/$symbol")
     }
 
     suspend fun removeFromWatchlist(symbol: String) {
-        val url = "$url/watchlist/$symbol"
-        println("removeFromWatchlist request triggered for symbol: $symbol")
-        httpClient.delete(url)
+        logger.info("removeFromWatchlist request triggered for symbol: $symbol")
+        httpClient.delete("$url/watchlist/$symbol")
     }
 }

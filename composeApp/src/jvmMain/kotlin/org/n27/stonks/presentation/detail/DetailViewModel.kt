@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.n27.stonks.data.MacroIndicatorsStore
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.models.Stocks.Stock
+import org.n27.stonks.domain.model.Stocks.Stock
 import org.n27.stonks.presentation.common.ViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.EventBus

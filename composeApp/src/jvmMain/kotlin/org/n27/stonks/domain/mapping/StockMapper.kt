@@ -1,9 +1,9 @@
 package org.n27.stonks.domain.mapping
 
-import org.n27.stonks.domain.models.RatedValue
-import org.n27.stonks.domain.models.Rating
-import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.*
+import org.n27.stonks.domain.model.RatedValue
+import org.n27.stonks.domain.model.Rating
+import org.n27.stonks.domain.model.Stocks.Stock
+import org.n27.stonks.domain.model.Stocks.Stock.*
 import kotlin.math.ln
 
 internal fun mapToStock(

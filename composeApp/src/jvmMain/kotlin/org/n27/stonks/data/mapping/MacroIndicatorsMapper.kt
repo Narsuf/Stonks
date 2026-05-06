@@ -1,8 +1,8 @@
 package org.n27.stonks.data.mapping
 
-import org.n27.stonks.data.models.MacroIndicatorRaw
-import org.n27.stonks.domain.models.MacroIndicators
-import org.n27.stonks.domain.models.MacroIndicators.MacroIndicator
+import org.n27.stonks.data.model.MacroIndicatorRaw
+import org.n27.stonks.domain.model.MacroIndicators
+import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
 
 internal fun MacroIndicatorRaw.toDomain() = MacroIndicator(value, date)
 

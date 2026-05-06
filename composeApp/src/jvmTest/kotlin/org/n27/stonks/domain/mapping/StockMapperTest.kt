@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.n27.stonks.domain.models.Rating
-import org.n27.stonks.domain.models.Stocks.Stock.EarningsEstimate
-import org.n27.stonks.domain.models.Stocks.Stock.IncomeStatement
+import org.n27.stonks.domain.model.Rating
+import org.n27.stonks.domain.model.Stocks.Stock.EarningsEstimate
+import org.n27.stonks.domain.model.Stocks.Stock.IncomeStatement
 import org.n27.stonks.test_data.data.getBalanceSheetRaw
 import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.test_data.data.getValuationMeasuresRaw

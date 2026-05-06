@@ -4,8 +4,8 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.n27.stonks.data.eurostat.mapping.toRaw
-import org.n27.stonks.data.eurostat.models.EurostatResponse
-import org.n27.stonks.data.models.MacroIndicatorRaw
+import org.n27.stonks.data.eurostat.model.EurostatResponse
+import org.n27.stonks.data.model.MacroIndicatorRaw
 
 private const val GERMAN_CPI_URL = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr?geo=DE&coicop=CP00&format=JSON"
 

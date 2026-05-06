@@ -1,7 +1,7 @@
 package org.n27.stonks.domain
 
-import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.domain.models.Stocks.Stock
+import org.n27.stonks.domain.model.Stocks
+import org.n27.stonks.domain.model.Stocks.Stock
 
 interface Repository {
 

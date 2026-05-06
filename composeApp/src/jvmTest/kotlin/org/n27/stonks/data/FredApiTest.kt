@@ -7,7 +7,7 @@ import io.ktor.utils.io.*
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.n27.stonks.data.models.MacroIndicatorRaw
+import org.n27.stonks.data.model.MacroIndicatorRaw
 import kotlin.test.assertEquals
 
 class FredApiTest {

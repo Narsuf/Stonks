@@ -1,4 +1,4 @@
-package org.n27.stonks.data.models
+package org.n27.stonks.data.model
 
 import kotlinx.serialization.Serializable
 

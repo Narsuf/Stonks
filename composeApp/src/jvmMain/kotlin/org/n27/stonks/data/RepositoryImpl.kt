@@ -2,8 +2,8 @@ package org.n27.stonks.data
 
 import org.n27.stonks.data.mapping.toDomain
 import org.n27.stonks.domain.Repository
-import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.domain.models.Stocks.Stock
+import org.n27.stonks.domain.model.Stocks
+import org.n27.stonks.domain.model.Stocks.Stock
 
 class RepositoryImpl(private val api: Api) : Repository {
 
