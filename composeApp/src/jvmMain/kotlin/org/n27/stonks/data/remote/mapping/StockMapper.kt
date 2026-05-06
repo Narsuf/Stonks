@@ -1,9 +1,9 @@
-package org.n27.stonks.data.mapping
+package org.n27.stonks.data.remote.mapping
 
-import org.n27.stonks.data.model.EarningsEstimateRaw
-import org.n27.stonks.data.model.IncomeStatementRaw
-import org.n27.stonks.data.model.StockRaw
-import org.n27.stonks.data.model.StocksRaw
+import org.n27.stonks.data.remote.model.EarningsEstimateRaw
+import org.n27.stonks.data.remote.model.IncomeStatementRaw
+import org.n27.stonks.data.remote.model.StockRaw
+import org.n27.stonks.data.remote.model.StocksRaw
 import org.n27.stonks.domain.mapping.mapToStock
 import org.n27.stonks.domain.model.Stocks
 import org.n27.stonks.domain.model.Stocks.Stock.EarningsEstimate

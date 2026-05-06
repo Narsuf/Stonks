@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.*
 import org.mockito.Mockito.*
+import org.n27.stonks.data.remote.Api
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.test_data.data.getStocksRaw

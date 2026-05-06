@@ -1,4 +1,4 @@
-package org.n27.stonks.data.eurostat.model
+package org.n27.stonks.data.remote.eurostat.model
 
 import kotlinx.serialization.Serializable
 

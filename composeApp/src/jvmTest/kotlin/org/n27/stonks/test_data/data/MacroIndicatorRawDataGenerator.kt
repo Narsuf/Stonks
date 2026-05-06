@@ -1,6 +1,6 @@
 package org.n27.stonks.test_data.data
 
-import org.n27.stonks.data.model.MacroIndicatorRaw
+import org.n27.stonks.data.remote.model.MacroIndicatorRaw
 
 fun getMacroIndicatorRaw(
     value: Double = 1.5,

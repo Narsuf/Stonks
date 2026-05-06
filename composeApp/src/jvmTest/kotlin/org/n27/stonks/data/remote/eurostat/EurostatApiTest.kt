@@ -1,4 +1,4 @@
-package org.n27.stonks.data.eurostat
+package org.n27.stonks.data.remote.eurostat
 
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
@@ -10,7 +10,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.n27.stonks.data.model.MacroIndicatorRaw
+import org.n27.stonks.data.remote.eurostat.EurostatApi
+import org.n27.stonks.data.remote.model.MacroIndicatorRaw
 import kotlin.test.assertEquals
 
 class EurostatApiTest {

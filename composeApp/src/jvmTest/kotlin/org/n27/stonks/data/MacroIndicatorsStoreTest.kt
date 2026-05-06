@@ -6,7 +6,9 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import org.n27.stonks.data.eurostat.EurostatApi
+import org.n27.stonks.data.persistence.MacroIndicatorsCache
+import org.n27.stonks.data.remote.FredApi
+import org.n27.stonks.data.remote.eurostat.EurostatApi
 import org.n27.stonks.test_data.data.getMacroIndicatorRaw
 import org.n27.stonks.test_data.domain.getMacroIndicators
 import java.time.LocalDate

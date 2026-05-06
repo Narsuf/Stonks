@@ -1,6 +1,7 @@
 package org.n27.stonks.data
 
-import org.n27.stonks.data.mapping.toDomain
+import org.n27.stonks.data.remote.Api
+import org.n27.stonks.data.remote.mapping.toDomain
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.domain.model.Stocks
 import org.n27.stonks.domain.model.Stocks.Stock

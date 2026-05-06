@@ -1,6 +1,6 @@
-package org.n27.stonks.data.mapping
+package org.n27.stonks.data.remote.mapping
 
-import org.n27.stonks.data.model.MacroIndicatorRaw
+import org.n27.stonks.data.remote.model.MacroIndicatorRaw
 import org.n27.stonks.domain.model.MacroIndicators
 import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
 

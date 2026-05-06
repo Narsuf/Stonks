@@ -1,9 +1,9 @@
-package org.n27.stonks.data
+package org.n27.stonks.data.remote
 
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import org.n27.stonks.data.model.MacroIndicatorRaw
+import org.n27.stonks.data.remote.model.MacroIndicatorRaw
 
 private const val FRED_BASE_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
 

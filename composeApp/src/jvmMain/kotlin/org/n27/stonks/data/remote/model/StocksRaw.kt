@@ -1,4 +1,4 @@
-package org.n27.stonks.data.model
+package org.n27.stonks.data.remote.model
 
 import kotlinx.serialization.Serializable
 

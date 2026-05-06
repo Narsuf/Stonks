@@ -1,7 +1,7 @@
-package org.n27.stonks.data.eurostat.mapping
+package org.n27.stonks.data.remote.eurostat.mapping
 
-import org.n27.stonks.data.eurostat.model.EurostatResponse
-import org.n27.stonks.data.model.MacroIndicatorRaw
+import org.n27.stonks.data.remote.eurostat.model.EurostatResponse
+import org.n27.stonks.data.remote.model.MacroIndicatorRaw
 
 internal fun EurostatResponse.toRaw(): MacroIndicatorRaw {
     val maxIndex = value.keys.maxOf { it.toInt() }

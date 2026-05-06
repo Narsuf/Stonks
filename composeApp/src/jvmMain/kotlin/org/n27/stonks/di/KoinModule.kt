@@ -7,8 +7,12 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
-import org.n27.stonks.data.*
-import org.n27.stonks.data.eurostat.EurostatApi
+import org.n27.stonks.data.MacroIndicatorsStore
+import org.n27.stonks.data.RepositoryImpl
+import org.n27.stonks.data.persistence.MacroIndicatorsCache
+import org.n27.stonks.data.remote.Api
+import org.n27.stonks.data.remote.FredApi
+import org.n27.stonks.data.remote.eurostat.EurostatApi
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.app.AppViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch

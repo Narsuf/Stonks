@@ -1,10 +1,10 @@
-package org.n27.stonks.data
+package org.n27.stonks.data.remote
 
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import org.n27.stonks.data.model.StockRaw
-import org.n27.stonks.data.model.StocksRaw
+import org.n27.stonks.data.remote.model.StockRaw
+import org.n27.stonks.data.remote.model.StocksRaw
 import org.slf4j.LoggerFactory
 
 class Api(private val url: String, private val httpClient: HttpClient) {
