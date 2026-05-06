@@ -1,11 +1,13 @@
 package org.n27.stonks.data.remote.mapping
 
+import org.n27.stonks.data.remote.model.DividendsRaw
 import org.n27.stonks.data.remote.model.EarningsEstimateRaw
 import org.n27.stonks.data.remote.model.IncomeStatementRaw
 import org.n27.stonks.data.remote.model.StockRaw
 import org.n27.stonks.data.remote.model.StocksRaw
 import org.n27.stonks.domain.mapping.mapToStock
 import org.n27.stonks.domain.model.Stocks
+import org.n27.stonks.domain.model.Stocks.Stock.Dividends
 import org.n27.stonks.domain.model.Stocks.Stock.EarningsEstimate
 import org.n27.stonks.domain.model.Stocks.Stock.IncomeStatement
 
@@ -22,8 +24,7 @@ internal fun StockRaw.toDomain() = mapToStock(
     currency = currency,
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
-    dividendYield = dividends?.dividendYield,
-    payoutRatio = dividends?.payoutRatio,
+    dividends = dividends?.toDomain(),
     incomeStatement = incomeStatement?.toDomain(),
     earningsEstimate = earningsEstimate?.toDomain(),
     pe = valuationMeasures?.pe,
@@ -34,6 +35,11 @@ internal fun StockRaw.toDomain() = mapToStock(
     currentRatio = balanceSheet?.currentRatio,
     roe = roe,
     profitMargin = profitMargin,
+)
+
+private fun DividendsRaw.toDomain() = Dividends(
+    dividendYield = dividendYield,
+    payoutRatio = payoutRatio,
 )
 
 private fun IncomeStatementRaw.toDomain() = IncomeStatement(

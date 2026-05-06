@@ -26,11 +26,6 @@ class Api(private val url: String, private val httpClient: HttpClient) {
         }.body()
     }
 
-    suspend fun addCustomValues(symbol: String, valuationFloor: Double) {
-        logger.info("addCustomValues request triggered for symbol: $symbol")
-        httpClient.post("$url/stock/$symbol/valuation") { parameter("valuationFloor", valuationFloor) }
-    }
-
     suspend fun getWatchlist(page: Int?, pageSize: Int?): StocksRaw {
         logger.info("getWatchlist request triggered")
         return httpClient.get("$url/watchlist") {
@@ -47,5 +42,10 @@ class Api(private val url: String, private val httpClient: HttpClient) {
     suspend fun removeFromWatchlist(symbol: String) {
         logger.info("removeFromWatchlist request triggered for symbol: $symbol")
         httpClient.delete("$url/watchlist/$symbol")
+    }
+
+    suspend fun addCustomValues(symbol: String, valuationFloor: Double) {
+        logger.info("addCustomValues request triggered for symbol: $symbol")
+        httpClient.post("$url/stock/$symbol/valuation") { parameter("valuationFloor", valuationFloor) }
     }
 }

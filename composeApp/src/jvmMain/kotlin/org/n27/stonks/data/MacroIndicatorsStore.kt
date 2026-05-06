@@ -54,5 +54,4 @@ class MacroIndicatorsStore(
         val savedDate = Instant.ofEpochMilli(this).atZone(zone).toLocalDate()
         return savedDate.isEqual(LocalDate.now(zone))
     }
-
 }

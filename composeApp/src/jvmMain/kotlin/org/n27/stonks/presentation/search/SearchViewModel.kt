@@ -1,6 +1,7 @@
 package org.n27.stonks.presentation.search
 
 import kotlinx.collections.immutable.persistentListOf
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.n27.stonks.SYMBOL
@@ -39,7 +40,7 @@ class SearchViewModel(
     init {
         requestInitialStocks()
         searchText
-            .debounce(500)
+            .debounce(500.milliseconds)
             .distinctUntilChanged()
             .filterNotNull()
             .onEach(::performSearch)
