@@ -4,11 +4,11 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.StringResource
-import org.n27.stonks.domain.models.MacroIndicators
-import org.n27.stonks.domain.models.MacroIndicators.MacroIndicator
-import org.n27.stonks.domain.models.RatedValue
-import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.EarningsEstimate
+import org.n27.stonks.domain.model.MacroIndicators
+import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
+import org.n27.stonks.domain.model.RatedValue
+import org.n27.stonks.domain.model.Stocks.Stock
+import org.n27.stonks.domain.model.Stocks.Stock.EarningsEstimate
 import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs

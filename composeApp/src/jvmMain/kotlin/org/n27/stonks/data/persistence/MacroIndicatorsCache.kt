@@ -1,7 +1,7 @@
-package org.n27.stonks.data
+package org.n27.stonks.data.persistence
 
-import org.n27.stonks.domain.models.MacroIndicators
-import org.n27.stonks.domain.models.MacroIndicators.MacroIndicator
+import org.n27.stonks.domain.model.MacroIndicators
+import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
 import java.util.prefs.Preferences
 
 class MacroIndicatorsCache {

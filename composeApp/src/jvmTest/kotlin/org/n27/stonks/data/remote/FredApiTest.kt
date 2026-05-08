@@ -1,4 +1,4 @@
-package org.n27.stonks.data
+package org.n27.stonks.data.remote
 
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
@@ -7,7 +7,8 @@ import io.ktor.utils.io.*
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.n27.stonks.data.models.MacroIndicatorRaw
+import org.n27.stonks.data.remote.FredApi
+import org.n27.stonks.data.remote.model.MacroIndicatorRaw
 import kotlin.test.assertEquals
 
 class FredApiTest {

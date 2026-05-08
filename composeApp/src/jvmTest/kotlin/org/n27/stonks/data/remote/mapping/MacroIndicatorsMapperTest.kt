@@ -1,6 +1,8 @@
-package org.n27.stonks.data.mapping
+package org.n27.stonks.data.remote.mapping
 
 import org.junit.jupiter.api.Test
+import org.n27.stonks.data.remote.mapping.mapToMacroIndicators
+import org.n27.stonks.data.remote.mapping.toDomain
 import org.n27.stonks.test_data.data.getMacroIndicatorRaw
 import org.n27.stonks.test_data.domain.getMacroIndicator
 import org.n27.stonks.test_data.domain.getMacroIndicators
@@ -25,4 +27,3 @@ class MacroIndicatorsMapperTest {
         assertEquals(expected, getMacroIndicators())
     }
 }
-

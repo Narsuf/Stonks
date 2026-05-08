@@ -1,9 +1,9 @@
 package org.n27.stonks.domain.mapping
 
-import org.n27.stonks.domain.models.RatedValue
-import org.n27.stonks.domain.models.Rating
-import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.*
+import org.n27.stonks.domain.model.RatedValue
+import org.n27.stonks.domain.model.Rating
+import org.n27.stonks.domain.model.Stocks.Stock
+import org.n27.stonks.domain.model.Stocks.Stock.*
 import kotlin.math.ln
 
 internal fun mapToStock(
@@ -14,8 +14,7 @@ internal fun mapToStock(
     currency: String?,
     lastUpdated: Long?,
     isWatchlisted: Boolean,
-    dividendYield: Double?,
-    payoutRatio: Double?,
+    dividends: Dividends?,
     incomeStatement: IncomeStatement?,
     earningsEstimate: EarningsEstimate?,
     pe: Double?,
@@ -31,7 +30,7 @@ internal fun mapToStock(
     companyName = companyName,
     logo = logo,
     price = price,
-    dividends = Dividends(dividendYield = dividendYield, payoutRatio = payoutRatio),
+    dividends = dividends,
     currency = currency,
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,

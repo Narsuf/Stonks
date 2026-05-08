@@ -1,12 +1,12 @@
 package org.n27.stonks.test_data.domain
 
-import org.n27.stonks.domain.models.MacroIndicators
-import org.n27.stonks.domain.models.MacroIndicators.MacroIndicator
-import org.n27.stonks.domain.models.RatedValue
-import org.n27.stonks.domain.models.Rating
-import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.domain.models.Stocks.Stock
-import org.n27.stonks.domain.models.Stocks.Stock.*
+import org.n27.stonks.domain.model.MacroIndicators
+import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
+import org.n27.stonks.domain.model.RatedValue
+import org.n27.stonks.domain.model.Rating
+import org.n27.stonks.domain.model.Stocks
+import org.n27.stonks.domain.model.Stocks.Stock
+import org.n27.stonks.domain.model.Stocks.Stock.*
 
 fun getStocks(
     items: List<Stock> = listOf(getStock()),

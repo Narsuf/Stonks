@@ -1,6 +1,6 @@
 package org.n27.stonks.test_data.data
 
-import org.n27.stonks.data.models.*
+import org.n27.stonks.data.remote.model.*
 
 fun getStocksRaw(
     items: List<StockRaw> = listOf(getStockRaw()),

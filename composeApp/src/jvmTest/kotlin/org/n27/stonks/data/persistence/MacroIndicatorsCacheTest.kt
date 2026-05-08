@@ -1,8 +1,9 @@
-package org.n27.stonks.data
+package org.n27.stonks.data.persistence
 
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.n27.stonks.data.persistence.MacroIndicatorsCache
 import org.n27.stonks.test_data.domain.getMacroIndicators
 import java.util.prefs.Preferences
 import kotlin.test.assertEquals

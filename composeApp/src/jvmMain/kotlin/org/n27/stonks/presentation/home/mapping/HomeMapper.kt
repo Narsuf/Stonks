@@ -3,8 +3,8 @@ package org.n27.stonks.presentation.home.mapping
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
-import org.n27.stonks.domain.models.Stocks
-import org.n27.stonks.domain.models.Stocks.Stock
+import org.n27.stonks.domain.model.Stocks
+import org.n27.stonks.domain.model.Stocks.Stock
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Resource
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs.Arg.Text

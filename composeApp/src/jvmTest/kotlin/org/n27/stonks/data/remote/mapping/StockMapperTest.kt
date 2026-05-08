@@ -1,6 +1,7 @@
-package org.n27.stonks.data.mapping
+package org.n27.stonks.data.remote.mapping
 
 import org.junit.jupiter.api.Test
+import org.n27.stonks.data.remote.mapping.toDomain
 import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.test_data.data.getStocksRaw
 import org.n27.stonks.test_data.domain.getStock

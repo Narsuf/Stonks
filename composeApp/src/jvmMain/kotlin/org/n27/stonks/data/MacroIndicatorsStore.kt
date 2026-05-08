@@ -4,9 +4,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.n27.stonks.data.eurostat.EurostatApi
-import org.n27.stonks.data.mapping.mapToMacroIndicators
-import org.n27.stonks.domain.models.MacroIndicators
+import org.n27.stonks.data.remote.FredApi
+import org.n27.stonks.data.remote.eurostat.EurostatApi
+import org.n27.stonks.data.remote.mapping.mapToMacroIndicators
+import org.n27.stonks.data.persistence.MacroIndicatorsCache
+import org.n27.stonks.domain.model.MacroIndicators
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -52,5 +54,4 @@ class MacroIndicatorsStore(
         val savedDate = Instant.ofEpochMilli(this).atZone(zone).toLocalDate()
         return savedDate.isEqual(LocalDate.now(zone))
     }
-
 }
