@@ -43,7 +43,7 @@ val appModule = module {
     }
 
     single { Api(System.getProperty("STONKS_URL") ?: System.getenv("STONKS_URL"), get()) }
-    single { FredApi(get()) }
+    single { FredApi(System.getProperty("FRED_API_KEY") ?: System.getenv("FRED_API_KEY"), get()) }
     single { EurostatApi(get()) }
     single { MacroIndicatorsCache() }
     single { MacroIndicatorsStore(get(), get(), get()) }
