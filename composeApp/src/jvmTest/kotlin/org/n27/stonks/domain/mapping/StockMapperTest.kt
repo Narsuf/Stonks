@@ -5,13 +5,11 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.n27.stonks.domain.model.Rating
-import org.n27.stonks.domain.model.Stocks.Stock.Dividends
 import org.n27.stonks.domain.model.Stocks.Stock.EarningsEstimate
 import org.n27.stonks.domain.model.Stocks.Stock.IncomeStatement
 import org.n27.stonks.test_data.data.getBalanceSheetRaw
 import org.n27.stonks.test_data.data.getStockRaw
 import org.n27.stonks.test_data.data.getValuationMeasuresRaw
-import org.n27.stonks.test_data.domain.getDividends
 import org.n27.stonks.test_data.domain.getEarningsEstimate
 import org.n27.stonks.test_data.domain.getIncomeStatement
 import org.n27.stonks.test_data.domain.getStock
@@ -26,7 +24,7 @@ class StockMapperTest {
 
         val result = mapStock(
             price = raw.price,
-            dividends = getDividends(),
+            payoutRatio = raw.dividends?.payoutRatio,
             incomeStatement = getIncomeStatement(),
             earningsEstimate = getEarningsEstimate(),
             pe = raw.valuationMeasures?.pe,
@@ -128,7 +126,7 @@ class StockMapperTest {
 
     private fun mapStock(
         price: Double? = null,
-        dividends: Dividends? = null,
+        payoutRatio: Double? = null,
         incomeStatement: IncomeStatement? = null,
         earningsEstimate: EarningsEstimate? = null,
         pe: Double? = null,
@@ -148,7 +146,7 @@ class StockMapperTest {
             currency = raw.currency,
             lastUpdated = raw.lastUpdated,
             isWatchlisted = raw.isWatchlisted,
-            dividends = dividends,
+            payoutRatio = payoutRatio,
             incomeStatement = incomeStatement,
             earningsEstimate = earningsEstimate,
             pe = pe,

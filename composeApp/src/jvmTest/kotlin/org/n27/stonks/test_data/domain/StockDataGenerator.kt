@@ -59,7 +59,7 @@ fun getRatedValue(
 )
 
 fun getDividends(
-    dividendYield: Double? = 0.4,
+    dividendYield: Double? = 1.6989447827259432,
     payoutRatio: Double? = 0.5899,
 ) = Dividends(
     dividendYield = dividendYield,

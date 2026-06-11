@@ -14,7 +14,7 @@ internal fun mapToStock(
     currency: String?,
     lastUpdated: Long?,
     isWatchlisted: Boolean,
-    dividends: Dividends?,
+    payoutRatio: Double?,
     incomeStatement: IncomeStatement?,
     earningsEstimate: EarningsEstimate?,
     pe: Double?,
@@ -30,7 +30,10 @@ internal fun mapToStock(
     companyName = companyName,
     logo = logo,
     price = price,
-    dividends = dividends,
+    dividends = Dividends(
+        dividendYield = computeDividendYield(price, incomeStatement?.eps, payoutRatio),
+        payoutRatio = payoutRatio,
+    ),
     currency = currency,
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
@@ -57,6 +60,12 @@ internal fun mapToStock(
 )
 
 private fun Double?.toRatedValue(rating: Double.() -> Rating?) = this?.let { RatedValue(it, it.rating()) }
+
+private fun computeDividendYield(price: Double?, eps: Double?, payoutRatio: Double?): Double? {
+    if (price == null || eps == null || payoutRatio == null || price <= 0) return null
+    val dividend = eps * payoutRatio
+    return (dividend / price) * 100
+}
 
 private fun Double.toPeRating(): Rating? = when {
     this < 0 -> Rating.DANGER
