@@ -28,7 +28,6 @@ data class StockRaw(
 
 @Serializable
 data class DividendsRaw(
-    val dividendYield: Double?,
     val payoutRatio: Double?,
 )
 

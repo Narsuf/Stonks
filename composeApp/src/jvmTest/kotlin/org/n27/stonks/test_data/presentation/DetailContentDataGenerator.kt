@@ -26,7 +26,7 @@ fun getDetailContent(
         Item.CellPair(
             first = getDetailContentCell(
                 title = Res.string.dividend_yield,
-                value = "0.40 %",
+                value = "1.70 %",
                 description = Res.string.dividend_yield_description,
             ),
             second = getDetailContentCell(
