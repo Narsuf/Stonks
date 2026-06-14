@@ -16,11 +16,10 @@ internal fun mapToStock(
     isWatchlisted: Boolean,
     payoutRatio: Double?,
     incomeStatement: IncomeStatement?,
-    earningsEstimate: EarningsEstimate?,
+    growthHigh: Double?,
     pe: Double?,
     valuationFloor: Double?,
     intrinsicValue: Double?,
-    totalCashPerShare: Double?,
     de: Double?,
     currentRatio: Double?,
     roe: Double?,
@@ -32,20 +31,19 @@ internal fun mapToStock(
     price = price,
     dividends = Dividends(
         dividendYield = computeDividendYield(price, incomeStatement?.eps, payoutRatio),
-        payoutRatio = payoutRatio,
+        payoutRatio = payoutRatio?.let { it * 100 }.toRatedValue { toPayoutRatio() },
     ),
     currency = currency,
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
     incomeStatement = incomeStatement,
-    earningsEstimate = earningsEstimate,
+    earningsEstimate = growthHigh?.toRatedValue { toForwardEarningsGrowth() },
     valuationMeasures = ValuationMeasures(
         pe = pe.toRatedValue { toPeRating() },
         valuationFloor = valuationFloor,
         intrinsicValue = intrinsicValue,
     ),
     balanceSheet = BalanceSheet(
-        totalCashPerShare = totalCashPerShare,
         de = de.toRatedValue { toDeRating() },
         currentRatio = currentRatio.toRatedValue { toCurrentRatioRating() },
     ),
@@ -53,9 +51,8 @@ internal fun mapToStock(
     profitMargin = profitMargin.toRatedValue { toProfitMarginRating() },
     computed = Computed(
         earningsYield = computeEarningsYield(pe),
-        peg = computePeg(pe, earningsEstimate?.growthHigh),
-        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, earningsEstimate?.growthHigh),
-        cashToEarnings = computeCashToEarnings(totalCashPerShare, incomeStatement?.eps),
+        peg = computePeg(pe, growthHigh),
+        dynamicPayback = computeDynamicPayback(price, incomeStatement?.eps, growthHigh),
     ),
 )
 
@@ -69,38 +66,35 @@ private fun computeDividendYield(price: Double?, eps: Double?, payoutRatio: Doub
 
 private fun Double.toPeRating(): Rating? = when {
     this < 0 -> Rating.DANGER
-    this > 0 && this < 5 -> Rating.CAUTION
     this > 20 && this <= 25 -> Rating.CAUTION
-    this > 25 && this <= 30 -> Rating.WARNING
-    this > 30 -> Rating.DANGER
+    this > 25 -> Rating.WARNING
     else -> null
 }
 
 private fun Double.toDeRating(): Rating? = when {
-    this < 0 -> Rating.DANGER
-    this < 1 -> Rating.POSITIVE
-    this > 2 && this <= 3 -> Rating.CAUTION
-    this > 3 -> Rating.DANGER
+    this < 0.3 -> Rating.POSITIVE
+    this > 0.5 && this <= 1 -> Rating.CAUTION
+    this > 1 -> Rating.DANGER
     else -> null
 }
 
 private fun Double.toCurrentRatioRating(): Rating? = when {
-    this < 0.5 -> Rating.CAUTION
-    this > 1 -> Rating.POSITIVE
+    this < 1 -> Rating.CAUTION
+    this > 1.5 -> Rating.POSITIVE
     else -> null
 }
 
 private fun Double.toRoeRating(): Rating? = when {
     this < 0 -> Rating.DANGER
-    this > 0 && this < 8 -> Rating.CAUTION
-    this > 15 -> Rating.POSITIVE
+    this > 0 && this < 15 -> Rating.WARNING
+    this > 20 -> Rating.POSITIVE
     else -> null
 }
 
 private fun Double.toProfitMarginRating(): Rating? = when {
     this < 0 -> Rating.DANGER
-    this > 0 && this < 5 -> Rating.CAUTION
-    this > 15 -> Rating.POSITIVE
+    this > 0 && this < 10 -> Rating.WARNING
+    this > 20 -> Rating.POSITIVE
     else -> null
 }
 
@@ -115,9 +109,7 @@ private fun computePeg(pe: Double?, growth: Double?) = pe?.let { p ->
 }
 
 private fun Double.toPegRating(): Rating? = when {
-    this > 1.5 && this <= 2 -> Rating.CAUTION
-    this > 2 && this <= 3 -> Rating.WARNING
-    this > 3 -> Rating.DANGER
+    this > 1.2 -> Rating.CAUTION
     else -> null
 }
 
@@ -132,20 +124,21 @@ private fun computeDynamicPayback(price: Double?, eps: Double?, growth: Double?)
 }
 
 private fun Double.toDynamicPaybackRating(): Rating? = when {
+    this < 10 -> Rating.POSITIVE
     this > 15 && this <= 20 -> Rating.CAUTION
-    this > 20 && this <= 25 -> Rating.WARNING
-    this > 25 -> Rating.DANGER
+    this > 20 -> Rating.DANGER
     else -> null
 }
 
-private fun computeCashToEarnings(cash: Double?, eps: Double?) = cash?.let { c ->
-    eps
-        ?.takeIf { it != 0.0 }
-        ?.let { (c / it).toRatedValue { toCashToEarningsRating() } }
-}
-
-private fun Double.toCashToEarningsRating(): Rating? = when {
-    this < 1 -> Rating.CAUTION
+private fun Double.toForwardEarningsGrowth(): Rating? = when {
+    this < 0 -> Rating.DANGER
+    this in 10.0..15.0 -> Rating.POSITIVE
+    this !in 5.0..15.0 -> Rating.CAUTION
     else -> null
 }
 
+private fun Double.toPayoutRatio(): Rating? = when {
+    this in 75.0..90.0 -> Rating.CAUTION
+    this > 90 -> Rating.DANGER
+    else -> null
+}

@@ -8,7 +8,6 @@ import org.n27.stonks.domain.model.MacroIndicators
 import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
 import org.n27.stonks.domain.model.RatedValue
 import org.n27.stonks.domain.model.Stocks.Stock
-import org.n27.stonks.domain.model.Stocks.Stock.EarningsEstimate
 import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
 import org.n27.stonks.presentation.common.entities.StringResourceWithArgs
@@ -52,7 +51,7 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
             )
             addPair(
                 first = valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent),
-                second = computeEyTreasurySpread(computed?.earningsYield, indicators?.treasury10Y?.value)?.toEyTreasurySpreadCell(),
+                second = computeEyTreasurySpread(computed?.earningsYield, indicators?.europeanTreasury10Y?.value)?.toEyTreasurySpreadCell(),
             )
             addPair(
                 first = computed?.peg?.toPegCell(),
@@ -73,19 +72,13 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
                 first = balanceSheet?.de?.toDeCell(),
                 second = balanceSheet?.currentRatio?.toCurrentRatioCell(),
             )
-            addPair(
-                first = balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency),
-                second = computed?.cashToEarnings?.toCashToEarningsCell(),
-            )
         }
 
         addSection(Res.string.section_bond_yields) {
             addPair(
-                first = indicators?.treasury10Y?.toUsTreasuryCell(),
-                second = indicators?.europeanTreasury10Y?.toEuTreasuryCell(),
-            )
-            addPair(
-                first = indicators?.germanCpi?.toGermanCpiCell(),
+                //first = indicators?.treasury10Y?.toUsTreasuryCell(),
+                first = indicators?.europeanTreasury10Y?.toEuTreasuryCell(),
+                second = indicators?.germanCpi?.toGermanCpiCell(),
             )
         }
     }.toPersistentList(),
@@ -98,7 +91,7 @@ private fun computeEyTreasurySpread(earningsYield: Double?, treasury10Y: Double?
 private fun Double.toEyTreasurySpreadCell() = toFormattedPercentage().toCell(
     title = Res.string.ey_treasury_spread,
     description = StringResourceWithArgs(Res.string.ey_treasury_spread_description),
-    color = takeIf { it < 2.5 }?.let { AppColors.Yellow },
+    color = takeIf { it < 4 }?.let { AppColors.Yellow },
 )
 
 private fun MacroIndicator.toUsTreasuryCell() = value.toFormattedPercentage().toCell(
@@ -121,9 +114,10 @@ private fun Double.toDividendCell() = toFormattedPercentage().toCell(
     description = StringResourceWithArgs(Res.string.dividend_yield_description),
 )
 
-private fun Double.toPayoutRatioCell() = (this * 100).toFormattedPercentage().toCell(
+private fun RatedValue.toPayoutRatioCell() = value.toFormattedPercentage().toCell(
     title = Res.string.payout_ratio,
     description = StringResourceWithArgs(Res.string.payout_ratio_description),
+    color = rating?.toColor(),
 )
 
 private fun Double.toIntrinsicValueCell(stock: Stock) = toPrice(stock.currency)?.toCell(
@@ -172,29 +166,17 @@ private fun RatedValue.toRoeCell() = value.toFormattedPercentage().toCell(
     color = rating?.toColor(),
 )
 
-private fun Double.toTotalCashPerShareCell(currency: String?) = toPrice(currency)?.toCell(
-    title = Res.string.total_cash_per_share,
-    description = StringResourceWithArgs(Res.string.total_cash_per_share_description),
-)
-
-private fun RatedValue.toCashToEarningsCell() = value.toFormattedString().toCell(
-    title = Res.string.cash_to_earnings,
-    description = StringResourceWithArgs(Res.string.cash_to_earnings_description),
-    color = rating?.toColor(),
-)
-
 private fun RatedValue.toDeCell() = value.toFormattedString().toCell(
     title = Res.string.de,
     description = StringResourceWithArgs(Res.string.de_description),
     color = rating?.toColor(),
 )
 
-private fun EarningsEstimate.toEarningsEstimateCell() = growthHigh
-    ?.toFormattedPercentage()
-    ?.toCell(
-        title = Res.string.earnings_estimate,
-        description = StringResourceWithArgs(Res.string.earnings_estimate_description),
-    )
+private fun RatedValue.toEarningsEstimateCell() = value.toFormattedPercentage().toCell(
+    title = Res.string.earnings_estimate,
+    description = StringResourceWithArgs(Res.string.earnings_estimate_description),
+    color = rating?.toColor(),
+)
 
 private fun RatedValue.toCurrentRatioCell() = value.toFormattedString().toCell(
     title = Res.string.current_ratio,
