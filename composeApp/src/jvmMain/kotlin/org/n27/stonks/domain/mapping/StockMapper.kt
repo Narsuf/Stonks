@@ -86,14 +86,14 @@ private fun Double.toCurrentRatioRating(): Rating? = when {
 
 private fun Double.toRoeRating(): Rating? = when {
     this < 0 -> Rating.DANGER
-    this > 0 && this < 15 -> Rating.WARNING
+    this > 0 && this < 15 -> Rating.CAUTION
     this > 20 -> Rating.POSITIVE
     else -> null
 }
 
 private fun Double.toProfitMarginRating(): Rating? = when {
     this < 0 -> Rating.DANGER
-    this > 0 && this < 10 -> Rating.WARNING
+    this > 0 && this < 10 -> Rating.CAUTION
     this > 20 -> Rating.POSITIVE
     else -> null
 }
