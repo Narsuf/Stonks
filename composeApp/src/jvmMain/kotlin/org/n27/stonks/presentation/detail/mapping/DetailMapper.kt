@@ -51,7 +51,7 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
             )
             addPair(
                 first = valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent),
-                second = computeEyTreasurySpread(computed?.earningsYield, indicators?.europeanTreasury10Y?.value)?.toEyTreasurySpreadCell(),
+                second = computeEyTreasurySpread(computed?.earningsYield, indicators?.treasury10Y?.value)?.toEyTreasurySpreadCell(),
             )
             addPair(
                 first = computed?.peg?.toPegCell(),
