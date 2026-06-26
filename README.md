@@ -12,12 +12,12 @@ For the Back-End I use a service I created myself [KtStonks](https://github.com/
 
 | Home | Edit |
 |:-:|:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/6edbdd4e-4d85-479f-a368-ed267baf42fa"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/20773a2c-588f-4782-aaa0-9061d21bf612"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/546868ad-91e4-4a3f-993a-e61e490d41ea"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/20773a2c-588f-4782-aaa0-9061d21bf612"> |
 
 | Search |
 |:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/5ca7f48c-ff46-445f-9947-3f53c137f630"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/96a1aaf9-1d64-42c3-a473-b698e7987bad"> |
 
 | Detail | Fundamentals |
 |:-:|:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/c18a16ad-de12-4da6-9f0e-ea3fa36aeefd"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/ecad87e4-6560-481e-b4ae-7084b5dbd8ba"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/076725b6-a9ff-4713-8ebb-03d6f9a61a1f"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/834fbfc4-35fa-49a1-8057-99dc346df143"> |
