@@ -6,7 +6,6 @@ import org.n27.stonks.data.remote.model.StockRaw
 import org.n27.stonks.data.remote.model.StocksRaw
 import org.n27.stonks.domain.mapping.mapToStock
 import org.n27.stonks.domain.model.Stocks
-import org.n27.stonks.domain.model.Stocks.Stock.EarningsEstimate
 import org.n27.stonks.domain.model.Stocks.Stock.IncomeStatement
 
 internal fun StocksRaw.toDomain() = Stocks(
@@ -22,13 +21,12 @@ internal fun StockRaw.toDomain() = mapToStock(
     currency = currency,
     lastUpdated = lastUpdated,
     isWatchlisted = isWatchlisted,
-    payoutRatio = dividends?.payoutRatio,
+    dividendYield = dividends?.dividendYield,
     incomeStatement = incomeStatement?.toDomain(),
-    earningsEstimate = earningsEstimate?.toDomain(),
+    growthHigh = earningsEstimate?.growthHigh,
     pe = valuationMeasures?.pe,
     valuationFloor = valuationMeasures?.valuationFloor,
     intrinsicValue = valuationMeasures?.intrinsicValue,
-    totalCashPerShare = balanceSheet?.totalCashPerShare,
     de = balanceSheet?.de,
     currentRatio = balanceSheet?.currentRatio,
     roe = roe,
@@ -39,8 +37,4 @@ internal fun StockRaw.toDomain() = mapToStock(
 private fun IncomeStatementRaw.toDomain() = IncomeStatement(
     eps = eps,
     earningsQuarterlyGrowth = earningsQuarterlyGrowth,
-)
-
-private fun EarningsEstimateRaw.toDomain() = EarningsEstimate(
-    growthHigh = growthHigh,
 )

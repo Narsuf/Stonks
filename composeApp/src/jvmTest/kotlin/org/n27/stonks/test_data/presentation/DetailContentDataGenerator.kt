@@ -46,7 +46,7 @@ fun getDetailContent(
                 title = Res.string.pe,
                 value = "34.72",
                 description = Res.string.pe_description,
-                color = AppColors.Red,
+                color = AppColors.Orange,
             ),
         ),
         Item.CellPair(
@@ -68,7 +68,7 @@ fun getDetailContent(
                 title = Res.string.peg,
                 value = "3.04",
                 description = Res.string.peg_description,
-                color = AppColors.Red,
+                color = AppColors.Yellow,
             ),
             second = getDetailContentCell(
                 title = Res.string.dynamic_payback,
@@ -85,7 +85,8 @@ fun getDetailContent(
             second = getDetailContentCell(
                 title = Res.string.earnings_estimate,
                 value = "11.43 %",
-                description = Res.string.earnings_estimate_description
+                description = Res.string.earnings_estimate_description,
+                color = AppColors.Green,
             ),
         ),
         Item.Header(Res.string.section_fundamentals),
@@ -114,38 +115,18 @@ fun getDetailContent(
                 title = Res.string.current_ratio,
                 value = "0.96",
                 description = Res.string.current_ratio_description,
-            ),
-        ),
-        Item.CellPair(
-            first = getDetailContentCell(
-                title = Res.string.total_cash_per_share,
-                value = "$4.56",
-                description = Res.string.total_cash_per_share_description,
-            ),
-            second = getDetailContentCell(
-                title = Res.string.cash_to_earnings,
-                value = "0.61",
-                description = Res.string.cash_to_earnings_description,
                 color = AppColors.Yellow,
             ),
         ),
         Item.Header(Res.string.section_bond_yields),
         Item.CellPair(
             first = getDetailContentCell(
-                title = Res.string.treasury_10y_us,
-                value = "1.50 %",
-                description = Res.string.treasury_10y_us_description,
-                descriptionArgs = persistentListOf(Text("30 Mar 2026")),
-            ),
-            second = getDetailContentCell(
                 title = Res.string.treasury_10y_eu,
                 value = "1.50 %",
                 description = Res.string.treasury_10y_eu_description,
                 descriptionArgs = persistentListOf(Text("Jan 2026")),
             ),
-        ),
-        Item.CellPair(
-            first = getDetailContentCell(
+            second = getDetailContentCell(
                 title = Res.string.german_cpi,
                 value = "1.90 %",
                 description = Res.string.german_cpi_description,

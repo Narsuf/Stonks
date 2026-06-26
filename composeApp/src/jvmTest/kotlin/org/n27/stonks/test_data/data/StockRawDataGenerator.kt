@@ -44,8 +44,10 @@ fun getStockRaw(
 
 fun getDividendsRaw(
     payoutRatio: Double? = 0.5899,
+    dividendYield: Double? = 1.6989447827259432,
 ) = DividendsRaw(
     payoutRatio = payoutRatio,
+    dividendYield = dividendYield,
 )
 
 fun getIncomeStatementRaw(

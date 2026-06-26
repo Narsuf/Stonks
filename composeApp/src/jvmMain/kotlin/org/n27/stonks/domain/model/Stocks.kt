@@ -15,7 +15,7 @@ data class Stocks(
         val lastUpdated: Long?,
         val isWatchlisted: Boolean,
         val incomeStatement: IncomeStatement?,
-        val earningsEstimate: EarningsEstimate?,
+        val earningsEstimate: RatedValue?,
         val valuationMeasures: ValuationMeasures?,
         val balanceSheet: BalanceSheet?,
         val roe: RatedValue?,
@@ -25,23 +25,18 @@ data class Stocks(
 
         data class Dividends(
             val dividendYield: Double?,
-            val payoutRatio: Double?,
+            val payoutRatio: RatedValue?,
         )
 
         data class Computed(
             val earningsYield: Double?,
             val peg: RatedValue?,
             val dynamicPayback: RatedValue?,
-            val cashToEarnings: RatedValue?,
         )
 
         data class IncomeStatement(
             val eps: Double?,
             val earningsQuarterlyGrowth: Double?,
-        )
-
-        data class EarningsEstimate(
-            val growthHigh: Double?,
         )
 
         data class ValuationMeasures(
@@ -51,7 +46,6 @@ data class Stocks(
         )
 
         data class BalanceSheet(
-            val totalCashPerShare: Double?,
             val de: RatedValue?,
             val currentRatio: RatedValue?,
         )
