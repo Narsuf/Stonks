@@ -91,7 +91,7 @@ private fun computeEyTreasurySpread(earningsYield: Double?, treasury10Y: Double?
 private fun Double.toEyTreasurySpreadCell() = toFormattedPercentage().toCell(
     title = Res.string.ey_treasury_spread,
     description = StringResourceWithArgs(Res.string.ey_treasury_spread_description),
-    color = takeIf { it < 4 }?.let { AppColors.Yellow },
+    color = takeIf { it < 2.25 }?.let { AppColors.Yellow },
 )
 
 private fun MacroIndicator.toUsTreasuryCell() = value.toFormattedPercentage().toCell(

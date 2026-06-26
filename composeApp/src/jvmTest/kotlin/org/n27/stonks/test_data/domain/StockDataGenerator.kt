@@ -26,7 +26,7 @@ fun getStock(
     lastUpdated: Long? = 1768064114877,
     isWatchlisted: Boolean = false,
     incomeStatement: IncomeStatement? = getIncomeStatement(),
-    earningsEstimate: EarningsEstimate? = getEarningsEstimate(),
+    earningsEstimate: RatedValue? = getEarningsEstimate(),
     valuationMeasures: ValuationMeasures? = getValuationMeasures(),
     balanceSheet: BalanceSheet? = getBalanceSheet(),
     roe: RatedValue? = getRatedValue(value = 1.5202099, rating = Rating.CAUTION),
@@ -60,7 +60,7 @@ fun getRatedValue(
 
 fun getDividends(
     dividendYield: Double? = 1.6989447827259432,
-    payoutRatio: Double? = 0.5899,
+    payoutRatio: RatedValue? = getRatedValue(value = 58.98999999999989, rating = null),
 ) = Dividends(
     dividendYield = dividendYield,
     payoutRatio = payoutRatio,
@@ -75,13 +75,12 @@ fun getIncomeStatement(
 )
 
 fun getEarningsEstimate(
-    growthHigh: Double? = 11.43,
-) = EarningsEstimate(
-    growthHigh = growthHigh,
-)
+    value: Double = 11.43,
+    rating: Rating? = Rating.POSITIVE,
+) = getRatedValue(value = value, rating = rating)
 
 fun getValuationMeasures(
-    pe: RatedValue? = getRatedValue(value = 34.7215522245231, rating = Rating.DANGER),
+    pe: RatedValue? = getRatedValue(value = 34.7215522245231, rating = Rating.WARNING),
     valuationFloor: Double? = 12.5,
     intrinsicValue: Double? = 93.375,
 ) = ValuationMeasures(
@@ -92,14 +91,12 @@ fun getValuationMeasures(
 
 fun getComputed(
     earningsYield: Double? = 2.880055573361496,
-    peg: RatedValue? = getRatedValue(value = 3.037756100133255, rating = Rating.DANGER),
+    peg: RatedValue? = getRatedValue(value = 3.037756100133255, rating = Rating.CAUTION),
     dynamicPayback: RatedValue? = getRatedValue(value = 14.812955172783827, rating = null),
-    cashToEarnings: RatedValue? = getRatedValue(value = 0.6100401606425704, rating = Rating.CAUTION),
 ) = Computed(
     earningsYield = earningsYield,
     peg = peg,
     dynamicPayback = dynamicPayback,
-    cashToEarnings = cashToEarnings,
 )
 
 fun getMacroIndicator(
@@ -120,11 +117,9 @@ fun getMacroIndicators(
 )
 
 fun getBalanceSheet(
-    totalCashPerShare: Double? = 4.557,
     de: RatedValue? = getRatedValue(value = 102.63, rating = Rating.DANGER),
-    currentRatio: RatedValue? = getRatedValue(value = 0.955, rating = null),
+    currentRatio: RatedValue? = getRatedValue(value = 0.955, rating = Rating.CAUTION),
 ) = BalanceSheet(
-    totalCashPerShare = totalCashPerShare,
     de = de,
     currentRatio = currentRatio,
 )
