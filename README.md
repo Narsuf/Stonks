@@ -12,7 +12,7 @@ For the Back-End I use a service I created myself [KtStonks](https://github.com/
 
 | Home | Edit |
 |:-:|:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/546868ad-91e4-4a3f-993a-e61e490d41ea"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/20773a2c-588f-4782-aaa0-9061d21bf612"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/7179a013-f531-478b-be91-1dc92168ccb6"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/20773a2c-588f-4782-aaa0-9061d21bf612"> |
 
 | Search |
 |:-:|
