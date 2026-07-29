@@ -58,7 +58,7 @@ fun getDetailContent(
             ),
             second = getDetailContentCell(
                 title = Res.string.ey_treasury_spread,
-                value = "1.38 %",
+                value = "3.28 %",
                 description = Res.string.ey_treasury_spread_description,
             ),
         ),

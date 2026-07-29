@@ -51,7 +51,13 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
             )
             addPair(
                 first = valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent),
-                second = computeEyTreasurySpread(computed?.earningsYield, indicators?.treasury10Y?.value)?.toEyTreasurySpreadCell(),
+                second = computeEyRealYieldSpread(
+                    earningsYield = computed?.earningsYield,
+                    realBundYield = computeRealBundYield(
+                        bundYield = indicators?.europeanTreasury10Y?.value,
+                        cpi = indicators?.germanCpi?.value,
+                    )
+                )?.toEyRealYieldSpreadCell(),
             )
             addPair(
                 first = computed?.peg?.toPegCell(),
@@ -85,10 +91,13 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
     isWatchlisted = isWatchlisted,
 )
 
-private fun computeEyTreasurySpread(earningsYield: Double?, treasury10Y: Double?) =
-    if (earningsYield != null && treasury10Y != null) earningsYield - treasury10Y else null
+private fun computeRealBundYield(bundYield: Double?, cpi: Double?) =
+    if (bundYield != null && cpi != null) bundYield - cpi else null
 
-private fun Double.toEyTreasurySpreadCell() = toFormattedPercentage().toCell(
+private fun computeEyRealYieldSpread(earningsYield: Double?, realBundYield: Double?) =
+    if (earningsYield != null && realBundYield != null) earningsYield - realBundYield else null
+
+private fun Double.toEyRealYieldSpreadCell() = toFormattedPercentage().toCell(
     title = Res.string.ey_treasury_spread,
     description = StringResourceWithArgs(Res.string.ey_treasury_spread_description),
     color = takeIf { it < 0 }?.let { AppColors.Orange },
