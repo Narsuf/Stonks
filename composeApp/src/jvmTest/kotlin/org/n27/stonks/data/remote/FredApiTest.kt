@@ -37,7 +37,6 @@ class FredApiTest {
         val mockEngine = MockEngine { request ->
             val value = when (request.url.parameters["series_id"]) {
                 "DGS10" -> "4.5"
-                "IRLTLT01EZM156N" -> "3.1"
                 "AAA" -> "5.2"
                 else -> error("Unhandled ${request.url}")
             }
@@ -54,11 +53,6 @@ class FredApiTest {
     @Test
     fun `getTreasuryYield10Y should return the latest available value and date`() = runTest {
         assertEquals(MacroIndicatorRaw(4.5, "2024-01-01"), api.getTreasuryYield10Y())
-    }
-
-    @Test
-    fun `getEuropeanTreasuryYield10Y should return the latest available value and date`() = runTest {
-        assertEquals(MacroIndicatorRaw(3.1, "2024-01-01"), api.getEuropeanTreasuryYield10Y())
     }
 
     @Test

@@ -77,7 +77,7 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
         addSection(Res.string.section_bond_yields) {
             addPair(
                 //first = indicators?.treasury10Y?.toUsTreasuryCell(),
-                first = indicators?.europeanTreasury10Y?.toEuTreasuryCell(),
+                first = indicators?.europeanTreasury10Y?.toGermanBundYieldCell(),
                 second = indicators?.germanCpi?.toGermanCpiCell(),
             )
         }
@@ -99,7 +99,7 @@ private fun MacroIndicator.toUsTreasuryCell() = value.toFormattedPercentage().to
     description = StringResourceWithArgs(Res.string.treasury_10y_us_description, persistentListOf(Arg.Text(date.toFormattedDate()))),
 )
 
-private fun MacroIndicator.toEuTreasuryCell() = value.toFormattedPercentage().toCell(
+private fun MacroIndicator.toGermanBundYieldCell() = value.toFormattedPercentage().toCell(
     title = Res.string.treasury_10y_eu,
     description = StringResourceWithArgs(Res.string.treasury_10y_eu_description, persistentListOf(Arg.Text(date.toFormattedDate()))),
 )
