@@ -30,12 +30,12 @@
     <string name="de_description">Total debt divided by shareholders' equity.\n\nMeasures a company's financial leverage.</string>
     <string name="current_ratio">Current Ratio</string>
     <string name="current_ratio_description">Current assets divided by current liabilities.\n\nA ratio above 1 indicates the company can cover its short-term obligations.</string>
-    <string name="ey_treasury_spread">EY / Treasury Spread</string>
-    <string name="ey_treasury_spread_description">Difference between the earnings yield and the 10-year Treasury yield.\n\nA positive spread suggests equities offer better expected returns than bonds.</string>
+    <string name="ey_treasury_spread">EY / Real Bund Yield Spread</string>
+    <string name="ey_treasury_spread_description">Difference between the earnings yield and Germany's real 10-year Bund yield (Bund yield minus inflation).\n\nA positive spread suggests equities offer better expected returns than German government bonds, adjusted for inflation.</string>
     <string name="treasury_10y_us">US Treasury 10Y</string>
     <string name="treasury_10y_us_description">Last reported yield on 10-year U.S. Treasury bonds.\n\n%1$s</string>
-    <string name="treasury_10y_eu">EU Treasury 10Y</string>
-    <string name="treasury_10y_eu_description">Average yield on 10-year Euro Area government bonds.\n\n%1$s</string>
+    <string name="treasury_10y_eu">German 10Y Bund Yield</string>
+    <string name="treasury_10y_eu_description">Yield on 10-year German government bonds (Bund), the euro area benchmark.\n\n%1$s</string>
     <string name="german_cpi">Germany Inflation Rate</string>
     <string name="german_cpi_description">Measures annual inflation in Germany.\n\n%1$s</string>
     <string name="section_dividends">Dividends</string>

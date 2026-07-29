@@ -17,8 +17,6 @@ class FredApi(
 
     suspend fun getTreasuryYield10Y(): MacroIndicatorRaw = fetchYield("DGS10")
 
-    suspend fun getEuropeanTreasuryYield10Y(): MacroIndicatorRaw = fetchYield("IRLTLT01EZM156N")
-
     suspend fun getCorporateBondYieldAAA(): MacroIndicatorRaw = fetchYield("AAA")
 
     private suspend fun fetchYield(id: String): MacroIndicatorRaw {
