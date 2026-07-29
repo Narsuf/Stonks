@@ -9,7 +9,6 @@ import org.mockito.kotlin.whenever
 import org.n27.stonks.data.persistence.MacroIndicatorsCache
 import org.n27.stonks.data.remote.FredApi
 import org.n27.stonks.data.remote.bundesbank.BundesbankApi
-import org.n27.stonks.data.remote.eurostat.EurostatApi
 import org.n27.stonks.test_data.data.getMacroIndicatorRaw
 import org.n27.stonks.test_data.domain.getMacroIndicators
 import java.time.LocalDate
@@ -20,10 +19,9 @@ class MacroIndicatorsStoreTest {
 
     private val indicators = getMacroIndicators()
     private val fredApi = mock<FredApi>()
-    private val eurostatApi = mock<EurostatApi>()
     private val bundesbankApi = mock<BundesbankApi>()
     private val cache = mock<MacroIndicatorsCache>()
-    private val store = MacroIndicatorsStore(fredApi, eurostatApi, bundesbankApi, cache)
+    private val store = MacroIndicatorsStore(fredApi, bundesbankApi, cache)
 
     @Test
     fun `refresh should emit cached indicators and skip api when saved today`() = runTest {
@@ -35,7 +33,7 @@ class MacroIndicatorsStoreTest {
         verify(fredApi, never()).getTreasuryYield10Y()
         verify(bundesbankApi, never()).getGermanBundYield10Y()
         verify(fredApi, never()).getCorporateBondYieldAAA()
-        verify(eurostatApi, never()).getGermanCpiYoY()
+        verify(bundesbankApi, never()).getGermanCpiYoY()
     }
 
     @Test
@@ -49,7 +47,7 @@ class MacroIndicatorsStoreTest {
         whenever(fredApi.getTreasuryYield10Y()).thenReturn(getMacroIndicatorRaw(indicators.treasury10Y.value, indicators.treasury10Y.date))
         whenever(bundesbankApi.getGermanBundYield10Y()).thenReturn(getMacroIndicatorRaw(indicators.europeanTreasury10Y.value, indicators.europeanTreasury10Y.date))
         whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(getMacroIndicatorRaw(indicators.corporateAAA.value, indicators.corporateAAA.date))
-        whenever(eurostatApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
+        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
 
         store.refresh()
 
@@ -57,7 +55,7 @@ class MacroIndicatorsStoreTest {
         verify(fredApi).getTreasuryYield10Y()
         verify(bundesbankApi).getGermanBundYield10Y()
         verify(fredApi).getCorporateBondYieldAAA()
-        verify(eurostatApi).getGermanCpiYoY()
+        verify(bundesbankApi).getGermanCpiYoY()
         verify(cache).save(indicators)
     }
 
@@ -67,7 +65,7 @@ class MacroIndicatorsStoreTest {
         whenever(fredApi.getTreasuryYield10Y()).thenReturn(getMacroIndicatorRaw(indicators.treasury10Y.value, indicators.treasury10Y.date))
         whenever(bundesbankApi.getGermanBundYield10Y()).thenReturn(getMacroIndicatorRaw(indicators.europeanTreasury10Y.value, indicators.europeanTreasury10Y.date))
         whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(getMacroIndicatorRaw(indicators.corporateAAA.value, indicators.corporateAAA.date))
-        whenever(eurostatApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
+        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
 
         store.refresh()
 
@@ -75,7 +73,7 @@ class MacroIndicatorsStoreTest {
         verify(fredApi).getTreasuryYield10Y()
         verify(bundesbankApi).getGermanBundYield10Y()
         verify(fredApi).getCorporateBondYieldAAA()
-        verify(eurostatApi).getGermanCpiYoY()
+        verify(bundesbankApi).getGermanCpiYoY()
         verify(cache).save(indicators)
     }
 
@@ -85,7 +83,7 @@ class MacroIndicatorsStoreTest {
         whenever(fredApi.getTreasuryYield10Y()).thenReturn(getMacroIndicatorRaw(indicators.treasury10Y.value, indicators.treasury10Y.date))
         whenever(bundesbankApi.getGermanBundYield10Y()).thenThrow(RuntimeException("Bundesbank is down"))
         whenever(fredApi.getCorporateBondYieldAAA()).thenReturn(getMacroIndicatorRaw(indicators.corporateAAA.value, indicators.corporateAAA.date))
-        whenever(eurostatApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
+        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
 
         store.refresh()
 

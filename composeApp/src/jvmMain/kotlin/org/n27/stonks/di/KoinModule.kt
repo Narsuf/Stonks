@@ -13,7 +13,6 @@ import org.n27.stonks.data.persistence.MacroIndicatorsCache
 import org.n27.stonks.data.remote.Api
 import org.n27.stonks.data.remote.FredApi
 import org.n27.stonks.data.remote.bundesbank.BundesbankApi
-import org.n27.stonks.data.remote.eurostat.EurostatApi
 import org.n27.stonks.domain.Repository
 import org.n27.stonks.presentation.app.AppViewModel
 import org.n27.stonks.presentation.common.broadcast.Event.NavigateToSearch
@@ -45,10 +44,9 @@ val appModule = module {
 
     single { Api(System.getProperty("STONKS_URL") ?: System.getenv("STONKS_URL"), get()) }
     single { FredApi(System.getProperty("FRED_API_KEY") ?: System.getenv("FRED_API_KEY"), get()) }
-    single { EurostatApi(get()) }
     single { BundesbankApi(get()) }
     single { MacroIndicatorsCache() }
-    single { MacroIndicatorsStore(get(), get(), get(), get()) }
+    single { MacroIndicatorsStore(get(), get(), get()) }
     single<Repository> { RepositoryImpl(get()) }
 
     single { EventBus() }

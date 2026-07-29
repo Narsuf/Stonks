@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.n27.stonks.data.remote.FredApi
 import org.n27.stonks.data.remote.bundesbank.BundesbankApi
-import org.n27.stonks.data.remote.eurostat.EurostatApi
 import org.n27.stonks.data.remote.mapping.mapToMacroIndicators
 import org.n27.stonks.data.persistence.MacroIndicatorsCache
 import org.n27.stonks.domain.model.MacroIndicators
@@ -16,7 +15,6 @@ import java.time.ZoneId
 
 class MacroIndicatorsStore(
     private val fredApi: FredApi,
-    private val eurostatApi: EurostatApi,
     private val bundesbankApi: BundesbankApi,
     private val cache: MacroIndicatorsCache,
 ) {
@@ -37,7 +35,7 @@ class MacroIndicatorsStore(
                 val treasury = async { fredApi.getTreasuryYield10Y() }
                 val europeanTreasury = async { bundesbankApi.getGermanBundYield10Y() }
                 val corporate = async { fredApi.getCorporateBondYieldAAA() }
-                val germanCpi = async { eurostatApi.getGermanCpiYoY() }
+                val germanCpi = async { bundesbankApi.getGermanCpiYoY() }
                 mapToMacroIndicators(
                     treasury = treasury.await(),
                     europeanTreasury = europeanTreasury.await(),
