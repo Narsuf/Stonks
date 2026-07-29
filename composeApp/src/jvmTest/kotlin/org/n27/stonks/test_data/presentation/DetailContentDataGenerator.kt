@@ -60,7 +60,6 @@ fun getDetailContent(
                 title = Res.string.ey_treasury_spread,
                 value = "1.38 %",
                 description = Res.string.ey_treasury_spread_description,
-                color = AppColors.Yellow,
             ),
         ),
         Item.CellPair(
