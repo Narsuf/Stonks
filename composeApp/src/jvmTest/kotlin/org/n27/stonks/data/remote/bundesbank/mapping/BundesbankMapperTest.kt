@@ -1,6 +1,9 @@
 package org.n27.stonks.data.remote.bundesbank.mapping
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
 import org.n27.stonks.test_data.data.getBundesbankResponse
 import kotlin.test.assertEquals
@@ -8,24 +11,17 @@ import kotlin.test.assertFailsWith
 
 class BundesbankMapperTest {
 
-    @Test
-    fun `toDomain should return the value and date at the highest observation index`() {
-        val raw = getBundesbankResponse(
-            dates = listOf("2026-07-24", "2026-07-25", "2026-07-26"),
-            observations = mapOf("0" to listOf("3.21"), "1" to listOf("3.19"), "2" to listOf("3.16")),
-        )
+    @ParameterizedTest(name = "{3}")
+    @MethodSource("toDomainCases")
+    fun toDomain(
+        dates: List<String>,
+        observations: Map<String, List<Any?>>,
+        expected: MacroIndicator,
+        @Suppress("UNUSED_PARAMETER") description: String,
+    ) {
+        val raw = getBundesbankResponse(dates = dates, observations = observations)
 
-        assertEquals(MacroIndicator(3.16, "2026-07-26"), raw.toDomain())
-    }
-
-    @Test
-    fun `toDomain should skip null observations and return the latest non-null value`() {
-        val raw = getBundesbankResponse(
-            dates = listOf("2026-07-24", "2026-07-25", "2026-07-26", "2026-07-27"),
-            observations = mapOf("0" to listOf("3.21"), "1" to listOf(null), "2" to listOf(null), "3" to listOf(null)),
-        )
-
-        assertEquals(MacroIndicator(3.21, "2026-07-24"), raw.toDomain())
+        assertEquals(expected, raw.toDomain())
     }
 
     @Test
@@ -38,23 +34,34 @@ class BundesbankMapperTest {
         assertFailsWith<IllegalStateException> { raw.toDomain() }
     }
 
-    @Test
-    fun `toDomain should work when a single observation is present`() {
-        val raw = getBundesbankResponse(
-            dates = listOf("2026-07-24"),
-            observations = mapOf("0" to listOf("3.21")),
+    companion object {
+
+        @JvmStatic
+        fun toDomainCases() = listOf(
+            Arguments.of(
+                listOf("2026-07-24", "2026-07-25", "2026-07-26"),
+                mapOf("0" to listOf("3.21"), "1" to listOf("3.19"), "2" to listOf("3.16")),
+                MacroIndicator(3.16, "2026-07-26"),
+                "returns the value and date at the highest observation index",
+            ),
+            Arguments.of(
+                listOf("2026-07-24", "2026-07-25", "2026-07-26", "2026-07-27"),
+                mapOf("0" to listOf("3.21"), "1" to listOf(null), "2" to listOf(null), "3" to listOf(null)),
+                MacroIndicator(3.21, "2026-07-24"),
+                "skips null observations and returns the latest non-null value",
+            ),
+            Arguments.of(
+                listOf("2026-07-24"),
+                mapOf("0" to listOf("3.21")),
+                MacroIndicator(3.21, "2026-07-24"),
+                "works when a single observation is present",
+            ),
+            Arguments.of(
+                listOf("2026-07-24", "2026-07-25", "2026-07-26"),
+                mapOf("2" to listOf("3.16"), "0" to listOf("3.21"), "1" to listOf("3.19")),
+                MacroIndicator(3.16, "2026-07-26"),
+                "picks the highest index regardless of map insertion order",
+            ),
         )
-
-        assertEquals(MacroIndicator(3.21, "2026-07-24"), raw.toDomain())
-    }
-
-    @Test
-    fun `toDomain should pick the highest index regardless of map insertion order`() {
-        val raw = getBundesbankResponse(
-            dates = listOf("2026-07-24", "2026-07-25", "2026-07-26"),
-            observations = mapOf("2" to listOf("3.16"), "0" to listOf("3.21"), "1" to listOf("3.19")),
-        )
-
-        assertEquals(MacroIndicator(3.16, "2026-07-26"), raw.toDomain())
     }
 }
