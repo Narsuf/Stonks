@@ -200,7 +200,8 @@ class StockMapperTest {
         @JvmStatic
         fun pegRatingCases() = listOf(
             Arguments.of(10.0, null),
-            Arguments.of(15.0, Rating.CAUTION),
+            Arguments.of(15.0, null),
+            Arguments.of(16.0, Rating.CAUTION),
             Arguments.of(40.0, Rating.CAUTION),
         )
 

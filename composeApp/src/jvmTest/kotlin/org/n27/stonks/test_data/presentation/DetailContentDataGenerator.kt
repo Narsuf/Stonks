@@ -57,9 +57,9 @@ fun getDetailContent(
                 delta = DeltaTextEntity(value = "$165.99", percentage = "64.00 %", state = DeltaState.NEGATIVE),
             ),
             second = getDetailContentCell(
-                title = Res.string.ey_treasury_spread,
+                title = Res.string.ey_bund_yield_spread,
                 value = "3.28 %",
-                description = Res.string.ey_treasury_spread_description,
+                description = Res.string.ey_bund_yield_spread_description,
             ),
         ),
         Item.CellPair(
@@ -120,9 +120,9 @@ fun getDetailContent(
         Item.Header(Res.string.section_bond_yields),
         Item.CellPair(
             first = getDetailContentCell(
-                title = Res.string.treasury_10y_eu,
+                title = Res.string.bund_yield_10y,
                 value = "1.50 %",
-                description = Res.string.treasury_10y_eu_description,
+                description = Res.string.bund_yield_10y_description,
                 descriptionArgs = persistentListOf(Text("Jan 2026")),
             ),
             second = getDetailContentCell(

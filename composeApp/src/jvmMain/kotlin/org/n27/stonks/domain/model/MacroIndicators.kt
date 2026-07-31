@@ -1,9 +1,7 @@
 package org.n27.stonks.domain.model
 
 data class MacroIndicators(
-    val treasury10Y: MacroIndicator,
-    val europeanTreasury10Y: MacroIndicator,
-    val corporateAAA: MacroIndicator,
+    val bundYield10Y: MacroIndicator,
     val germanCpi: MacroIndicator,
 ) {
 

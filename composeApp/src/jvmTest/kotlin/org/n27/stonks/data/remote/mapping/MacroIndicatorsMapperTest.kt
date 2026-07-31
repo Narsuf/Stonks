@@ -18,9 +18,7 @@ class MacroIndicatorsMapperTest {
     @Test
     fun `mapToMacroIndicators should map all raw indicators to MacroIndicators correctly`() {
         val expected = mapToMacroIndicators(
-            treasury = getMacroIndicatorRaw(date = "2026-03-30"),
-            europeanTreasury = getMacroIndicatorRaw(),
-            corporate = getMacroIndicatorRaw(value = 3.0),
+            bundYield = getMacroIndicatorRaw(),
             germanCpi = getMacroIndicatorRaw(value = 1.9, date = "2025-12"),
         )
 

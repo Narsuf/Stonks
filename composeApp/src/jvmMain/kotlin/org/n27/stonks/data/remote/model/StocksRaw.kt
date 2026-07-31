@@ -28,7 +28,6 @@ data class StockRaw(
 
 @Serializable
 data class DividendsRaw(
-    val payoutRatio: Double?,
     val dividendYield: Double?,
 )
 
@@ -41,7 +40,6 @@ data class IncomeStatementRaw(
 @Serializable
 data class EarningsEstimateRaw(
     val growthHigh: Double?,
-    val growthAvg: Double?,
 )
 
 @Serializable
@@ -53,7 +51,6 @@ data class ValuationMeasuresRaw(
 
 @Serializable
 data class BalanceSheetRaw(
-    val totalCashPerShare: Double?,
     val de: Double?,
     val currentRatio: Double?,
 )

@@ -105,14 +105,10 @@ fun getMacroIndicator(
 ) = MacroIndicator(value, date)
 
 fun getMacroIndicators(
-    treasury10Y: MacroIndicator = getMacroIndicator(value = 1.5, date = "2026-03-30"),
-    europeanTreasury10Y: MacroIndicator = getMacroIndicator(),
-    corporateAAA: MacroIndicator = getMacroIndicator(value = 3.0),
+    bundYield10Y: MacroIndicator = getMacroIndicator(),
     germanCpi: MacroIndicator = getMacroIndicator(value = 1.9, date = "2025-12"),
 ) = MacroIndicators(
-    treasury10Y = treasury10Y,
-    europeanTreasury10Y = europeanTreasury10Y,
-    corporateAAA = corporateAAA,
+    bundYield10Y = bundYield10Y,
     germanCpi = germanCpi,
 )
 
