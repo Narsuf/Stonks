@@ -43,10 +43,8 @@ fun getStockRaw(
 )
 
 fun getDividendsRaw(
-    payoutRatio: Double? = 0.5899,
     dividendYield: Double? = 1.6989447827259432,
 ) = DividendsRaw(
-    payoutRatio = payoutRatio,
     dividendYield = dividendYield,
 )
 
@@ -60,10 +58,8 @@ fun getIncomeStatementRaw(
 
 fun getEarningsEstimateRaw(
     growthHigh: Double? = 11.43,
-    growthAvg: Double? = 8.65,
 ) = EarningsEstimateRaw(
     growthHigh = growthHigh,
-    growthAvg = growthAvg,
 )
 
 fun getValuationMeasuresRaw(
@@ -77,11 +73,9 @@ fun getValuationMeasuresRaw(
 )
 
 fun getBalanceSheetRaw(
-    totalCashPerShare: Double? = 4.557,
     de: Double? = 102.63,
     currentRatio: Double? = 0.955,
 ) = BalanceSheetRaw(
-    totalCashPerShare = totalCashPerShare,
     de = de,
     currentRatio = currentRatio,
 )
