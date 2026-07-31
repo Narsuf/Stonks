@@ -25,6 +25,7 @@ import stonks.composeapp.generated.resources.error_generic
 import stonks.composeapp.generated.resources.error_no_assets
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
+import kotlin.time.Duration.Companion.milliseconds
 
 @ExperimentalCoroutinesApi
 class SearchViewModelTest {
@@ -156,7 +157,7 @@ class SearchViewModelTest {
 
         viewModel.handleInteraction(SearchValueChanged("test"))
         runCurrent()
-        advanceTimeBy(500)
+        advanceTimeBy(500.milliseconds)
         runCurrent()
 
         observer.assertValues(
@@ -189,7 +190,7 @@ class SearchViewModelTest {
 
         viewModel.handleInteraction(SearchValueChanged("test"))
         runCurrent()
-        advanceTimeBy(500)
+        advanceTimeBy(500.milliseconds)
         runCurrent()
 
         stateObserver.assertValues(
@@ -224,7 +225,7 @@ class SearchViewModelTest {
 
         viewModel.handleInteraction(SearchValueChanged("test"))
         runCurrent()
-        advanceTimeBy(500)
+        advanceTimeBy(500.milliseconds)
         runCurrent()
 
         stateObserver.assertValues(

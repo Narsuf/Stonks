@@ -2,7 +2,6 @@ package org.n27.stonks.presentation.app
 
 import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -18,7 +17,6 @@ import org.n27.stonks.presentation.common.broadcast.Event
 import org.n27.stonks.presentation.common.broadcast.Event.*
 import org.n27.stonks.presentation.common.broadcast.EventBus
 
-@OptIn(FlowPreview::class)
 class AppViewModel(
     eventBus: EventBus,
     macroIndicatorsStore: MacroIndicatorsStore,
