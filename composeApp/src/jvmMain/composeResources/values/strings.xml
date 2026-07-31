@@ -15,7 +15,7 @@
     <string name="earnings_estimate">Forward Earnings Growth</string>
     <string name="earnings_estimate_description">Expected earnings growth for the next year.</string>
     <string name="dynamic_payback">Dynamic Payback</string>
-    <string name="dynamic_payback_description">Estimated payback period in years, based on the current price and estimated earnings growth.</string>
+    <string name="dynamic_payback_description">Estimated payback period in years, based on the current price, EPS, and estimated earnings growth.</string>
     <string name="peg">PEG</string>
     <string name="peg_description">Price to earnings ratio divided by the forward earnings growth estimate.</string>
     <string name="roe">Return on Equity</string>
@@ -26,10 +26,10 @@
     <string name="de_description">Total debt divided by shareholders' equity.\n\nMeasures a company's financial leverage.</string>
     <string name="current_ratio">Current Ratio</string>
     <string name="current_ratio_description">Current assets divided by current liabilities.\n\nA ratio above 1 indicates the company can cover its short-term obligations.</string>
-    <string name="ey_treasury_spread">EY / Real Bund Yield Spread</string>
-    <string name="ey_treasury_spread_description">Difference between the earnings yield and Germany's real 10-year Bund yield (Bund yield minus inflation).\n\nA positive spread suggests equities offer better expected returns than German government bonds, adjusted for inflation.</string>
-    <string name="treasury_10y_eu">German 10Y Bund Yield</string>
-    <string name="treasury_10y_eu_description">Yield on 10-year German government bonds (Bund), the euro area benchmark.\n\n%1$s</string>
+    <string name="ey_bund_yield_spread">EY / Real Bund Yield Spread</string>
+    <string name="ey_bund_yield_spread_description">Earnings yield minus Germany's real (inflation-adjusted) 10-year Bund yield.\n\nA positive spread favors equities over German government bonds.</string>
+    <string name="bund_yield_10y">German 10Y Bund Yield</string>
+    <string name="bund_yield_10y_description">Yield on 10-year German government bonds (Bund), the euro area benchmark.\n\n%1$s</string>
     <string name="german_cpi">Germany Inflation Rate</string>
     <string name="german_cpi_description">Measures annual inflation in Germany.\n\n%1$s</string>
     <string name="section_dividends">Dividends</string>

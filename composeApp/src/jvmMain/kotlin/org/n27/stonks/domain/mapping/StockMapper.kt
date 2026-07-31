@@ -105,7 +105,7 @@ private fun computePeg(pe: Double?, growth: Double?) = pe?.let { p ->
 }
 
 private fun Double.toPegRating(): Rating? = when {
-    this > 1.2 -> Rating.CAUTION
+    this > 1.5 -> Rating.CAUTION
     else -> null
 }
 

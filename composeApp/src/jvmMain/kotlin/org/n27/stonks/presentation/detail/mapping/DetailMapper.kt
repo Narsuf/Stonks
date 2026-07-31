@@ -97,14 +97,14 @@ private fun computeEyRealYieldSpread(earningsYield: Double?, realBundYield: Doub
     if (earningsYield != null && realBundYield != null) earningsYield - realBundYield else null
 
 private fun Double.toEyRealYieldSpreadCell() = toFormattedPercentage().toCell(
-    title = Res.string.ey_treasury_spread,
-    description = StringResourceWithArgs(Res.string.ey_treasury_spread_description),
+    title = Res.string.ey_bund_yield_spread,
+    description = StringResourceWithArgs(Res.string.ey_bund_yield_spread_description),
     color = takeIf { it < 0 }?.let { AppColors.Orange },
 )
 
 private fun MacroIndicator.toGermanBundYieldCell() = value.toFormattedPercentage().toCell(
-    title = Res.string.treasury_10y_eu,
-    description = StringResourceWithArgs(Res.string.treasury_10y_eu_description, persistentListOf(Arg.Text(date.toFormattedDate()))),
+    title = Res.string.bund_yield_10y,
+    description = StringResourceWithArgs(Res.string.bund_yield_10y_description, persistentListOf(Arg.Text(date.toFormattedDate()))),
 )
 
 private fun MacroIndicator.toGermanCpiCell() = value.toFormattedPercentage().toCell(
