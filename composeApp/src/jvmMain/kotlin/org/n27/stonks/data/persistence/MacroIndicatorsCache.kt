@@ -2,11 +2,10 @@ package org.n27.stonks.data.persistence
 
 import org.n27.stonks.domain.model.MacroIndicators
 import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
-import java.util.prefs.Preferences
 
-class MacroIndicatorsCache {
-
-    private val prefs = Preferences.userNodeForPackage(MacroIndicatorsCache::class.java)
+class MacroIndicatorsCache(
+    private val prefs: PreferencesStore = SystemPreferencesStore()
+) {
 
     fun save(indicators: MacroIndicators) {
         prefs.putLong(KEY_TIMESTAMP, System.currentTimeMillis())

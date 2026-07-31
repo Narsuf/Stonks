@@ -8,7 +8,7 @@ import org.n27.stonks.test_data.domain.getStock
 import org.n27.stonks.test_data.domain.getStocks
 import kotlin.test.assertEquals
 
-class StockMapperTest {
+class RawStockMapperTest {
 
     @Test
     fun `toDomain should map StockRaw to Stock correctly`() {
