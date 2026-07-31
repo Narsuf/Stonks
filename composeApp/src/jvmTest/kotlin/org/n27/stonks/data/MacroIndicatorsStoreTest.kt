@@ -8,7 +8,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.n27.stonks.data.persistence.MacroIndicatorsCache
 import org.n27.stonks.data.remote.bundesbank.BundesbankApi
-import org.n27.stonks.test_data.data.getMacroIndicatorRaw
+import org.n27.stonks.test_data.data.getBundesbankResponse
 import org.n27.stonks.test_data.domain.getMacroIndicators
 import java.time.LocalDate
 import java.time.ZoneId
@@ -40,8 +40,8 @@ class MacroIndicatorsStoreTest {
             .toInstant()
             .toEpochMilli()
         whenever(cache.load()).thenReturn(yesterday to indicators)
-        whenever(bundesbankApi.getGermanBundYield10Y()).thenReturn(getMacroIndicatorRaw(indicators.bundYield10Y.value, indicators.bundYield10Y.date))
-        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
+        whenever(bundesbankApi.getGermanBundYield10Y()).thenReturn(getBundesbankResponse(indicators.bundYield10Y.value, indicators.bundYield10Y.date))
+        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getBundesbankResponse(indicators.germanCpi.value, indicators.germanCpi.date))
 
         store.refresh()
 
@@ -54,8 +54,8 @@ class MacroIndicatorsStoreTest {
     @Test
     fun `refresh should call api and save when cache is empty`() = runTest {
         whenever(cache.load()).thenReturn(null)
-        whenever(bundesbankApi.getGermanBundYield10Y()).thenReturn(getMacroIndicatorRaw(indicators.bundYield10Y.value, indicators.bundYield10Y.date))
-        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
+        whenever(bundesbankApi.getGermanBundYield10Y()).thenReturn(getBundesbankResponse(indicators.bundYield10Y.value, indicators.bundYield10Y.date))
+        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getBundesbankResponse(indicators.germanCpi.value, indicators.germanCpi.date))
 
         store.refresh()
 
@@ -69,7 +69,7 @@ class MacroIndicatorsStoreTest {
     fun `refresh should not save or emit when an api call fails`() = runTest {
         whenever(cache.load()).thenReturn(null)
         whenever(bundesbankApi.getGermanBundYield10Y()).thenThrow(RuntimeException("Bundesbank is down"))
-        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getMacroIndicatorRaw(indicators.germanCpi.value, indicators.germanCpi.date))
+        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getBundesbankResponse(indicators.germanCpi.value, indicators.germanCpi.date))
 
         store.refresh()
 

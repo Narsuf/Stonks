@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-internal data class BundesbankResponse(
+data class BundesbankResponse(
     val data: Data,
 ) {
 

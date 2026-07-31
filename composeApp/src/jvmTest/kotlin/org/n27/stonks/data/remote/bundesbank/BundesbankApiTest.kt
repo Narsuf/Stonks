@@ -10,7 +10,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.n27.stonks.data.remote.model.MacroIndicatorRaw
+import org.n27.stonks.data.remote.bundesbank.mapping.toDomain
+import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
 import kotlin.test.assertEquals
 
 class BundesbankApiTest {
@@ -61,11 +62,11 @@ class BundesbankApiTest {
 
     @Test
     fun `getGermanBundYield10Y should skip null observations and return the latest available value and date`() = runTest {
-        assertEquals(MacroIndicatorRaw(3.16, "2026-07-27"), api.getGermanBundYield10Y())
+        assertEquals(MacroIndicator(3.16, "2026-07-27"), api.getGermanBundYield10Y().toDomain())
     }
 
     @Test
     fun `getGermanCpiYoY should return the latest available value and date`() = runTest {
-        assertEquals(MacroIndicatorRaw(2.3, "2026-06"), api.getGermanCpiYoY())
+        assertEquals(MacroIndicator(2.3, "2026-06"), api.getGermanCpiYoY().toDomain())
     }
 }

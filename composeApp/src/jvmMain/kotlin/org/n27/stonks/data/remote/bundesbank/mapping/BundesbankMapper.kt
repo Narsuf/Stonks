@@ -3,9 +3,9 @@ package org.n27.stonks.data.remote.bundesbank.mapping
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
 import org.n27.stonks.data.remote.bundesbank.model.BundesbankResponse
-import org.n27.stonks.data.remote.model.MacroIndicatorRaw
+import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
 
-internal fun BundesbankResponse.toRaw(): MacroIndicatorRaw {
+internal fun BundesbankResponse.toDomain(): MacroIndicator {
     val series = data.dataSets.first().series.values.first()
     val dates = data.structure.dimensions.observation.first().values
 
@@ -18,5 +18,5 @@ internal fun BundesbankResponse.toRaw(): MacroIndicatorRaw {
         .maxByOrNull { (index, _) -> index }
         ?: error("Bundesbank response contained no numeric values")
 
-    return MacroIndicatorRaw(value, dates[index].id)
+    return MacroIndicator(value, dates[index].id)
 }
