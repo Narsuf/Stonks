@@ -100,10 +100,9 @@ internal fun RatedValue.toEarningsEstimateCell() = value.toFormattedPercentage()
     color = rating?.toColor(),
 )
 
-internal fun RatedValue.toCurrentRatioCell() = value.toFormattedString().toCell(
-    title = Res.string.current_ratio,
-    description = StringResourceWithArgs(Res.string.current_ratio_description),
-    color = rating?.toColor(),
+internal fun Double.toTotalCashPerShareCell(currency: String?) = toPrice(currency)?.toCell(
+    title = Res.string.total_cash_per_share,
+    description = StringResourceWithArgs(Res.string.total_cash_per_share_description),
 )
 
 private fun String.toCell(

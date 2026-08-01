@@ -47,7 +47,7 @@ data class Stocks(
 
         data class BalanceSheet(
             val de: RatedValue?,
-            val currentRatio: RatedValue?,
+            val totalCashPerShare: Double?,
         )
     }
 }

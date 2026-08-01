@@ -52,5 +52,5 @@ data class ValuationMeasuresRaw(
 @Serializable
 data class BalanceSheetRaw(
     val de: Double?,
-    val currentRatio: Double?,
+    val totalCashPerShare: Double?,
 )

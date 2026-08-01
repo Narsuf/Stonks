@@ -18,12 +18,6 @@ internal object StockRatingMapper {
         else -> null
     }
 
-    fun toCurrentRatioRating(value: Double): Rating? = when {
-        value < 1 -> Rating.CAUTION
-        value > 1.5 -> Rating.POSITIVE
-        else -> null
-    }
-
     fun toRoeRating(value: Double): Rating? = when {
         value < 0 -> Rating.DANGER
         value > 0 && value < 15 -> Rating.CAUTION

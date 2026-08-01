@@ -28,7 +28,7 @@ internal fun StockRaw.toDomain() = mapToStock(
     valuationFloor = valuationMeasures?.valuationFloor,
     intrinsicValue = valuationMeasures?.intrinsicValue,
     de = balanceSheet?.de,
-    currentRatio = balanceSheet?.currentRatio,
+    totalCashPerShare = balanceSheet?.totalCashPerShare,
     roe = roe,
     profitMargin = profitMargin,
 )

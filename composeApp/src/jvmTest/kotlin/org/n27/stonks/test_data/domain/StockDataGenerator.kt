@@ -114,8 +114,8 @@ fun getMacroIndicators(
 
 fun getBalanceSheet(
     de: RatedValue? = getRatedValue(value = 102.63, rating = Rating.DANGER),
-    currentRatio: RatedValue? = getRatedValue(value = 0.955, rating = Rating.CAUTION),
+    totalCashPerShare: Double? = 5.42,
 ) = BalanceSheet(
     de = de,
-    currentRatio = currentRatio,
+    totalCashPerShare = totalCashPerShare,
 )

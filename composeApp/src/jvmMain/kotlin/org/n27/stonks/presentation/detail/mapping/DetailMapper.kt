@@ -66,8 +66,8 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
                 second = profitMargin?.toProfitMarginCell(),
             )
             addPair(
-                first = balanceSheet?.de?.toDeCell(),
-                second = balanceSheet?.currentRatio?.toCurrentRatioCell(),
+                first = balanceSheet?.totalCashPerShare?.toTotalCashPerShareCell(currency),
+                second = balanceSheet?.de?.toDeCell(),
             )
         }
 

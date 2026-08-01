@@ -105,16 +105,15 @@ fun getDetailContent(
         ),
         Item.CellPair(
             first = getDetailContentCell(
+                title = Res.string.total_cash_per_share,
+                value = "$5.42",
+                description = Res.string.total_cash_per_share_description,
+            ),
+            second = getDetailContentCell(
                 title = Res.string.de,
                 value = "102.63",
                 description = Res.string.de_description,
                 color = AppColors.Red,
-            ),
-            second = getDetailContentCell(
-                title = Res.string.current_ratio,
-                value = "0.96",
-                description = Res.string.current_ratio_description,
-                color = AppColors.Yellow,
             ),
         ),
         Item.Header(Res.string.section_bond_yields),
