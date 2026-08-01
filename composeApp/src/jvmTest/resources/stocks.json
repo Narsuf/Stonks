@@ -6,26 +6,54 @@
       "logo": "/9j/2wCEAAEBAQEBAQEBAQEBAQEB...",
       "price": 259.369995117188,
       "dividends": {
-        "dividendYield": 1.6989447827259432
+        "dividendYield": 1.6989447827259432,
+        "payoutRatio": {
+          "value": 58.98999999999989,
+          "rating": null
+        }
       },
       "incomeStatement": {
         "eps": 7.47,
         "earningsQuarterlyGrowth": 86.4
       },
       "earningsEstimate": {
-        "growthHigh": 11.43
+        "value": 11.43,
+        "rating": "POSITIVE"
       },
       "valuationMeasures": {
-        "pe": 34.7215522245231,
+        "pe": {
+          "value": 34.7215522245231,
+          "rating": "WARNING"
+        },
         "valuationFloor": 12.5,
         "intrinsicValue": 93.375
       },
       "balanceSheet": {
-        "de": 102.63,
+        "de": {
+          "value": 102.63,
+          "rating": "DANGER"
+        },
         "totalCashPerShare": 5.42
       },
-      "roe": 1.5202099,
-      "profitMargin": 0.27037,
+      "roe": {
+        "value": 1.5202099,
+        "rating": "CAUTION"
+      },
+      "profitMargin": {
+        "value": 0.27037,
+        "rating": "CAUTION"
+      },
+      "computed": {
+        "earningsYield": 2.880055573361496,
+        "peg": {
+          "value": 3.037756100133255,
+          "rating": "CAUTION"
+        },
+        "dynamicPayback": {
+          "value": 14.812955172783827,
+          "rating": null
+        }
+      },
       "currency": "USD",
       "lastUpdated": 1768064114877,
       "isWatchlisted": false
