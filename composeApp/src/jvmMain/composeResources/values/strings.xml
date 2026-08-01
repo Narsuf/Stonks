@@ -24,8 +24,8 @@
     <string name="profit_margin_description">Net income divided by revenue.\n\nIndicates how much profit a company retains from each dollar of revenue.</string>
     <string name="de">Debt / Equity</string>
     <string name="de_description">Total debt divided by shareholders' equity.\n\nMeasures a company's financial leverage.</string>
-    <string name="current_ratio">Current Ratio</string>
-    <string name="current_ratio_description">Current assets divided by current liabilities.\n\nA ratio above 1 indicates the company can cover its short-term obligations.</string>
+    <string name="total_cash_per_share">Cash Per Share</string>
+    <string name="total_cash_per_share_description">Total cash and cash equivalents divided by shares outstanding.\n\nIndicates how much cash a company holds relative to each share.</string>
     <string name="ey_bund_yield_spread">EY / Real Bund Yield Spread</string>
     <string name="ey_bund_yield_spread_description">Earnings yield minus Germany's real (inflation-adjusted) 10-year Bund yield.\n\nA positive spread favors equities over German government bonds.</string>
     <string name="bund_yield_10y">German 10Y Bund Yield</string>

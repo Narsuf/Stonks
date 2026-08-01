@@ -21,7 +21,7 @@ internal fun mapToStock(
     valuationFloor: Double?,
     intrinsicValue: Double?,
     de: Double?,
-    currentRatio: Double?,
+    totalCashPerShare: Double?,
     roe: Double?,
     profitMargin: Double?,
 ) = Stock(
@@ -45,7 +45,7 @@ internal fun mapToStock(
     ),
     balanceSheet = BalanceSheet(
         de = de.toRatedValue(StockRatingMapper::toDeRating),
-        currentRatio = currentRatio.toRatedValue(StockRatingMapper::toCurrentRatioRating),
+        totalCashPerShare = totalCashPerShare,
     ),
     roe = roe.toRatedValue(StockRatingMapper::toRoeRating),
     profitMargin = profitMargin.toRatedValue(StockRatingMapper::toProfitMarginRating),

@@ -20,12 +20,6 @@ class StockRatingMapperTest {
         assertEquals(expected, StockRatingMapper.toDeRating(de))
     }
 
-    @ParameterizedTest(name = "currentRatio={0} → {1}")
-    @MethodSource("currentRatioRatingCases")
-    fun `currentRatio rating`(currentRatio: Double, expected: Rating?) {
-        assertEquals(expected, StockRatingMapper.toCurrentRatioRating(currentRatio))
-    }
-
     @ParameterizedTest(name = "roe={0} → {1}")
     @MethodSource("roeRatingCases")
     fun `roe rating`(roe: Double, expected: Rating?) {
@@ -60,13 +54,6 @@ class StockRatingMapperTest {
             Arguments.of(0.4, null),
             Arguments.of(0.75, Rating.CAUTION),
             Arguments.of(2.5, Rating.DANGER),
-        )
-
-        @JvmStatic
-        fun currentRatioRatingCases() = listOf(
-            Arguments.of(0.3, Rating.CAUTION),
-            Arguments.of(1.2, null),
-            Arguments.of(2.0, Rating.POSITIVE),
         )
 
         @JvmStatic

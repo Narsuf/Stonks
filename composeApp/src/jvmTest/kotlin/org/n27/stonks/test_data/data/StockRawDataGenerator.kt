@@ -74,8 +74,8 @@ fun getValuationMeasuresRaw(
 
 fun getBalanceSheetRaw(
     de: Double? = 102.63,
-    currentRatio: Double? = 0.955,
+    totalCashPerShare: Double? = 5.42,
 ) = BalanceSheetRaw(
     de = de,
-    currentRatio = currentRatio,
+    totalCashPerShare = totalCashPerShare,
 )
