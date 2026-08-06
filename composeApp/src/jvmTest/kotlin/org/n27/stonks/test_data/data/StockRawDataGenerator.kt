@@ -17,11 +17,11 @@ fun getStockRaw(
     price: Double? = 259.369995117188,
     dividends: DividendsRaw? = getDividendsRaw(),
     incomeStatement: IncomeStatementRaw? = getIncomeStatementRaw(),
-    earningsEstimate: RatedValueRaw? = getRatedValueRaw(value = 11.43, rating = RatingRaw.POSITIVE),
+    earningsEstimate: MetricValueRaw? = getMetricValueRaw(value = 11.43, rating = RatingRaw.POSITIVE),
     valuationMeasures: ValuationMeasuresRaw? = getValuationMeasuresRaw(),
     balanceSheet: BalanceSheetRaw? = getBalanceSheetRaw(),
-    roe: RatedValueRaw? = getRatedValueRaw(value = 1.5202099, rating = RatingRaw.CAUTION),
-    profitMargin: RatedValueRaw? = getRatedValueRaw(value = 0.27037, rating = RatingRaw.CAUTION),
+    roe: MetricValueRaw? = getMetricValueRaw(value = 1.5202099, rating = RatingRaw.CAUTION),
+    profitMargin: MetricValueRaw? = getMetricValueRaw(value = 0.27037, rating = RatingRaw.CAUTION),
     computed: ComputedRaw? = getComputedRaw(),
     currency: String? = "USD",
     lastUpdated: Long? = 1768064114877,
@@ -44,17 +44,19 @@ fun getStockRaw(
     isWatchlisted = isWatchlisted,
 )
 
-fun getRatedValueRaw(
+fun getMetricValueRaw(
     value: Double = 0.0,
     rating: RatingRaw? = null,
-) = RatedValueRaw(
+    variation: Double? = null,
+) = MetricValueRaw(
     value = value,
     rating = rating,
+    variation = variation,
 )
 
 fun getDividendsRaw(
-    dividendYield: Double? = 1.6989447827259432,
-    payoutRatio: RatedValueRaw? = getRatedValueRaw(value = 58.98999999999989, rating = null),
+    dividendYield: MetricValueRaw? = getMetricValueRaw(value = 1.6989447827259432, rating = null),
+    payoutRatio: MetricValueRaw? = getMetricValueRaw(value = 58.98999999999989, rating = null),
 ) = DividendsRaw(
     dividendYield = dividendYield,
     payoutRatio = payoutRatio,
@@ -62,8 +64,8 @@ fun getDividendsRaw(
 
 fun getComputedRaw(
     earningsYield: Double? = 2.880055573361496,
-    peg: RatedValueRaw? = getRatedValueRaw(value = 3.037756100133255, rating = RatingRaw.CAUTION),
-    dynamicPayback: RatedValueRaw? = getRatedValueRaw(value = 14.812955172783827, rating = null),
+    peg: MetricValueRaw? = getMetricValueRaw(value = 3.037756100133255, rating = RatingRaw.CAUTION),
+    dynamicPayback: MetricValueRaw? = getMetricValueRaw(value = 14.812955172783827, rating = null),
 ) = ComputedRaw(
     earningsYield = earningsYield,
     peg = peg,
@@ -71,15 +73,15 @@ fun getComputedRaw(
 )
 
 fun getIncomeStatementRaw(
-    eps: Double? = 7.47,
-    earningsQuarterlyGrowth: Double? = 86.4,
+    eps: MetricValueRaw? = getMetricValueRaw(value = 7.47, rating = null),
+    earningsQuarterlyGrowth: MetricValueRaw? = getMetricValueRaw(value = 86.4, rating = null),
 ) = IncomeStatementRaw(
     eps = eps,
     earningsQuarterlyGrowth = earningsQuarterlyGrowth,
 )
 
 fun getValuationMeasuresRaw(
-    pe: RatedValueRaw? = getRatedValueRaw(value = 34.7215522245231, rating = RatingRaw.WARNING),
+    pe: MetricValueRaw? = getMetricValueRaw(value = 34.7215522245231, rating = RatingRaw.WARNING),
     valuationFloor: Double? = 12.5,
     intrinsicValue: Double? = 93.375,
 ) = ValuationMeasuresRaw(
@@ -89,8 +91,8 @@ fun getValuationMeasuresRaw(
 )
 
 fun getBalanceSheetRaw(
-    de: RatedValueRaw? = getRatedValueRaw(value = 102.63, rating = RatingRaw.DANGER),
-    totalCashPerShare: Double? = 5.42,
+    de: MetricValueRaw? = getMetricValueRaw(value = 102.63, rating = RatingRaw.DANGER),
+    totalCashPerShare: MetricValueRaw? = getMetricValueRaw(value = 5.42, rating = null),
 ) = BalanceSheetRaw(
     de = de,
     totalCashPerShare = totalCashPerShare,

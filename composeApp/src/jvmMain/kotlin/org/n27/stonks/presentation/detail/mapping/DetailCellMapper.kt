@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.StringResource
 import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
-import org.n27.stonks.domain.model.RatedValue
+import org.n27.stonks.domain.model.MetricValue
 import org.n27.stonks.domain.model.Stocks.Stock
 import org.n27.stonks.presentation.common.AppColors
 import org.n27.stonks.presentation.common.composables.DeltaTextEntity
@@ -31,12 +31,13 @@ internal fun MacroIndicator.toGermanCpiCell() = value.toFormattedPercentage().to
     description = StringResourceWithArgs(Res.string.german_cpi_description, persistentListOf(Arg.Text(date.toFormattedDate()))),
 )
 
-internal fun Double.toDividendCell() = toFormattedPercentage().toCell(
+internal fun MetricValue.toDividendCell() = value.toFormattedPercentage().toCell(
     title = Res.string.dividend_yield,
     description = StringResourceWithArgs(Res.string.dividend_yield_description),
+    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
 )
 
-internal fun RatedValue.toPayoutRatioCell() = value.toFormattedPercentage().toCell(
+internal fun MetricValue.toPayoutRatioCell() = value.toFormattedPercentage().toCell(
     title = Res.string.payout_ratio,
     description = StringResourceWithArgs(Res.string.payout_ratio_description),
     color = rating?.toColor(),
@@ -48,61 +49,69 @@ internal fun Double.toIntrinsicValueCell(stock: Stock) = toPrice(stock.currency)
     delta = stock.price?.getTargetPrice(this, stock.currency),
 )
 
-internal fun RatedValue.toDynamicPaybackCell() = value.toFormattedString().toCell(
+internal fun MetricValue.toDynamicPaybackCell() = value.toFormattedString().toCell(
     title = Res.string.dynamic_payback,
     description = StringResourceWithArgs(Res.string.dynamic_payback_description),
     color = rating?.toColor(),
 )
 
-internal fun RatedValue.toPeCell() = value.toFormattedString().toCell(
+internal fun MetricValue.toPeCell() = value.toFormattedString().toCell(
     title = Res.string.pe,
     description = StringResourceWithArgs(Res.string.pe_description),
     color = rating?.toColor(),
+    delta = value.getVariationDelta(variation) { it.toFormattedString() },
 )
 
-internal fun RatedValue.toPegCell() = value.toFormattedString().toCell(
+internal fun MetricValue.toPegCell() = value.toFormattedString().toCell(
     title = Res.string.peg,
     description = StringResourceWithArgs(Res.string.peg_description),
     color = rating?.toColor(),
 )
 
-internal fun Double.toGrowthCell() = toFormattedPercentage().toCell(
+internal fun MetricValue.toGrowthCell() = value.toFormattedPercentage().toCell(
     title = Res.string.growth,
     description = StringResourceWithArgs(Res.string.growth_description),
+    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
 )
 
-internal fun Double.toEpsCell(currency: String?) = toPrice(currency)?.toCell(
+internal fun MetricValue.toEpsCell(currency: String?) = value.toPrice(currency)?.toCell(
     title = Res.string.eps,
     description = StringResourceWithArgs(Res.string.eps_description),
+    delta = value.getVariationDelta(variation) { it.toPrice(currency) },
 )
 
-internal fun RatedValue.toProfitMarginCell() = value.toFormattedPercentage().toCell(
+internal fun MetricValue.toProfitMarginCell() = value.toFormattedPercentage().toCell(
     title = Res.string.profit_margin,
     description = StringResourceWithArgs(Res.string.profit_margin_description),
     color = rating?.toColor(),
+    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
 )
 
-internal fun RatedValue.toRoeCell() = value.toFormattedPercentage().toCell(
+internal fun MetricValue.toRoeCell() = value.toFormattedPercentage().toCell(
     title = Res.string.roe,
     description = StringResourceWithArgs(Res.string.roe_description),
     color = rating?.toColor(),
+    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
 )
 
-internal fun RatedValue.toDeCell() = value.toFormattedString().toCell(
+internal fun MetricValue.toDeCell() = value.toFormattedString().toCell(
     title = Res.string.de,
     description = StringResourceWithArgs(Res.string.de_description),
     color = rating?.toColor(),
+    delta = value.getVariationDelta(variation) { it.toFormattedString() },
 )
 
-internal fun RatedValue.toEarningsEstimateCell() = value.toFormattedPercentage().toCell(
+internal fun MetricValue.toEarningsEstimateCell() = value.toFormattedPercentage().toCell(
     title = Res.string.earnings_estimate,
     description = StringResourceWithArgs(Res.string.earnings_estimate_description),
     color = rating?.toColor(),
+    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
 )
 
-internal fun Double.toTotalCashPerShareCell(currency: String?) = toPrice(currency)?.toCell(
+internal fun MetricValue.toTotalCashPerShareCell(currency: String?) = value.toPrice(currency)?.toCell(
     title = Res.string.total_cash_per_share,
     description = StringResourceWithArgs(Res.string.total_cash_per_share_description),
+    delta = value.getVariationDelta(variation) { it.toPrice(currency) },
 )
 
 private fun String.toCell(

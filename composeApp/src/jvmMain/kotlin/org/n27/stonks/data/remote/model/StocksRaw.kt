@@ -16,11 +16,11 @@ data class StockRaw(
     val price: Double?,
     val dividends: DividendsRaw?,
     val incomeStatement: IncomeStatementRaw?,
-    val earningsEstimate: RatedValueRaw?,
+    val earningsEstimate: MetricValueRaw?,
     val valuationMeasures: ValuationMeasuresRaw?,
     val balanceSheet: BalanceSheetRaw?,
-    val roe: RatedValueRaw?,
-    val profitMargin: RatedValueRaw?,
+    val roe: MetricValueRaw?,
+    val profitMargin: MetricValueRaw?,
     val computed: ComputedRaw?,
     val currency: String?,
     val lastUpdated: Long?,
@@ -29,40 +29,41 @@ data class StockRaw(
 
 @Serializable
 data class DividendsRaw(
-    val dividendYield: Double?,
-    val payoutRatio: RatedValueRaw?,
+    val dividendYield: MetricValueRaw?,
+    val payoutRatio: MetricValueRaw?,
 )
 
 @Serializable
 data class ComputedRaw(
     val earningsYield: Double?,
-    val peg: RatedValueRaw?,
-    val dynamicPayback: RatedValueRaw?,
+    val peg: MetricValueRaw?,
+    val dynamicPayback: MetricValueRaw?,
 )
 
 @Serializable
 data class IncomeStatementRaw(
-    val eps: Double?,
-    val earningsQuarterlyGrowth: Double?,
+    val eps: MetricValueRaw?,
+    val earningsQuarterlyGrowth: MetricValueRaw?,
 )
 
 @Serializable
 data class ValuationMeasuresRaw(
-    val pe: RatedValueRaw?,
+    val pe: MetricValueRaw?,
     val valuationFloor: Double?,
     val intrinsicValue: Double?,
 )
 
 @Serializable
 data class BalanceSheetRaw(
-    val de: RatedValueRaw?,
-    val totalCashPerShare: Double?,
+    val de: MetricValueRaw?,
+    val totalCashPerShare: MetricValueRaw?,
 )
 
 @Serializable
-data class RatedValueRaw(
+data class MetricValueRaw(
     val value: Double,
     val rating: RatingRaw?,
+    val variation: Double? = null,
 )
 
 @Serializable

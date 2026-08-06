@@ -20,24 +20,38 @@ internal fun Double.getTargetPrice(
     currency: String?,
 ): DeltaTextEntity? {
     if (intrinsicValue == null) return null
+    return getDelta(diff = intrinsicValue - this, base = this) { it.toPrice(currency) }
+}
 
-    val priceDiff = intrinsicValue - this
-    val percentage = if (this != 0.0)
-        (priceDiff / this) * 100
+internal fun Double.getVariationDelta(
+    variation: Double?,
+    formatValue: (Double) -> String?,
+): DeltaTextEntity? {
+    if (variation == null) return null
+    return getDelta(diff = variation, base = this - variation, formatValue = formatValue)
+}
+
+private fun getDelta(
+    diff: Double,
+    base: Double,
+    formatValue: (Double) -> String?,
+): DeltaTextEntity? {
+    val percentage = if (base != 0.0)
+        (diff / base) * 100
     else
         0.0
 
     val state = when {
-        priceDiff > 0 -> DeltaState.POSITIVE
-        priceDiff < 0 -> DeltaState.NEGATIVE
+        diff > 0 -> DeltaState.POSITIVE
+        diff < 0 -> DeltaState.NEGATIVE
         else -> DeltaState.NEUTRAL
     }
 
-    return priceDiff.absoluteValue.toPrice(currency)?.let {
+    return formatValue(diff.absoluteValue)?.let {
         DeltaTextEntity(
             value = it,
             percentage = percentage.absoluteValue.toFormattedPercentage(),
-            state = state
+            state = state,
         )
     }
 }
