@@ -4,12 +4,12 @@ import org.n27.stonks.data.remote.model.BalanceSheetRaw
 import org.n27.stonks.data.remote.model.ComputedRaw
 import org.n27.stonks.data.remote.model.DividendsRaw
 import org.n27.stonks.data.remote.model.IncomeStatementRaw
-import org.n27.stonks.data.remote.model.RatedValueRaw
+import org.n27.stonks.data.remote.model.MetricValueRaw
 import org.n27.stonks.data.remote.model.RatingRaw
 import org.n27.stonks.data.remote.model.StockRaw
 import org.n27.stonks.data.remote.model.StocksRaw
 import org.n27.stonks.data.remote.model.ValuationMeasuresRaw
-import org.n27.stonks.domain.model.RatedValue
+import org.n27.stonks.domain.model.MetricValue
 import org.n27.stonks.domain.model.Rating
 import org.n27.stonks.domain.model.Stocks
 import org.n27.stonks.domain.model.Stocks.Stock.*
@@ -38,13 +38,13 @@ internal fun StockRaw.toDomain() = Stocks.Stock(
 )
 
 private fun DividendsRaw.toDomain() = Dividends(
-    dividendYield = dividendYield,
+    dividendYield = dividendYield?.toDomain(),
     payoutRatio = payoutRatio?.toDomain(),
 )
 
 private fun IncomeStatementRaw.toDomain() = IncomeStatement(
-    eps = eps,
-    earningsQuarterlyGrowth = earningsQuarterlyGrowth,
+    eps = eps?.toDomain(),
+    earningsQuarterlyGrowth = earningsQuarterlyGrowth?.toDomain(),
 )
 
 private fun ValuationMeasuresRaw.toDomain() = ValuationMeasures(
@@ -55,7 +55,7 @@ private fun ValuationMeasuresRaw.toDomain() = ValuationMeasures(
 
 private fun BalanceSheetRaw.toDomain() = BalanceSheet(
     de = de?.toDomain(),
-    totalCashPerShare = totalCashPerShare,
+    totalCashPerShare = totalCashPerShare?.toDomain(),
 )
 
 private fun ComputedRaw.toDomain() = Computed(
@@ -64,9 +64,10 @@ private fun ComputedRaw.toDomain() = Computed(
     dynamicPayback = dynamicPayback?.toDomain(),
 )
 
-private fun RatedValueRaw.toDomain() = RatedValue(
+private fun MetricValueRaw.toDomain() = MetricValue(
     value = value,
     rating = rating?.toDomain(),
+    variation = variation,
 )
 
 private fun RatingRaw.toDomain() = when (this) {

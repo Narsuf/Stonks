@@ -2,7 +2,7 @@ package org.n27.stonks.test_data.domain
 
 import org.n27.stonks.domain.model.MacroIndicators
 import org.n27.stonks.domain.model.MacroIndicators.MacroIndicator
-import org.n27.stonks.domain.model.RatedValue
+import org.n27.stonks.domain.model.MetricValue
 import org.n27.stonks.domain.model.Rating
 import org.n27.stonks.domain.model.Stocks
 import org.n27.stonks.domain.model.Stocks.Stock
@@ -26,11 +26,11 @@ fun getStock(
     lastUpdated: Long? = 1768064114877,
     isWatchlisted: Boolean = false,
     incomeStatement: IncomeStatement? = getIncomeStatement(),
-    earningsEstimate: RatedValue? = getEarningsEstimate(),
+    earningsEstimate: MetricValue? = getEarningsEstimate(),
     valuationMeasures: ValuationMeasures? = getValuationMeasures(),
     balanceSheet: BalanceSheet? = getBalanceSheet(),
-    roe: RatedValue? = getRatedValue(value = 1.5202099, rating = Rating.CAUTION),
-    profitMargin: RatedValue? = getRatedValue(value = 0.27037, rating = Rating.CAUTION),
+    roe: MetricValue? = getMetricValue(value = 1.5202099, rating = Rating.CAUTION),
+    profitMargin: MetricValue? = getMetricValue(value = 0.27037, rating = Rating.CAUTION),
     computed: Computed? = getComputed(),
 ) = Stock(
     symbol = symbol,
@@ -50,25 +50,27 @@ fun getStock(
     computed = computed,
 )
 
-fun getRatedValue(
+fun getMetricValue(
     value: Double = 0.0,
     rating: Rating? = null,
-) = RatedValue(
+    variation: Double? = null,
+) = MetricValue(
     value = value,
     rating = rating,
+    variation = variation,
 )
 
 fun getDividends(
-    dividendYield: Double? = 1.6989447827259432,
-    payoutRatio: RatedValue? = getRatedValue(value = 58.98999999999989, rating = null),
+    dividendYield: MetricValue? = getMetricValue(value = 1.6989447827259432, rating = null),
+    payoutRatio: MetricValue? = getMetricValue(value = 58.98999999999989, rating = null),
 ) = Dividends(
     dividendYield = dividendYield,
     payoutRatio = payoutRatio,
 )
 
 fun getIncomeStatement(
-    eps: Double? = 7.47,
-    earningsQuarterlyGrowth: Double? = 86.4,
+    eps: MetricValue? = getMetricValue(value = 7.47, rating = null),
+    earningsQuarterlyGrowth: MetricValue? = getMetricValue(value = 86.4, rating = null),
 ) = IncomeStatement(
     eps = eps,
     earningsQuarterlyGrowth = earningsQuarterlyGrowth,
@@ -77,10 +79,10 @@ fun getIncomeStatement(
 fun getEarningsEstimate(
     value: Double = 11.43,
     rating: Rating? = Rating.POSITIVE,
-) = getRatedValue(value = value, rating = rating)
+) = getMetricValue(value = value, rating = rating)
 
 fun getValuationMeasures(
-    pe: RatedValue? = getRatedValue(value = 34.7215522245231, rating = Rating.WARNING),
+    pe: MetricValue? = getMetricValue(value = 34.7215522245231, rating = Rating.WARNING),
     valuationFloor: Double? = 12.5,
     intrinsicValue: Double? = 93.375,
 ) = ValuationMeasures(
@@ -91,8 +93,8 @@ fun getValuationMeasures(
 
 fun getComputed(
     earningsYield: Double? = 2.880055573361496,
-    peg: RatedValue? = getRatedValue(value = 3.037756100133255, rating = Rating.CAUTION),
-    dynamicPayback: RatedValue? = getRatedValue(value = 14.812955172783827, rating = null),
+    peg: MetricValue? = getMetricValue(value = 3.037756100133255, rating = Rating.CAUTION),
+    dynamicPayback: MetricValue? = getMetricValue(value = 14.812955172783827, rating = null),
 ) = Computed(
     earningsYield = earningsYield,
     peg = peg,
@@ -113,8 +115,8 @@ fun getMacroIndicators(
 )
 
 fun getBalanceSheet(
-    de: RatedValue? = getRatedValue(value = 102.63, rating = Rating.DANGER),
-    totalCashPerShare: Double? = 5.42,
+    de: MetricValue? = getMetricValue(value = 102.63, rating = Rating.DANGER),
+    totalCashPerShare: MetricValue? = getMetricValue(value = 5.42, rating = null),
 ) = BalanceSheet(
     de = de,
     totalCashPerShare = totalCashPerShare,

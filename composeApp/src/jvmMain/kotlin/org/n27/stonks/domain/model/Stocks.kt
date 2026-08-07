@@ -15,39 +15,39 @@ data class Stocks(
         val lastUpdated: Long?,
         val isWatchlisted: Boolean,
         val incomeStatement: IncomeStatement?,
-        val earningsEstimate: RatedValue?,
+        val earningsEstimate: MetricValue?,
         val valuationMeasures: ValuationMeasures?,
         val balanceSheet: BalanceSheet?,
-        val roe: RatedValue?,
-        val profitMargin: RatedValue?,
+        val roe: MetricValue?,
+        val profitMargin: MetricValue?,
         val computed: Computed?,
     ) {
 
         data class Dividends(
-            val dividendYield: Double?,
-            val payoutRatio: RatedValue?,
+            val dividendYield: MetricValue?,
+            val payoutRatio: MetricValue?,
         )
 
         data class Computed(
             val earningsYield: Double?,
-            val peg: RatedValue?,
-            val dynamicPayback: RatedValue?,
+            val peg: MetricValue?,
+            val dynamicPayback: MetricValue?,
         )
 
         data class IncomeStatement(
-            val eps: Double?,
-            val earningsQuarterlyGrowth: Double?,
+            val eps: MetricValue?,
+            val earningsQuarterlyGrowth: MetricValue?,
         )
 
         data class ValuationMeasures(
-            val pe: RatedValue?,
+            val pe: MetricValue?,
             val valuationFloor: Double?,
             val intrinsicValue: Double?,
         )
 
         data class BalanceSheet(
-            val de: RatedValue?,
-            val totalCashPerShare: Double?,
+            val de: MetricValue?,
+            val totalCashPerShare: MetricValue?,
         )
     }
 }

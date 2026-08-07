@@ -6,15 +6,24 @@
       "logo": "/9j/2wCEAAEBAQEBAQEBAQEBAQEB...",
       "price": 259.369995117188,
       "dividends": {
-        "dividendYield": 1.6989447827259432,
+        "dividendYield": {
+          "value": 1.6989447827259432,
+          "rating": null
+        },
         "payoutRatio": {
           "value": 58.98999999999989,
           "rating": null
         }
       },
       "incomeStatement": {
-        "eps": 7.47,
-        "earningsQuarterlyGrowth": 86.4
+        "eps": {
+          "value": 7.47,
+          "rating": null
+        },
+        "earningsQuarterlyGrowth": {
+          "value": 86.4,
+          "rating": null
+        }
       },
       "earningsEstimate": {
         "value": 11.43,
@@ -33,7 +42,10 @@
           "value": 102.63,
           "rating": "DANGER"
         },
-        "totalCashPerShare": 5.42
+        "totalCashPerShare": {
+          "value": 5.42,
+          "rating": null
+        }
       },
       "roe": {
         "value": 1.5202099,
