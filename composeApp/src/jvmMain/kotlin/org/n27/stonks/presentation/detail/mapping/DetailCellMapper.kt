@@ -34,7 +34,7 @@ internal fun MacroIndicator.toGermanCpiCell() = value.toFormattedPercentage().to
 internal fun MetricValue.toDividendCell() = value.toFormattedPercentage().toCell(
     title = Res.string.dividend_yield,
     description = StringResourceWithArgs(Res.string.dividend_yield_description),
-    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
+    delta = value.getVariationDelta(variation) { it.toFormattedString() },
 )
 
 internal fun MetricValue.toPayoutRatioCell() = value.toFormattedPercentage().toCell(
@@ -71,7 +71,7 @@ internal fun MetricValue.toPegCell() = value.toFormattedString().toCell(
 internal fun MetricValue.toGrowthCell() = value.toFormattedPercentage().toCell(
     title = Res.string.growth,
     description = StringResourceWithArgs(Res.string.growth_description),
-    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
+    delta = value.getVariationDelta(variation) { it.toFormattedString() },
 )
 
 internal fun MetricValue.toEpsCell(currency: String?) = value.toPrice(currency)?.toCell(
@@ -84,14 +84,14 @@ internal fun MetricValue.toProfitMarginCell() = value.toFormattedPercentage().to
     title = Res.string.profit_margin,
     description = StringResourceWithArgs(Res.string.profit_margin_description),
     color = rating?.toColor(),
-    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
+    delta = value.getVariationDelta(variation) { it.toFormattedString() },
 )
 
 internal fun MetricValue.toRoeCell() = value.toFormattedPercentage().toCell(
     title = Res.string.roe,
     description = StringResourceWithArgs(Res.string.roe_description),
     color = rating?.toColor(),
-    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
+    delta = value.getVariationDelta(variation) { it.toFormattedString() },
 )
 
 internal fun MetricValue.toDeCell() = value.toFormattedString().toCell(
@@ -105,7 +105,7 @@ internal fun MetricValue.toEarningsEstimateCell() = value.toFormattedPercentage(
     title = Res.string.earnings_estimate,
     description = StringResourceWithArgs(Res.string.earnings_estimate_description),
     color = rating?.toColor(),
-    delta = value.getVariationDelta(variation) { it.toFormattedPercentage() },
+    delta = value.getVariationDelta(variation) { it.toFormattedString() },
 )
 
 internal fun MetricValue.toTotalCashPerShareCell(currency: String?) = value.toPrice(currency)?.toCell(
