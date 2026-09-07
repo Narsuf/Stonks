@@ -57,9 +57,9 @@ fun getDetailContent(
                 delta = DeltaTextEntity(value = "$165.99", percentage = "64.00 %", state = DeltaState.NEGATIVE),
             ),
             second = getDetailContentCell(
-                title = Res.string.ey_bund_yield_spread,
-                value = "3.28 %",
-                description = Res.string.ey_bund_yield_spread_description,
+                title = Res.string.ey_real_yield_spread,
+                value = "1.08 %",
+                description = Res.string.ey_real_yield_spread_description,
             ),
         ),
         Item.CellPair(

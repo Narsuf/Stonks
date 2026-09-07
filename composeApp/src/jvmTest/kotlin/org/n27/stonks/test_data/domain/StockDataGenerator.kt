@@ -109,9 +109,11 @@ fun getMacroIndicator(
 fun getMacroIndicators(
     bundYield10Y: MacroIndicator = getMacroIndicator(),
     germanCpi: MacroIndicator = getMacroIndicator(value = 1.9, date = "2025-12"),
+    usRealYield10Y: MacroIndicator = getMacroIndicator(value = 1.8),
 ) = MacroIndicators(
     bundYield10Y = bundYield10Y,
     germanCpi = germanCpi,
+    usRealYield10Y = usRealYield10Y,
 )
 
 fun getBalanceSheet(

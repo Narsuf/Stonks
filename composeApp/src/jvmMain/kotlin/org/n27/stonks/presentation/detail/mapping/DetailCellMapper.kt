@@ -16,8 +16,8 @@ import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell
 import stonks.composeapp.generated.resources.*
 
 internal fun Double.toEyRealYieldSpreadCell() = toFormattedPercentage().toCell(
-    title = Res.string.ey_bund_yield_spread,
-    description = StringResourceWithArgs(Res.string.ey_bund_yield_spread_description),
+    title = Res.string.ey_real_yield_spread,
+    description = StringResourceWithArgs(Res.string.ey_real_yield_spread_description),
     color = takeIf { it < 0 }?.let { AppColors.Orange },
 )
 

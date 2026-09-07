@@ -44,10 +44,7 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
                 first = valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent),
                 second = computeEyRealYieldSpread(
                     earningsYield = computed?.earningsYield,
-                    realBundYield = computeRealBundYield(
-                        bundYield = indicators?.bundYield10Y?.value,
-                        cpi = indicators?.germanCpi?.value,
-                    )
+                    realYield = indicators?.usRealYield10Y?.value,
                 )?.toEyRealYieldSpreadCell(),
             )
             addPair(
@@ -81,8 +78,5 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
     isWatchlisted = isWatchlisted,
 )
 
-private fun computeRealBundYield(bundYield: Double?, cpi: Double?) =
-    if (bundYield != null && cpi != null) bundYield - cpi else null
-
-private fun computeEyRealYieldSpread(earningsYield: Double?, realBundYield: Double?) =
-    if (earningsYield != null && realBundYield != null) earningsYield - realBundYield else null
+private fun computeEyRealYieldSpread(earningsYield: Double?, realYield: Double?) =
+    if (earningsYield != null && realYield != null) earningsYield - realYield else null
