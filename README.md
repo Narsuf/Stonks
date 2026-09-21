@@ -20,4 +20,4 @@ For the Back-End I use a service I created myself [KtStonks](https://github.com/
 
 | Detail | Fundamentals |
 |:-:|:-:|
-| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/d2e6402d-0e70-4d20-8300-7bd6f270f4e8"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/2a4aec04-8378-4c9e-b561-3a2f3c98e265"> |
+| <img width="600" alt ="image" src="https://github.com/user-attachments/assets/33be1af8-75ff-49ea-bf86-63b7b3b61256"> | <img width="600" alt ="image" src="https://github.com/user-attachments/assets/883b5074-ba61-4206-908f-7655b09b1197"> |
