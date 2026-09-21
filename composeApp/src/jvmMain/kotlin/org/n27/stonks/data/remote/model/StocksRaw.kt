@@ -36,7 +36,6 @@ data class DividendsRaw(
 @Serializable
 data class ComputedRaw(
     val earningsYield: Double?,
-    val peg: MetricValueRaw?,
     val dynamicPayback: MetricValueRaw?,
 )
 

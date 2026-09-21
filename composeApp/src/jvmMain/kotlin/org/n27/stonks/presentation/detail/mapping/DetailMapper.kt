@@ -42,13 +42,10 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
             )
             addPair(
                 first = valuationMeasures?.intrinsicValue?.toIntrinsicValueCell(this@toDetailContent),
-                second = computeEyRealYieldSpread(
-                    earningsYield = computed?.earningsYield,
-                    realYield = indicators?.usRealYield10Y?.value,
-                )?.toEyRealYieldSpreadCell(),
+                second = computed?.earningsYield?.toEarningsYieldCell(),
             )
             addPair(
-                first = computed?.peg?.toPegCell(),
+                first = computed?.earningsYield?.toPaybackCell(),
                 second = computed?.dynamicPayback?.toDynamicPaybackCell(),
             )
             addPair(
@@ -77,6 +74,3 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
     }.toPersistentList(),
     isWatchlisted = isWatchlisted,
 )
-
-private fun computeEyRealYieldSpread(earningsYield: Double?, realYield: Double?) =
-    if (earningsYield != null && realYield != null) earningsYield - realYield else null

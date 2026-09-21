@@ -60,7 +60,6 @@ private fun BalanceSheetRaw.toDomain() = BalanceSheet(
 
 private fun ComputedRaw.toDomain() = Computed(
     earningsYield = earningsYield,
-    peg = peg?.toDomain(),
     dynamicPayback = dynamicPayback?.toDomain(),
 )
 

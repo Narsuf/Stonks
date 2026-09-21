@@ -16,8 +16,8 @@
     <string name="earnings_estimate_description">Expected earnings growth for the next year.</string>
     <string name="dynamic_payback">Dynamic Payback</string>
     <string name="dynamic_payback_description">Estimated payback period in years, based on the current price, EPS, and estimated earnings growth.</string>
-    <string name="peg">PEG</string>
-    <string name="peg_description">Price to earnings ratio divided by the forward earnings growth estimate.</string>
+    <string name="payback">Payback</string>
+    <string name="payback_description">Estimated payback period in years, assuming current earnings stay constant.\n\nCalculated as the inverse of the earnings yield (price / EPS).</string>
     <string name="roe">Return on Equity</string>
     <string name="roe_description">Net income divided by shareholders' equity.\n\nMeasures how efficiently a company uses equity to generate profit.</string>
     <string name="profit_margin">Profit Margin</string>
@@ -26,8 +26,8 @@
     <string name="de_description">Total debt divided by shareholders' equity.\n\nMeasures a company's financial leverage.</string>
     <string name="total_cash_per_share">Cash Per Share</string>
     <string name="total_cash_per_share_description">Total cash and cash equivalents divided by shares outstanding.\n\nIndicates how much cash a company holds relative to each share.</string>
-    <string name="ey_real_yield_spread">EY / Treasury Yield Spread</string>
-    <string name="ey_real_yield_spread_description">Earnings yield minus the real (inflation-protected) 10-year US Treasury yield.\n\nA positive spread favors equities over US government bonds.</string>
+    <string name="earnings_yield">Earnings Yield</string>
+    <string name="earnings_yield_description">Earnings divided by price (the inverse of the P/E ratio).\n\nThe higher it is, the more earnings you get for each dollar invested.</string>
     <string name="bund_yield_10y">German 10Y Bund Yield</string>
     <string name="bund_yield_10y_description">Yield on 10-year German government bonds (Bund), the euro area benchmark.\n\n%1$s</string>
     <string name="german_cpi">Germany Inflation Rate</string>

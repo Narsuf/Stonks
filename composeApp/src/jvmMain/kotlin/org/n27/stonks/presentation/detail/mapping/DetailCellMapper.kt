@@ -15,9 +15,9 @@ import org.n27.stonks.presentation.common.mapping.toColor
 import org.n27.stonks.presentation.detail.entities.DetailState.Content.Cell
 import stonks.composeapp.generated.resources.*
 
-internal fun Double.toEyRealYieldSpreadCell() = toFormattedPercentage().toCell(
-    title = Res.string.ey_real_yield_spread,
-    description = StringResourceWithArgs(Res.string.ey_real_yield_spread_description),
+internal fun Double.toEarningsYieldCell() = toFormattedPercentage().toCell(
+    title = Res.string.earnings_yield,
+    description = StringResourceWithArgs(Res.string.earnings_yield_description),
     color = takeIf { it < 0 }?.let { AppColors.Orange },
 )
 
@@ -55,17 +55,18 @@ internal fun MetricValue.toDynamicPaybackCell() = value.toFormattedString().toCe
     color = rating?.toColor(),
 )
 
+internal fun Double.toPaybackCell() = takeIf { it > 0 }
+    ?.let { (100 / it).toFormattedString() }
+    ?.toCell(
+        title = Res.string.payback,
+        description = StringResourceWithArgs(Res.string.payback_description),
+    )
+
 internal fun MetricValue.toPeCell() = value.toFormattedString().toCell(
     title = Res.string.pe,
     description = StringResourceWithArgs(Res.string.pe_description),
     color = rating?.toColor(),
     delta = value.getVariationDelta(variation) { it.toFormattedString() },
-)
-
-internal fun MetricValue.toPegCell() = value.toFormattedString().toCell(
-    title = Res.string.peg,
-    description = StringResourceWithArgs(Res.string.peg_description),
-    color = rating?.toColor(),
 )
 
 internal fun MetricValue.toGrowthCell() = value.toFormattedPercentage().toCell(

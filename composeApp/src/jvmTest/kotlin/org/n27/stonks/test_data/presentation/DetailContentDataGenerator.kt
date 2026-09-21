@@ -57,17 +57,16 @@ fun getDetailContent(
                 delta = DeltaTextEntity(value = "$165.99", percentage = "64.00 %", state = DeltaState.NEGATIVE),
             ),
             second = getDetailContentCell(
-                title = Res.string.ey_real_yield_spread,
-                value = "1.08 %",
-                description = Res.string.ey_real_yield_spread_description,
+                title = Res.string.earnings_yield,
+                value = "2.88 %",
+                description = Res.string.earnings_yield_description,
             ),
         ),
         Item.CellPair(
             first = getDetailContentCell(
-                title = Res.string.peg,
-                value = "3.04",
-                description = Res.string.peg_description,
-                color = AppColors.Yellow,
+                title = Res.string.payback,
+                value = "34.72",
+                description = Res.string.payback_description,
             ),
             second = getDetailContentCell(
                 title = Res.string.dynamic_payback,
