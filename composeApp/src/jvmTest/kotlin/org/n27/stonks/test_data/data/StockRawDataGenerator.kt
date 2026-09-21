@@ -63,7 +63,7 @@ fun getDividendsRaw(
 )
 
 fun getComputedRaw(
-    earningsYield: Double? = 2.880055573361496,
+    earningsYield: MetricValueRaw? = getMetricValueRaw(value = 2.880055573361496, rating = null),
     dynamicPayback: MetricValueRaw? = getMetricValueRaw(value = 14.812955172783827, rating = null),
 ) = ComputedRaw(
     earningsYield = earningsYield,

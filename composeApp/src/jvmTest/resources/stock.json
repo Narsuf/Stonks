@@ -54,7 +54,10 @@
     "rating": "CAUTION"
   },
   "computed": {
-    "earningsYield": 2.880055573361496,
+    "earningsYield": {
+      "value": 2.880055573361496,
+      "rating": null
+    },
     "dynamicPayback": {
       "value": 14.812955172783827,
       "rating": null
