@@ -1,7 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.gradle.api.tasks.testing.Test
 import org.gradle.testing.jacoco.tasks.JacocoReport
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,12 +10,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     id("jacoco")
 }
-
-val localProperties = Properties().apply {
-    rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
-}
-
-val fredApiKey: String? = localProperties.getProperty("FRED_API_KEY") ?: System.getenv("FRED_API_KEY")
 
 kotlin {
     jvm()
@@ -63,7 +56,6 @@ compose.desktop {
     application {
         mainClass = "org.n27.stonks.MainKt"
         jvmArgs("-DSTONKS_URL=http://localhost:8080")
-        fredApiKey?.let { jvmArgs("-DFRED_API_KEY=$it") }
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

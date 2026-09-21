@@ -55,10 +55,6 @@
   },
   "computed": {
     "earningsYield": 2.880055573361496,
-    "peg": {
-      "value": 3.037756100133255,
-      "rating": "CAUTION"
-    },
     "dynamicPayback": {
       "value": 14.812955172783827,
       "rating": null

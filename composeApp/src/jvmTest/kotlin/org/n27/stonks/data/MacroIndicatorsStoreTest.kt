@@ -11,9 +11,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.n27.stonks.data.persistence.MacroIndicatorsCache
 import org.n27.stonks.data.remote.bundesbank.BundesbankApi
-import org.n27.stonks.data.remote.fred.FredApi
 import org.n27.stonks.test_data.data.getBundesbankResponse
-import org.n27.stonks.test_data.data.getFredObservationsResponse
 import org.n27.stonks.test_data.domain.getMacroIndicators
 import java.time.LocalDate
 import java.time.ZoneId
@@ -23,9 +21,8 @@ class MacroIndicatorsStoreTest {
 
     private val indicators = getMacroIndicators()
     private val bundesbankApi = mock<BundesbankApi>()
-    private val fredApi = mock<FredApi>()
     private val cache = mock<MacroIndicatorsCache>()
-    private val store = MacroIndicatorsStore(bundesbankApi, fredApi, cache)
+    private val store = MacroIndicatorsStore(bundesbankApi, cache)
 
     @Test
     fun `refresh should emit cached indicators and skip api when saved today`() = runTest {
@@ -36,7 +33,6 @@ class MacroIndicatorsStoreTest {
         assertEquals(indicators, store.indicators.value)
         verify(bundesbankApi, never()).getGermanBundYield10Y()
         verify(bundesbankApi, never()).getGermanCpiYoY()
-        verify(fredApi, never()).getRealTreasuryYield10Y()
     }
 
     @ParameterizedTest(name = "{1}")
@@ -48,14 +44,12 @@ class MacroIndicatorsStoreTest {
         whenever(cache.load()).thenReturn(timestamp?.let { it to indicators })
         whenever(bundesbankApi.getGermanBundYield10Y()).thenReturn(getBundesbankResponse(indicators.bundYield10Y.value, indicators.bundYield10Y.date))
         whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getBundesbankResponse(indicators.germanCpi.value, indicators.germanCpi.date))
-        whenever(fredApi.getRealTreasuryYield10Y()).thenReturn(getFredObservationsResponse(indicators.usRealYield10Y.value, indicators.usRealYield10Y.date))
 
         store.refresh()
 
         assertEquals(indicators, store.indicators.value)
         verify(bundesbankApi).getGermanBundYield10Y()
         verify(bundesbankApi).getGermanCpiYoY()
-        verify(fredApi).getRealTreasuryYield10Y()
         verify(cache).save(indicators)
     }
 
@@ -64,20 +58,6 @@ class MacroIndicatorsStoreTest {
         whenever(cache.load()).thenReturn(null)
         whenever(bundesbankApi.getGermanBundYield10Y()).thenThrow(RuntimeException("Bundesbank is down"))
         whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getBundesbankResponse(indicators.germanCpi.value, indicators.germanCpi.date))
-        whenever(fredApi.getRealTreasuryYield10Y()).thenReturn(getFredObservationsResponse(indicators.usRealYield10Y.value, indicators.usRealYield10Y.date))
-
-        store.refresh()
-
-        assertEquals(null, store.indicators.value)
-        verify(cache, never()).save(indicators)
-    }
-
-    @Test
-    fun `refresh should not save or emit when fred api fails`() = runTest {
-        whenever(cache.load()).thenReturn(null)
-        whenever(bundesbankApi.getGermanBundYield10Y()).thenReturn(getBundesbankResponse(indicators.bundYield10Y.value, indicators.bundYield10Y.date))
-        whenever(bundesbankApi.getGermanCpiYoY()).thenReturn(getBundesbankResponse(indicators.germanCpi.value, indicators.germanCpi.date))
-        whenever(fredApi.getRealTreasuryYield10Y()).thenThrow(RuntimeException("FRED is down"))
 
         store.refresh()
 

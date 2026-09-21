@@ -30,7 +30,6 @@ data class Stocks(
 
         data class Computed(
             val earningsYield: Double?,
-            val peg: MetricValue?,
             val dynamicPayback: MetricValue?,
         )
 

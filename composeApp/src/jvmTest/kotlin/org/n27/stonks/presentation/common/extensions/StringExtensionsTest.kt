@@ -11,7 +11,7 @@ class StringExtensionsTest {
     }
 
     @Test
-    fun `toFormattedDate should format monthly FRED date as month and year`() {
+    fun `toFormattedDate should format first-of-month date as month and year`() {
         assertEquals("Jan 2026", "2026-01-01".toFormattedDate())
     }
 

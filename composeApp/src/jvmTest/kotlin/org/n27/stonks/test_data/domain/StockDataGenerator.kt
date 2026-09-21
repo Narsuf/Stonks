@@ -93,11 +93,9 @@ fun getValuationMeasures(
 
 fun getComputed(
     earningsYield: Double? = 2.880055573361496,
-    peg: MetricValue? = getMetricValue(value = 3.037756100133255, rating = Rating.CAUTION),
     dynamicPayback: MetricValue? = getMetricValue(value = 14.812955172783827, rating = null),
 ) = Computed(
     earningsYield = earningsYield,
-    peg = peg,
     dynamicPayback = dynamicPayback,
 )
 
@@ -109,11 +107,9 @@ fun getMacroIndicator(
 fun getMacroIndicators(
     bundYield10Y: MacroIndicator = getMacroIndicator(),
     germanCpi: MacroIndicator = getMacroIndicator(value = 1.9, date = "2025-12"),
-    usRealYield10Y: MacroIndicator = getMacroIndicator(value = 1.8),
 ) = MacroIndicators(
     bundYield10Y = bundYield10Y,
     germanCpi = germanCpi,
-    usRealYield10Y = usRealYield10Y,
 )
 
 fun getBalanceSheet(
