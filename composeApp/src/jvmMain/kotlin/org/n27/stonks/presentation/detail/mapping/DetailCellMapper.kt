@@ -55,12 +55,11 @@ internal fun MetricValue.toDynamicPaybackCell() = value.toFormattedString().toCe
     color = rating?.toColor(),
 )
 
-internal fun Double.toPaybackCell() = takeIf { it > 0 }
-    ?.let { (100 / it).toFormattedString() }
-    ?.toCell(
-        title = Res.string.payback,
-        description = StringResourceWithArgs(Res.string.payback_description),
-    )
+internal fun MetricValue.toPaybackCell() = value.toFormattedString().toCell(
+    title = Res.string.payback,
+    description = StringResourceWithArgs(Res.string.payback_description),
+    color = rating?.toColor(),
+)
 
 internal fun MetricValue.toPeCell() = value.toFormattedString().toCell(
     title = Res.string.pe,

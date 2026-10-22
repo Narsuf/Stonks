@@ -67,6 +67,7 @@ fun getDetailContent(
                 title = Res.string.payback,
                 value = "34.72",
                 description = Res.string.payback_description,
+                color = AppColors.Yellow,
             ),
             second = getDetailContentCell(
                 title = Res.string.dynamic_payback,

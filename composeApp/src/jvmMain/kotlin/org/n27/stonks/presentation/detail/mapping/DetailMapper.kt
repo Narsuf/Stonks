@@ -45,7 +45,7 @@ internal fun Stock.toDetailContent(indicators: MacroIndicators? = null) = Conten
                 second = computed?.earningsYield?.toEarningsYieldCell(),
             )
             addPair(
-                first = computed?.earningsYield?.toPaybackCell(),
+                first = computed?.payback?.toPaybackCell(),
                 second = computed?.dynamicPayback?.toDynamicPaybackCell(),
             )
             addPair(

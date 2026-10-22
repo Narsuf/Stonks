@@ -93,9 +93,11 @@ fun getValuationMeasures(
 
 fun getComputed(
     earningsYield: Double? = 2.880055573361496,
+    payback: MetricValue? = getMetricValue(value = 100 / 2.880055573361496, rating = Rating.CAUTION),
     dynamicPayback: MetricValue? = getMetricValue(value = 14.812955172783827, rating = null),
 ) = Computed(
     earningsYield = earningsYield,
+    payback = payback,
     dynamicPayback = dynamicPayback,
 )
 

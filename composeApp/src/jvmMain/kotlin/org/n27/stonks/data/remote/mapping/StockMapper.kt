@@ -60,8 +60,18 @@ private fun BalanceSheetRaw.toDomain() = BalanceSheet(
 
 private fun ComputedRaw.toDomain() = Computed(
     earningsYield = earningsYield?.value,
+    payback = earningsYield?.value?.toPayback(),
     dynamicPayback = dynamicPayback?.toDomain(),
 )
+
+private fun Double.toPayback() = takeIf { it > 0 }
+    ?.let { 100 / it }
+    ?.let { MetricValue(value = it, rating = it.toPaybackRating()) }
+
+private fun Double.toPaybackRating() = when {
+    this > 10 -> Rating.CAUTION
+    else -> null
+}
 
 private fun MetricValueRaw.toDomain() = MetricValue(
     value = value,
